@@ -8,19 +8,20 @@ tools:context=".MainActivity">
 
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/connectBTN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:onClick="connectBTN"
         android:text="Start" />
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button1"
-        android:layout_below="@+id/button1"
+        android:layout_alignLeft="@+id/connectBTN"
+        android:layout_below="@+id/connectBTN"
         android:layout_marginLeft="35dp"
         android:layout_marginTop="91dp"
         android:text="" />
@@ -29,7 +30,7 @@ tools:context=".MainActivity">
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button1"
+        android:layout_alignLeft="@+id/connectBTN"
         android:layout_alignTop="@+id/textView1"
         android:text="Speed"
         android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -61,5 +62,16 @@ tools:context=".MainActivity">
         android:layout_alignLeft="@+id/textView2"
         android:layout_centerVertical="true"
         android:text="RPM" />
+
+    <EditText
+        android:id="@+id/voltage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="76dp"
+        android:layout_marginBottom="60dp"
+        android:ems="10"
+        android:inputType="textPersonName" />
 
 </RelativeLayout >
