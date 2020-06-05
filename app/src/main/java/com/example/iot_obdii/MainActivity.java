@@ -20,13 +20,11 @@ import android.widget.EditText;
 
 
 public class MainActivity extends Activity {
-
-
-
-
     MainActivity m = this;
     EditText  speedText = null;
     EditText  rpmText = null;
+    Integer curSpeed;
+    Integer curRPM;
     protected  ArrayList<Integer> buffer = new ArrayList<Integer>();
 
     @Override
@@ -48,40 +46,24 @@ public class MainActivity extends Activity {
             }
 
         });
-
-
     }
 
 
 
 
     public  void setSpeed(String mspeed){
-
-
         speedText.setText(mspeed);
-
-
     }
 
     public  void setRPM(String rpm){
-
-
         rpmText.setText(rpm);
-
-
     }
 
 
     public void init(){
-
         //Context context = this.getApplicationContext();
-
         Ytask task = new Ytask(m);
         task.execute("");
-
-
-
-
     }
 
 
@@ -89,7 +71,6 @@ public class MainActivity extends Activity {
     private class Ytask extends AsyncTask<String, String, String> {
 
         MainActivity main;
-
         public  Ytask(MainActivity main){
 
             this.main = main;
@@ -99,21 +80,17 @@ public class MainActivity extends Activity {
         protected void onProgressUpdate(String... params) {
 
             if(params[1].equalsIgnoreCase("speed"))
+                curSpeed = Integer.parseInt(params[0]);
                 this.main.setSpeed(params[0]);
 
             if(params[1].equalsIgnoreCase("rpm"))
+                curRPM = Integer.parseInt(params[0]);
                 this.main.setRPM(params[0]);
-
         }
 
         @Override
         protected String doInBackground(String... params) {
-
-
             try {
-
-
-
                 Socket   wSocket = new Socket("192.168.0.10",35000);
                 while (true){
                     sendCmd(wSocket,"01 0D");
@@ -129,17 +106,10 @@ public class MainActivity extends Activity {
 
 
                 }
-
                 //}
             }   catch (Exception e) {
                 Log.i("com.example.app", e.getMessage());
             }
-
-
-
-
-
-
             return "";
         }
 
@@ -187,7 +157,6 @@ public class MainActivity extends Activity {
         Log.i("com.example.app", "datawew: "+String.valueOf(Integer.decode("0x" + data[0])));
 
         int a =  Integer.decode("0x" + data[0]).intValue();
-
 
         Log.i("com.example.app", "rawData1: "+rawData);
         Log.i("com.example.app", "data1: "+data[1]);
