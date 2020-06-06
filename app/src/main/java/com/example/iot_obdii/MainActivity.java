@@ -20,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import de.nitri.gauge.Gauge;
 
@@ -76,9 +77,9 @@ public class MainActivity extends Activity {
     public  void set_speed_UI(int speed){
 
         if(speed >= 0 && speed<200)
-            rpmG.moveToValue(speed);
+            speedG.moveToValue(speed);
         else
-            rpmG.moveToValue(0);
+            speedG.moveToValue(0);
     }
 
     public  void setVolt(String mvolt){
@@ -86,10 +87,14 @@ public class MainActivity extends Activity {
     }
 
     public  void setSpeed(String mspeed){
+        curSpeed = Integer.parseInt(mspeed);
+        set_speed_UI(curSpeed);
         speedText.setText(mspeed);
     }
 
     public  void setRPM(String rpm){
+        curRPM = Integer.parseInt(rpm);
+        set_RPM_UI((float) curRPM);
         rpmText.setText(rpm);
     }
 
@@ -105,6 +110,7 @@ public class MainActivity extends Activity {
     private class Ytask extends AsyncTask<String, String, String> {
         int count = 0;
         MainActivity main;
+
         public  Ytask(MainActivity main){
 
             this.main = main;
@@ -114,16 +120,12 @@ public class MainActivity extends Activity {
         protected void onProgressUpdate(String... params) {
 
             if(params[1].equalsIgnoreCase("speed")){
-                curSpeed = Integer.parseInt(params[0]);
                 this.main.setSpeed(params[0]);
-                set_speed_UI(curSpeed);
                 count = count +1;
             }
 
             if(params[1].equalsIgnoreCase("rpm")) {
-                curRPM = Integer.parseInt(params[0]);
                 this.main.setRPM(params[0]);
-                set_RPM_UI((float) curRPM);
                 count = count +10;
             }
 
@@ -170,12 +172,10 @@ public class MainActivity extends Activity {
                 //}
             }   catch (Exception e) {
                 Log.i("com.example.app", e.getMessage());
+                Toast.makeText(main, e.toString(), Toast.LENGTH_SHORT).show();
             }
             return "";
         }
-
-
-
     }
 
     private void sendCmd(Socket wSocket,String cmd) throws IOException {
@@ -187,7 +187,7 @@ public class MainActivity extends Activity {
 
     private String readRPMData(Socket wSocket,int index) throws Exception {
         List  buffer = new ArrayList<Integer>();
-        Thread.sleep(tSleepTime);
+        Thread.sleep(20);
         String rawData = null;
         String value = "";
         InputStream in = wSocket.getInputStream();
@@ -236,7 +236,7 @@ public class MainActivity extends Activity {
 
     private String readSpeedData(Socket wSocket,int index) throws Exception {
         List  buffer = new ArrayList<Integer>();
-        Thread.sleep(tSleepTime);
+        Thread.sleep(20);
         String rawData = null;
         String value = "";
         InputStream in = wSocket.getInputStream();
@@ -273,7 +273,7 @@ public class MainActivity extends Activity {
 
     private String readVoltData(Socket wSocket,int index) throws Exception {
         List  buffer = new ArrayList<Integer>();
-        Thread.sleep(tSleepTime);
+        Thread.sleep(20);
         String rawData = null;
         String value = "";
         InputStream in = wSocket.getInputStream();
@@ -304,6 +304,7 @@ public class MainActivity extends Activity {
         Log.i("com.example.app", "datawew: "+String.valueOf(Integer.decode("0x" + data[0])));
 
         return Integer.decode("0x" + data[0]).toString();
+        //return data[0];
 
     }
 

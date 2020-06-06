@@ -62,7 +62,7 @@ public class GraphScreen extends AppCompatActivity {
             ArrayList<ILineDataSet> dataSetRpm = new ArrayList<>();
             dataSetRpm.add(lineDataSetRpm);
 
-            LineData lineDataRPM = new LineData(dataSetSpeed);
+            LineData lineDataRPM = new LineData(dataSetRpm);
             graphRpm.setData(lineDataRPM);
             graphRpm.invalidate();
 
