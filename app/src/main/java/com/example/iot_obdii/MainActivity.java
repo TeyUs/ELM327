@@ -3,11 +3,15 @@ package com.example.iot_obdii;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,6 +51,10 @@ public class MainActivity extends Activity {
 
         });
     }
+    public void graphIntent(View view){
+        Intent intent = new Intent(MainActivity.this,GraphScreen.class);
+        startActivity(intent);
+    }
 
 
 
@@ -69,7 +77,7 @@ public class MainActivity extends Activity {
 
 
     private class Ytask extends AsyncTask<String, String, String> {
-
+        int count = 0;
         MainActivity main;
         public  Ytask(MainActivity main){
 
@@ -79,13 +87,29 @@ public class MainActivity extends Activity {
         @Override
         protected void onProgressUpdate(String... params) {
 
-            if(params[1].equalsIgnoreCase("speed"))
+            if(params[1].equalsIgnoreCase("speed")){
                 curSpeed = Integer.parseInt(params[0]);
                 this.main.setSpeed(params[0]);
+                count = count +1;
+            }
 
-            if(params[1].equalsIgnoreCase("rpm"))
+            if(params[1].equalsIgnoreCase("rpm")) {
                 curRPM = Integer.parseInt(params[0]);
                 this.main.setRPM(params[0]);
+                count = count +10;
+            }
+            if(count == 11){
+                count = 0;
+                try{
+                    SQLiteDatabase database = main.openOrCreateDatabase("Data", MODE_PRIVATE,null);
+                    database.execSQL("CREATE TABLE IF NOT EXISTS data (speed INTEGER, rpm INTEGER)");
+                    database.execSQL("INSERT INTO data (speed, rpm) VALUES ("+curSpeed+", "+curRPM+")");
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
         }
 
         @Override

@@ -13,7 +13,6 @@ tools:context=".MainActivity">
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:onClick="connectBTN"
         android:text="Start" />
 
     <TextView
@@ -73,5 +72,16 @@ tools:context=".MainActivity">
         android:layout_marginBottom="60dp"
         android:ems="10"
         android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="78dp"
+        android:layout_marginBottom="166dp"
+        android:onClick="graphIntent"
+        android:text="graph" />
 
 </RelativeLayout >
