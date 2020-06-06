@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    tools:context=".MainActivity">
 
 
     <Button
@@ -82,8 +82,9 @@
     <Button
         android:id="@+id/connectBTN"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="0dp"
         android:layout_marginTop="2dp"
+        android:layout_marginBottom="287dp"
         android:background="@android:color/transparent"
         android:outlineAmbientShadowColor="#000000"
         android:outlineSpotShadowColor="#000000"
@@ -93,6 +94,7 @@
         android:textColor="#000000"
         android:textSize="12sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/voltText"
         app:layout_constraintTop_toTopOf="parent"
         gauge:layout_constraintEnd_toEndOf="parent"
         gauge:layout_constraintStart_toStartOf="parent" />
@@ -101,12 +103,14 @@
         android:id="@+id/voltText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="37dp"
         android:ems="10"
         android:gravity="center"
         android:inputType="textPersonName"
         android:text="000"
         android:textColor="#009688"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/connectBTN"
         gauge:layout_constraintEnd_toEndOf="parent"
-        gauge:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="329dp" />
+        gauge:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
