@@ -29,7 +29,7 @@
 
     <de.nitri.gauge.Gauge
         android:id="@+id/gaugeRPM"
-        android:layout_width="350dp"
+        android:layout_width="345dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +42,7 @@
 
     <de.nitri.gauge.Gauge
         android:id="@+id/gaugeSpeed"
-        android:layout_width="350dp"
+        android:layout_width="345dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         app:layout_constraintStart_toStartOf="parent"
