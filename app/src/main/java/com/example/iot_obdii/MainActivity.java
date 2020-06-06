@@ -31,6 +31,7 @@ public class MainActivity extends Activity {
     Integer curSpeed;
     Integer curRPM;
     Gauge speedG, rpmG;
+    int tSleepTime = 20;
     protected  ArrayList<Integer> buffer = new ArrayList<Integer>();
 
     @Override
@@ -185,7 +186,7 @@ public class MainActivity extends Activity {
 
     private String readRPMData(Socket wSocket,int index) throws Exception {
         List  buffer = new ArrayList<Integer>();
-        Thread.sleep(400);
+        Thread.sleep(tSleepTime);
         String rawData = null;
         String value = "";
         InputStream in = wSocket.getInputStream();
@@ -234,7 +235,7 @@ public class MainActivity extends Activity {
 
     private String readSpeedData(Socket wSocket,int index) throws Exception {
         List  buffer = new ArrayList<Integer>();
-        Thread.sleep(400);
+        Thread.sleep(tSleepTime);
         String rawData = null;
         String value = "";
         InputStream in = wSocket.getInputStream();
@@ -271,7 +272,7 @@ public class MainActivity extends Activity {
 
     private String readVoltData(Socket wSocket,int index) throws Exception {
         List  buffer = new ArrayList<Integer>();
-        Thread.sleep(400);
+        Thread.sleep(tSleepTime);
         String rawData = null;
         String value = "";
         InputStream in = wSocket.getInputStream();
