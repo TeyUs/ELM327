@@ -13,7 +13,7 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="52dp"
         android:background="@android:color/transparent"
         android:onClick="graphIntent"
         android:outlineAmbientShadowColor="#000000"
@@ -29,7 +29,7 @@
 
     <de.nitri.gauge.Gauge
         android:id="@+id/gaugeRPM"
-        android:layout_width="345dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +42,7 @@
 
     <de.nitri.gauge.Gauge
         android:id="@+id/gaugeSpeed"
-        android:layout_width="345dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +55,7 @@
 
     <EditText
         android:id="@+id/speedText"
-        android:layout_width="350dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="center"
@@ -68,7 +68,7 @@
 
     <EditText
         android:id="@+id/rpmText"
-        android:layout_width="350dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="center"
@@ -82,8 +82,7 @@
     <Button
         android:id="@+id/connectBTN"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="2dp"
+        android:layout_height="40dp"
         android:layout_marginBottom="287dp"
         android:background="@android:color/transparent"
         android:outlineAmbientShadowColor="#000000"
@@ -103,14 +102,14 @@
         android:id="@+id/voltText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="37dp"
         android:ems="10"
         android:gravity="center"
         android:inputType="textPersonName"
         android:text="000"
         android:textColor="#009688"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/connectBTN"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.923"
         gauge:layout_constraintEnd_toEndOf="parent"
         gauge:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
