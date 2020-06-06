@@ -27,6 +27,7 @@ public class MainActivity extends Activity {
     MainActivity m = this;
     EditText  speedText = null;
     EditText  rpmText = null;
+    EditText voltText;
     Integer curSpeed;
     Integer curRPM;
     Gauge speedG, rpmG;
@@ -39,6 +40,7 @@ public class MainActivity extends Activity {
 
         speedText = (EditText) findViewById(R.id.speedText);
         rpmText = (EditText) findViewById(R.id.rpmText);
+        voltText = findViewById(R.id.voltText);
         Button button = (Button) findViewById(R.id.connectBTN);
 
         speedG = findViewById(R.id.gaugeSpeed);
@@ -77,7 +79,9 @@ public class MainActivity extends Activity {
             rpmG.moveToValue(0);
     }
 
-
+    public  void setVolt(String mvolt){
+        voltText.setText(mvolt);
+    }
 
     public  void setSpeed(String mspeed){
         speedText.setText(mspeed);
@@ -120,6 +124,11 @@ public class MainActivity extends Activity {
                 set_RPM_UI((float) curRPM);
                 count = count +10;
             }
+
+            if(params[1].equalsIgnoreCase("volt")){
+                this.main.setVolt(params[0]);
+            }
+
             if(count == 11){
                 count = 0;
                 try{
@@ -150,6 +159,10 @@ public class MainActivity extends Activity {
                     // this.main.setSpeed("mspeedewrere");
                     publishProgress(valuestr,"rpm");
 
+                    sendCmd(wSocket,"atrv");
+                    String voltage = readVoltData(wSocket,1);
+                    // this.main.setSpeed("mspeedewrere");
+                    publishProgress(voltage,"volt");
 
                 }
                 //}
@@ -255,6 +268,42 @@ public class MainActivity extends Activity {
 
     }
 
+
+    private String readVoltData(Socket wSocket,int index) throws Exception {
+        List  buffer = new ArrayList<Integer>();
+        Thread.sleep(400);
+        String rawData = null;
+        String value = "";
+        InputStream in = wSocket.getInputStream();
+        byte b = 0;
+        StringBuilder res = new StringBuilder();
+
+        // read until '>' arrives
+        while ((char) (b = (byte) in.read()) != '>')
+            res.append((char) b);
+
+
+        rawData = res.toString().trim();
+
+        if(!rawData.contains("atrv")){
+
+            return rawData;
+
+        }
+
+        rawData = rawData.replaceAll("\r", " ");
+        rawData = rawData.replaceAll("atrv", "");
+        rawData = rawData.replaceAll("41 0D"," ").trim();
+        String[] data = rawData.split(" ");
+
+        Log.i("com.example.app", "rawData: "+rawData);
+        Log.i("com.example.app", "data: "+data[0]);
+        Log.i("com.example.app", "datawew: "+Integer.decode("0x" + data[0]));
+        Log.i("com.example.app", "datawew: "+String.valueOf(Integer.decode("0x" + data[0])));
+
+        return Integer.decode("0x" + data[0]).toString();
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

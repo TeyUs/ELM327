@@ -96,4 +96,17 @@
         app:layout_constraintTop_toTopOf="parent"
         gauge:layout_constraintEnd_toEndOf="parent"
         gauge:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/voltText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="textPersonName"
+        android:text="000"
+        android:textColor="#009688"
+        gauge:layout_constraintEnd_toEndOf="parent"
+        gauge:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="329dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
