@@ -7,8 +7,21 @@
     tools:context=".GraphScreen">
 
     <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/graph"
+        android:id="@+id/graphSpeed"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="13dp"
+        app:layout_constraintBottom_toTopOf="@+id/graphRpm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/graphRpm"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/graphSpeed" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

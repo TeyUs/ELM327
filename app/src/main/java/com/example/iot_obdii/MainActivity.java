@@ -3,7 +3,6 @@ package com.example.iot_obdii;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.StringReader;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +20,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import de.nitri.gauge.Gauge;
+
 
 public class MainActivity extends Activity {
     MainActivity m = this;
@@ -29,6 +29,7 @@ public class MainActivity extends Activity {
     EditText  rpmText = null;
     Integer curSpeed;
     Integer curRPM;
+    Gauge speedG, rpmG;
     protected  ArrayList<Integer> buffer = new ArrayList<Integer>();
 
     @Override
@@ -36,9 +37,12 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        speedText = (EditText) findViewById(R.id.editText1);
-        rpmText = (EditText) findViewById(R.id.editText2);
+        speedText = (EditText) findViewById(R.id.speedText);
+        rpmText = (EditText) findViewById(R.id.rpmText);
         Button button = (Button) findViewById(R.id.connectBTN);
+
+        speedG = findViewById(R.id.gaugeSpeed);
+        rpmG = findViewById(R.id.gaugeRPM);
 
         button.setOnClickListener(new OnClickListener()
         {
@@ -56,6 +60,22 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
+
+    public  void set_RPM_UI(float rpm){
+        rpm /= 1000;
+        if(rpm >= 0 && rpm<10)
+            rpmG.moveToValue(rpm);
+        else
+            rpmG.moveToValue(0);
+    }
+
+    public  void set_speed_UI(int speed){
+
+        if(speed >= 0 && speed<200)
+            rpmG.moveToValue(speed);
+        else
+            rpmG.moveToValue(0);
+    }
 
 
 
@@ -90,12 +110,14 @@ public class MainActivity extends Activity {
             if(params[1].equalsIgnoreCase("speed")){
                 curSpeed = Integer.parseInt(params[0]);
                 this.main.setSpeed(params[0]);
+                set_speed_UI(curSpeed);
                 count = count +1;
             }
 
             if(params[1].equalsIgnoreCase("rpm")) {
                 curRPM = Integer.parseInt(params[0]);
                 this.main.setRPM(params[0]);
+                set_RPM_UI((float) curRPM);
                 count = count +10;
             }
             if(count == 11){

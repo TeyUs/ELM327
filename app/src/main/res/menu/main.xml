@@ -7,5 +7,13 @@
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="sa"/>
+    <item
+        android:id="@+id/br"
+        android:orderInCategory="100"
+        android:title="naber"/>
+    <item
+    android:id="@+id/t"
+    android:orderInCategory="100"
+    android:title="sa"/>
 
 </menu>
