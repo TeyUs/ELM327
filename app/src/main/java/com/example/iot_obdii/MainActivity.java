@@ -19,15 +19,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import de.nitri.gauge.Gauge;
 
 
 public class MainActivity extends Activity {
     MainActivity m = this;
-    EditText  speedText = null;
-    EditText  rpmText = null;
-    EditText voltText;
+    TextView speedText = null;
+    TextView  rpmText = null;
+    TextView voltText;
     Integer curSpeed;
     Integer curRPM;
     Gauge speedG, rpmG;
@@ -39,8 +40,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        speedText = (EditText) findViewById(R.id.speedText);
-        rpmText = (EditText) findViewById(R.id.rpmText);
+        speedText = findViewById(R.id.speedText);
+        rpmText = findViewById(R.id.rpmText);
         voltText = findViewById(R.id.voltText);
         Button button = (Button) findViewById(R.id.connectBTN);
 
