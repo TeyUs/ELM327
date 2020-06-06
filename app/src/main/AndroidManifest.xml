@@ -13,6 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".GraphScreen"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+
             android:screenOrientation="landscape"></activity>
         <activity
             android:name=".MainActivity"
