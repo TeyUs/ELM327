@@ -105,6 +105,16 @@ public class MainActivity extends Activity {
         task.execute("");
     }
 
+    public void dataBase(){
+        try{
+            SQLiteDatabase database = openOrCreateDatabase("Data", MODE_PRIVATE,null);
+            database.execSQL("CREATE TABLE IF NOT EXISTS data (speed INTEGER, rpm INTEGER)");
+            database.execSQL("INSERT INTO data (speed, rpm) VALUES ("+curSpeed+", "+curRPM+")");
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 
     private class Ytask extends AsyncTask<String, String, String> {
@@ -135,14 +145,8 @@ public class MainActivity extends Activity {
 
             if(count == 11){
                 count = 0;
-                try{
-                    SQLiteDatabase database = main.openOrCreateDatabase("Data", MODE_PRIVATE,null);
-                    database.execSQL("CREATE TABLE IF NOT EXISTS data (speed INTEGER, rpm INTEGER)");
-                    database.execSQL("INSERT INTO data (speed, rpm) VALUES ("+curSpeed+", "+curRPM+")");
+                this.main.dataBase();
 
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
             }
 
         }
@@ -163,10 +167,10 @@ public class MainActivity extends Activity {
                     // this.main.setSpeed("mspeedewrere");
                     publishProgress(valuestr,"rpm");
 
-                    sendCmd(wSocket,"atrv");
-                    String voltage = readVoltData(wSocket,1);
+                    //sendCmd(wSocket,"atrv");
+                    //String voltage = readVoltData(wSocket,1);
                     // this.main.setSpeed("mspeedewrere");
-                    publishProgress(voltage,"volt");
+                    //publishProgress(voltage,"volt");
 
                 }
                 //}

@@ -102,6 +102,7 @@
         android:text="000"
         android:textColor="#009688"
         android:textSize="18sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         gauge:layout_constraintEnd_toEndOf="parent"
