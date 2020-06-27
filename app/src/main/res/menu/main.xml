@@ -4,16 +4,13 @@
     tools:context="com.example.app.MainActivity" >
 
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="sa"/>
+        android:id="@+id/hiz"
+        android:title="Hız"/>
     <item
-        android:id="@+id/br"
-        android:orderInCategory="100"
-        android:title="naber"/>
+        android:id="@+id/rpm"
+        android:title="RPM"/>
     <item
-    android:id="@+id/t"
-    android:orderInCategory="100"
-    android:title="sa"/>
+    android:id="@+id/volt"
+    android:title="Voltaj"/>
 
 </menu>
