@@ -79,14 +79,17 @@ public class GraphScreen extends AppCompatActivity {
         if (item.getItemId() == R.id.hiz) {
             Intent intent = new Intent(GraphScreen.this,GraphScreen.class);
             intent.putExtra("type", "speed");
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         } else if (item.getItemId() == R.id.rpm){
             Intent intent = new Intent(GraphScreen.this,GraphScreen.class);
             intent.putExtra("type", "rpm");
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }else if (item.getItemId() == R.id.volt){
             Intent intent = new Intent(GraphScreen.this,GraphScreen.class);
             intent.putExtra("type", "speed");
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
