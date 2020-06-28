@@ -23,6 +23,7 @@ public class MainActivity extends Activity {
     MainActivity m = this;
     EditText  speedText = null;
     EditText  rpmText = null;
+    EditText  voltText = null;
     Integer curSpeed;
     Integer curRPM;
     protected  ArrayList<Integer> buffer = new ArrayList<Integer>();
@@ -34,6 +35,7 @@ public class MainActivity extends Activity {
 
         speedText = (EditText) findViewById(R.id.editText1);
         rpmText = (EditText) findViewById(R.id.editText2);
+        voltText = (EditText) findViewById(R.id.volttext);
         Button button = (Button) findViewById(R.id.connectBTN);
 
         button.setOnClickListener(new OnClickListener()
@@ -57,6 +59,10 @@ public class MainActivity extends Activity {
     public  void setRPM(String rpm){
         curRPM = Integer.parseInt(rpm);
         rpmText.setText(rpm);
+    }
+
+    public void setVolt(String volt){
+        voltText.setText(volt);
     }
 
 

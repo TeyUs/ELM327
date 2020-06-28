@@ -24,6 +24,8 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         this.main.setSpeed(params[0]);
 
         this.main.setRPM(params[1]);
+
+        this.main.setVolt(params[2]);
     }
 
     @Override
@@ -42,7 +44,10 @@ public class Ytask extends AsyncTask<Void, String, Void> {
                 // this.main.setSpeed("mspeedewrere");
                 //publishProgress(valuestr,"rpm");
 
-                publishProgress(speedData,rpmData);
+                sendCmd(wSocket,"atrv");
+                String voltData = readVoltData(wSocket,1);
+
+                publishProgress(speedData,rpmData,voltData);
 
             }
             //}
@@ -57,6 +62,45 @@ public class Ytask extends AsyncTask<Void, String, Void> {
 
         out.write((cmd + "\r").getBytes());
         out.flush();
+    }
+
+    private String readVoltData(Socket wSocket,int index) throws Exception {
+        List  buffer = new ArrayList<Integer>();
+        Thread.sleep(400);
+        String rawData = null;
+        String value = "";
+        InputStream in = wSocket.getInputStream();
+        byte b = 0;
+        StringBuilder res = new StringBuilder();
+
+        // read until '>' arrives
+        while ((char) (b = (byte) in.read()) != '>')
+            res.append((char) b);
+
+
+        rawData = res.toString().trim();
+
+
+        if(!rawData.contains("atrv")){
+
+            return rawData;
+
+        }
+        rawData = rawData.replace("atrv","");
+        return rawData;
+
+        /*
+        rawData = rawData.replaceAll("\r", " ");
+        rawData = rawData.replaceAll("01 0D", "");
+        rawData = rawData.replaceAll("41 0D"," ").trim();
+        String[] data = rawData.split(" ");
+
+        Log.i("com.example.app", "rawData: "+rawData);
+        Log.i("com.example.app", "data: "+data[0]);
+        Log.i("com.example.app", "datawew: "+Integer.decode("0x" + data[0]));
+        Log.i("com.example.app", "datawew: "+String.valueOf(Integer.decode("0x" + data[0])));
+
+        return Integer.decode("0x" + data[0]).toString();*/
     }
 
     private String readRPMData(Socket wSocket,int index) throws Exception {
@@ -141,7 +185,6 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         Log.i("com.example.app", "datawew: "+String.valueOf(Integer.decode("0x" + data[0])));
 
         return Integer.decode("0x" + data[0]).toString();
-
     }
 
 }
