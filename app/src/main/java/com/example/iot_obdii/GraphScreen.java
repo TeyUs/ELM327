@@ -49,6 +49,7 @@ public class GraphScreen extends AppCompatActivity {
 
             lineDataSetSpeed.setColor(Color.BLUE);
             lineDataSetSpeed.setLineWidth(3);
+            lineDataSetSpeed.setDrawCircles(false);
             //lineDataSetRpm.setCircleColor(Color.RED);
             //lineDataSetSpeed.setCircleColor(Color.BLUE);
 
