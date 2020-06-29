@@ -136,9 +136,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         rawData = res.toString().trim();
 
         if(!rawData.contains("01 0D")){
-
             return rawData;
-
         }
 
         rawData = rawData.replaceAll("\r", " ");
@@ -152,13 +150,12 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         Log.i("com.example.app", "datawew: "+String.valueOf(Integer.decode("0x" + data[0])));
 
         return Integer.decode("0x" + data[0]).toString();
-
     }
 
 
     private String readVoltData(Socket wSocket,int index) throws Exception {
         List  buffer = new ArrayList<Integer>();
-        Thread.sleep(400);
+        Thread.sleep(20);
         String rawData = null;
         String value = "";
         InputStream in = wSocket.getInputStream();
@@ -169,14 +166,11 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         while ((char) (b = (byte) in.read()) != '>')
             res.append((char) b);
 
-
         rawData = res.toString().trim();
-
 
         if(!rawData.contains("atrv")){
 
             return rawData;
-
         }
         rawData = rawData.replace("atrv","");
         return rawData;
