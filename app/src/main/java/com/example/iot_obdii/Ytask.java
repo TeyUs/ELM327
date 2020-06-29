@@ -29,7 +29,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         this.main.setRPM(params[1]);
         System.out.println("Params rpm : "+params[1]);
         this.main.setVolt(params[2]);
-        System.out.println("Params volt : "+params[3]);
+        System.out.println("Params volt : "+params[2]);
 
     }
 

@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -20,21 +21,24 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 import de.nitri.gauge.Gauge;
 
 
 public class MainActivity extends Activity {
-    MainActivity m = this;
-    TextView speedText = null;
-    TextView  rpmText = null;
+    TextView speedText;
     TextView voltText;
-    Integer curSpeed;
-    Integer curRPM;
-    Gauge speedG, rpmG;
+    Integer curSpeed = 0;
+    Integer curRPM = 0;
+    private ProgressBar progressBarRPM;
+    private ProgressBar progressBarSpeed;
     int tSleepTime = 20;
+    Integer value;
     protected  ArrayList<Integer> buffer = new ArrayList<Integer>();
 
     @Override
@@ -42,48 +46,44 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
 
-        speedText = findViewById(R.id.speedText);
-        rpmText = findViewById(R.id.rpmText);
-        voltText = findViewById(R.id.voltText);
-        Button button = (Button) findViewById(R.id.connectBTN);
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_VISIBLE
+                        |View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        |View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        |View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        |View.SYSTEM_UI_FLAG_FULLSCREEN
+                        |View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        );
 
-        speedG = findViewById(R.id.gaugeSpeed);
-        rpmG = findViewById(R.id.gaugeRPM);
+        Button upbtn = findViewById(R.id.buttonup);
+        Button downbtn = findViewById(R.id.buttondown);
+        progressBarRPM = (ProgressBar) findViewById(R.id.progressBarRPM);
+        progressBarSpeed = (ProgressBar) findViewById(R.id.progressBarSpeed);
+        speedText = findViewById(R.id.textView_speed);
+        voltText =findViewById(R.id.textVolt);
+        upbtn.setOnClickListener(new View.OnClickListener(){
 
-        button.setOnClickListener(new OnClickListener()
-        {
-            public void onClick(View v)
-            {
-                Log.i(DISPLAY_SERVICE, "Button clicked : " + v.getId());
-
-                init();
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                value +=150;
+                setSpeed(value.toString());
+                setRPM(value.toString());
             }
-
         });
-    }
-    public void graphIntent(View view){
-        Intent intent = new Intent(MainActivity.this,GraphScreen.class);
-        intent.putExtra("type","speed");
-        startActivity(intent);
-    }
 
+        downbtn.setOnClickListener(new View.OnClickListener(){
 
-    public  void set_RPM_UI(float rpm){
-        rpm /= 1000;
-        if(rpm >= 0 && rpm<10)
-            rpmG.moveToValue(rpm);
-        else
-            rpmG.moveToValue(0);
-    }
-
-    public  void set_speed_UI(int speed){
-
-        if(speed >= 0 && speed<200)
-            speedG.moveToValue(speed);
-        else
-            speedG.moveToValue(0);
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                value -=5;
+                setSpeed(value.toString());
+                setRPM(value.toString());
+            }
+        });
     }
 
     public  void setVolt(String mvolt){
@@ -92,21 +92,40 @@ public class MainActivity extends Activity {
 
     public  void setSpeed(String mspeed){
         curSpeed = Integer.parseInt(mspeed);
-        set_speed_UI(curSpeed);
+
+        speedText.setText(mspeed);
+        dataBase();
+        int speed = Integer.parseInt(mspeed);
+        int kayma = 0;
+        speed +=kayma;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            progressBarSpeed.setProgress(speed,true);
+        }else{
+            progressBarSpeed.setProgress(speed);
+        }
         speedText.setText(mspeed);
     }
 
     public  void setRPM(String rpm){
         curRPM = Integer.parseInt(rpm);
-        set_RPM_UI((float) curRPM);
-        rpmText.setText(rpm);
+        int kayma = 0;
+        int rpmInt = Integer.parseInt(rpm);
+        rpmInt = (rpmInt * 3) / 100 + kayma;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            progressBarRPM.setProgress(rpmInt,true);
+        }else{
+            progressBarRPM.setProgress(rpmInt);
+        }
     }
 
-
-    public void init(){
+    public void init(View view){
         //Context context = this.getApplicationContext();
-        Ytask task = new Ytask(m);
-        task.execute("");
+
+        Log.i(DISPLAY_SERVICE, "Button clicked : " + view.getId());
+
+        Ytask task = new Ytask(this);
+        task.execute();
     }
 
     public void dataBase(){
@@ -114,12 +133,14 @@ public class MainActivity extends Activity {
             SQLiteDatabase database = openOrCreateDatabase("Data", MODE_PRIVATE,null);
             database.execSQL("CREATE TABLE IF NOT EXISTS data (speed INTEGER, rpm INTEGER)");
             database.execSQL("INSERT INTO data (speed, rpm) VALUES ("+curSpeed+", "+curRPM+")");
-
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
-
-
+    public void graphIntent(View view){
+        Intent intent = new Intent(MainActivity.this,GraphScreen.class);
+        intent.putExtra("type","speed");
+        startActivity(intent);
+    }
 }

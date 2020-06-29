@@ -52,7 +52,6 @@ public class GraphScreen extends AppCompatActivity {
             //lineDataSetRpm.setCircleColor(Color.RED);
             //lineDataSetSpeed.setCircleColor(Color.BLUE);
 
-
             ArrayList<ILineDataSet> dataSet = new ArrayList<>();
             dataSet.add(lineDataSetSpeed);
 
@@ -63,9 +62,8 @@ public class GraphScreen extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

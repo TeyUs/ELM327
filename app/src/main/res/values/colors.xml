@@ -3,7 +3,6 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
-
-    <color name="background_top">#002828</color>
-    <color name="background_bottom">#008E8E</color>
+    <color name="colorRPM">#C69C6D</color>
+    <color name="colorSpeed">#534741</color>
 </resources>
