@@ -86,6 +86,21 @@ public class MainActivity extends Activity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_VISIBLE
+                        |View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        |View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        |View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        |View.SYSTEM_UI_FLAG_FULLSCREEN
+                        |View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        );
+    }
+
     public  void setVolt(String mvolt){
         voltText.setText(mvolt);
     }

@@ -43,18 +43,16 @@
     <ProgressBar
         android:id="@+id/progressBarRPM"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
+        android:layout_width="275dp"
         android:layout_height="275dp"
         android:layout_marginStart="4dp"
-        android:layout_marginEnd="152dp"
-        android:max="360"
         android:progress="120"
         android:progressDrawable="@drawable/circle"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textVolt"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.505" />
+        app:layout_constraintVertical_bias="0.505"
+        android:max="360"/>
 
     <ProgressBar
         android:id="@+id/progressBarSpeed"
@@ -112,7 +110,7 @@
         android:id="@+id/textVolt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="70dp"
+        android:layout_marginEnd="64dp"
         android:layout_marginBottom="60dp"
         android:fontFamily="@font/usuziboldital"
         android:gravity="center"
@@ -120,8 +118,6 @@
         android:textColor="#FFFFFF"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/progressBarRPM"
-        app:layout_constraintTop_toBottomOf="@+id/textView_speed" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
