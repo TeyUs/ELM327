@@ -57,33 +57,11 @@ public class MainActivity extends Activity {
                         |View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         );
 
-        Button upbtn = findViewById(R.id.buttonup);
-        Button downbtn = findViewById(R.id.buttondown);
+
         progressBarRPM = (ProgressBar) findViewById(R.id.progressBarRPM);
         progressBarSpeed = (ProgressBar) findViewById(R.id.progressBarSpeed);
         speedText = findViewById(R.id.textView_speed);
         voltText =findViewById(R.id.textVolt);
-        upbtn.setOnClickListener(new View.OnClickListener(){
-
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onClick(View v) {
-                value +=150;
-                setSpeed(value.toString());
-                setRPM(value.toString());
-            }
-        });
-
-        downbtn.setOnClickListener(new View.OnClickListener(){
-
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onClick(View v) {
-                value -=5;
-                setSpeed(value.toString());
-                setRPM(value.toString());
-            }
-        });
     }
 
     @Override
