@@ -95,54 +95,67 @@
         app:layout_constraintTop_toTopOf="@+id/progressBarSpeed" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/range"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="175dp"
         android:layout_marginBottom="20dp"
         android:gravity="center"
-        android:text="***** km"
+        android:text="813 km"
         android:textColor="#FFFFFF"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/gas_tank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="330dp"
         android:layout_marginBottom="20dp"
         android:gravity="center"
-        android:text="***** L"
+        android:text="30.5 L"
         android:textColor="#FFFFFF"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/burn_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="490dp"
         android:layout_marginBottom="20dp"
         android:gravity="center"
-        android:text="***** L/s"
+        android:text="12.4 L/s"
         android:textColor="#FFFFFF"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/engine_temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="290dp"
+        android:layout_marginEnd="280dp"
         android:layout_marginBottom="90dp"
         android:gravity="center"
-        android:text="*** C"
+        android:text="100 C"
         android:textColor="#FFFFFF"
         android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="255dp"
+        android:layout_marginBottom="300dp"
+        android:gravity="center"
+        android:text="30.06.2020"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

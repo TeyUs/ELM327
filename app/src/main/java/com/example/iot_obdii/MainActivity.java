@@ -29,7 +29,6 @@ import androidx.annotation.RequiresApi;
 
 import de.nitri.gauge.Gauge;
 
-
 public class MainActivity extends Activity {
     TextView speedText;
     TextView voltText;
