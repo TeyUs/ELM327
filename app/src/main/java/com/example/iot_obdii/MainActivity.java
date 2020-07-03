@@ -1,37 +1,22 @@
 package com.example.iot_obdii;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.RequiresApi;
-
-import de.nitri.gauge.Gauge;
 
 public class MainActivity extends Activity {
     TextView speedText;
     TextView voltText;
+    TextView fuelStatusText, coolantTempText, dateTXT;
     Integer curSpeed = 0;
     Integer curRPM = 0;
     private ProgressBar progressBarRPM;
@@ -61,6 +46,11 @@ public class MainActivity extends Activity {
         progressBarSpeed = (ProgressBar) findViewById(R.id.progressBarSpeed);
         speedText = findViewById(R.id.textView_speed);
         voltText =findViewById(R.id.textVolt);
+        fuelStatusText =findViewById(R.id.gas_tank);
+        coolantTempText =findViewById(R.id.engine_temperature);
+        dateTXT = findViewById(R.id.dateText);
+        setDate();
+
     }
 
     @Override
@@ -111,6 +101,13 @@ public class MainActivity extends Activity {
         }
     }
 
+    public  void setFuelStatus(String mvolt){
+        fuelStatusText.setText(mvolt);
+    }
+    public  void setcoolantTemp(String mvolt){
+        coolantTempText.setText(mvolt);
+    }
+
     public void init(View view){
         //Context context = this.getApplicationContext();
 
@@ -134,5 +131,17 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(MainActivity.this,GraphScreen.class);
         intent.putExtra("type","speed");
         startActivity(intent);
+    }
+
+    public void setDate(){
+        Calendar calendar = Calendar.getInstance();
+        String s = calendar.getTime().toString();
+        String [] token = s.split(" ");
+        String date = token[2]+ " " + token[1] + " " + token[5];
+        String [] tokenDate = token[3].split(":");
+        String timeInDay = tokenDate[0]+ ":" + tokenDate[1];
+        System.out.println(timeInDay);
+        System.out.println(date);
+        this.dateTXT.setText(date);
     }
 }
