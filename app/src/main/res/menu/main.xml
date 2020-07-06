@@ -6,11 +6,21 @@
     <item
         android:id="@+id/hiz"
         android:title="Hız"/>
+
     <item
         android:id="@+id/rpm"
         android:title="RPM"/>
+
     <item
-    android:id="@+id/volt"
-    android:title="Voltaj"/>
+        android:id="@+id/volt"
+        android:title="Voltaj"/>
+
+    <item
+        android:id="@+id/fuel"
+        android:title="Kalan Yakıt"/>
+
+    <item
+        android:id="@+id/coolant"
+        android:title="Soğutma Suyu Sıcaklığı"/>
 
 </menu>

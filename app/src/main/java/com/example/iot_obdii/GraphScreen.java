@@ -29,8 +29,18 @@ public class GraphScreen extends AppCompatActivity {
         setContentView(R.layout.activity_graph_screen);
 
         Intent intent = getIntent();
-
         graph = findViewById(R.id.graph);
+
+        if(intent.getStringExtra("type").matches("speed") || intent.getStringExtra("type").matches("rpm")){
+            drawGraph(intent);
+        }
+        else{
+            drawGraphRare(intent);
+        }
+
+    }
+
+    public void drawGraph(Intent intent){
 
         ArrayList<Entry> dataList = new ArrayList<>();
         try {
@@ -45,16 +55,14 @@ public class GraphScreen extends AppCompatActivity {
                 index++;
             }
             cursor.close();
-            LineDataSet lineDataSetSpeed = new LineDataSet(dataList, intent.getStringExtra("type"));
+            LineDataSet lineDataSet = new LineDataSet(dataList, intent.getStringExtra("type"));
 
-            lineDataSetSpeed.setColor(Color.BLUE);
-            lineDataSetSpeed.setLineWidth(3);
-            lineDataSetSpeed.setDrawCircles(false);
-            //lineDataSetRpm.setCircleColor(Color.RED);
-            //lineDataSetSpeed.setCircleColor(Color.BLUE);
+            lineDataSet.setColor(Color.BLUE);
+            lineDataSet.setLineWidth(3);
+            lineDataSet.setDrawCircles(false);
 
             ArrayList<ILineDataSet> dataSet = new ArrayList<>();
-            dataSet.add(lineDataSetSpeed);
+            dataSet.add(lineDataSet);
 
             LineData lineData = new LineData(dataSet);
             graph.setData(lineData);
@@ -65,7 +73,38 @@ public class GraphScreen extends AppCompatActivity {
         }
     }
 
+    public void drawGraphRare(Intent intent){
 
+        ArrayList<Entry> dataList = new ArrayList<>();
+        try {
+            SQLiteDatabase database = openOrCreateDatabase("Data", MODE_PRIVATE, null);
+
+            Cursor cursor = database.rawQuery("SELECT * FROM rare", null);
+            int dataix = cursor.getColumnIndex(intent.getStringExtra("type"));
+            int index = 0;
+            //cursor.moveToFirst();
+            while (cursor.moveToNext()) {
+                dataList.add(new Entry(index, cursor.getInt(dataix)));
+                index++;
+            }
+            cursor.close();
+            LineDataSet lineDataSet = new LineDataSet(dataList, intent.getStringExtra("type"));
+
+            lineDataSet.setColor(Color.BLUE);
+            lineDataSet.setLineWidth(3);
+            lineDataSet.setDrawCircles(false);
+
+            ArrayList<ILineDataSet> dataSet = new ArrayList<>();
+            dataSet.add(lineDataSet);
+
+            LineData lineData = new LineData(dataSet);
+            graph.setData(lineData);
+            graph.invalidate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -87,7 +126,17 @@ public class GraphScreen extends AppCompatActivity {
             startActivity(intent);
         }else if (item.getItemId() == R.id.volt){
             Intent intent = new Intent(GraphScreen.this,GraphScreen.class);
-            intent.putExtra("type", "speed");
+            intent.putExtra("type", "volt");
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }else if (item.getItemId() == R.id.fuel){
+            Intent intent = new Intent(GraphScreen.this,GraphScreen.class);
+            intent.putExtra("type", "fuel");
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }else if (item.getItemId() == R.id.coolant){
+            Intent intent = new Intent(GraphScreen.this,GraphScreen.class);
+            intent.putExtra("type", "coolant");
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }

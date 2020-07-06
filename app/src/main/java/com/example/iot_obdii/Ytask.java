@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Ytask extends AsyncTask<Void, String, Void> {
-    int count = 0;
     MainActivity main;
     Integer threadSleepTime = 10;
+    Integer miktar = 1;
 
     public Ytask(MainActivity main) {
 
@@ -30,7 +30,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         System.out.println("Params rpm : " + params[2]);
 
         switch (params[0]) {
-            case "0":
+            case "1":
                 this.main.setVolt(params[3]);
                 System.out.println("Params volt : " + params[3]);
                 break;
@@ -38,7 +38,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
                 this.main.setFuelStatus(params[3]);
                 System.out.println("Params fuel : " + params[3]);
                 break;
-            case "4":
+            case "3":
                 this.main.setcoolantTemp(params[3]);
                 System.out.println("Params coolent : " + params[3]);
                 break;
@@ -58,20 +58,20 @@ public class Ytask extends AsyncTask<Void, String, Void> {
                 String rpmData = readRPMData(wSocket,"01 0C");
 
 
-                switch (counter % 10) {
+                switch (counter % miktar) {
                     case 0:
                         String voltageData = readVoltData(wSocket, "atrv");
-                        publishProgress("0", speedData, rpmData, voltageData);
+                        publishProgress("1", speedData, rpmData, voltageData);
                         break;
 
-                    case 2:
+                    case 1:
                         String fuelLevelData = readFuelData(wSocket, "01 2F");
                         publishProgress("2", speedData, rpmData, fuelLevelData);
                         break;
 
-                    case 4:
+                    case 2:
                         String coolantTempData = readCoolantTempData(wSocket, "01 05");
-                        publishProgress("4", speedData, rpmData, coolantTempData);
+                        publishProgress("3", speedData, rpmData, coolantTempData);
                         break;
                 }
                 counter++;
