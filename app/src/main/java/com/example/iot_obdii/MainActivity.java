@@ -12,35 +12,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
-    TextView speedText;
-    TextView voltText;
-    TextView fuelStatusText, coolantTempText, dateTXT;
-    Integer curSpeed = 0;
-    Integer curRPM = 0;
+    TextView speedText,voltText, fuelStatusText, coolantTempText, dateTXT;
+    Integer curFuel = 0, curCoolant = 0 ,curSpeed = 0, curRPM = 0;
+    Double curVolt = 0.0;
     private ProgressBar progressBarRPM;
     private ProgressBar progressBarSpeed;
-    int tSleepTime = 20;
-    Integer value;
-    protected  ArrayList<Integer> buffer = new ArrayList<Integer>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_VISIBLE
-                        |View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        |View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        |View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        |View.SYSTEM_UI_FLAG_FULLSCREEN
-                        |View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        );
-
 
         progressBarRPM = (ProgressBar) findViewById(R.id.progressBarRPM);
         progressBarSpeed = (ProgressBar) findViewById(R.id.progressBarSpeed);
@@ -52,11 +37,9 @@ public class MainActivity extends Activity {
         setDate();
 
     }
-
     @Override
     protected void onStart() {
         super.onStart();
-
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_VISIBLE
@@ -68,15 +51,9 @@ public class MainActivity extends Activity {
         );
     }
 
-    public  void setVolt(String mvolt){
-        voltText.setText(mvolt);
-    }
-
     public  void setSpeed(String mspeed){
         curSpeed = Integer.parseInt(mspeed);
-
         speedText.setText(mspeed);
-        dataBase();
         int speed = Integer.parseInt(mspeed);
         int kayma = 0;
         speed +=kayma;
@@ -87,9 +64,9 @@ public class MainActivity extends Activity {
         }
         speedText.setText(mspeed);
     }
-
     public  void setRPM(String rpm){
         curRPM = Integer.parseInt(rpm);
+        dataBase();
         int kayma = 0;
         int rpmInt = Integer.parseInt(rpm);
         rpmInt = (rpmInt * 3) / 100 + kayma;
@@ -101,11 +78,20 @@ public class MainActivity extends Activity {
         }
     }
 
-    public  void setFuelStatus(String mvolt){
-        fuelStatusText.setText(mvolt);
+    public  void setVolt(String mvolt){
+        voltText.setText(mvolt);
+        mvolt.replace("V","").trim();
+        curVolt = Double.parseDouble(mvolt);
+        Toast.makeText(this, curVolt.toString(), Toast.LENGTH_SHORT).show();
     }
-    public  void setcoolantTemp(String mvolt){
-        coolantTempText.setText(mvolt);
+    public  void setFuelStatus(String m){
+        fuelStatusText.setText(m);
+        curFuel = Integer.parseInt(m);
+    }
+    public  void setcoolantTemp(String m){
+        coolantTempText.setText(m);
+        curCoolant = Integer.parseInt(m);
+        dataBaseRare();
     }
 
     public void init(View view){
@@ -126,13 +112,21 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
     }
+    public void dataBaseRare(){
+        try{
+            SQLiteDatabase database = openOrCreateDatabase("Data", MODE_PRIVATE,null);
+            database.execSQL("CREATE TABLE IF NOT EXISTS rare (volt FLOAT, fuel INTEGER, coolant INTEGER)");
+            database.execSQL("INSERT INTO rare (volt, fuel, coolant) VALUES ("+curVolt+", "+curFuel+", "+curCoolant+")");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     public void graphIntent(View view){
         Intent intent = new Intent(MainActivity.this,GraphScreen.class);
         intent.putExtra("type","speed");
         startActivity(intent);
     }
-
     public void setDate(){
         Calendar calendar = Calendar.getInstance();
         String s = calendar.getTime().toString();

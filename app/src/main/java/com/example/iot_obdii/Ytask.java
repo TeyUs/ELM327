@@ -24,17 +24,25 @@ public class Ytask extends AsyncTask<Void, String, Void> {
     @Override
     protected void onProgressUpdate(String... params) {
 
+        this.main.setSpeed(params[1]);
+        System.out.println("Params speed : " + params[1]);
+        this.main.setRPM(params[2]);
+        System.out.println("Params rpm : " + params[2]);
 
-        this.main.setSpeed(params[0]);
-        System.out.println("Params speed : " + params[0]);
-        this.main.setRPM(params[1]);
-        System.out.println("Params rpm : " + params[1]);
-        this.main.setVolt(params[2]);
-        System.out.println("Params volt : " + params[2]);
-        this.main.setFuelStatus(params[3]);
-        System.out.println("Params fuel : " + params[3]);
-        this.main.setcoolantTemp(params[4]);
-        System.out.println("Params coolent : " + params[4]);
+        switch (params[0]) {
+            case "0":
+                this.main.setVolt(params[3]);
+                System.out.println("Params volt : " + params[3]);
+                break;
+            case "2":
+                this.main.setFuelStatus(params[3]);
+                System.out.println("Params fuel : " + params[3]);
+                break;
+            case "4":
+                this.main.setcoolantTemp(params[3]);
+                System.out.println("Params coolent : " + params[3]);
+                break;
+        }
 
     }
 
@@ -49,28 +57,23 @@ public class Ytask extends AsyncTask<Void, String, Void> {
                 String speedData = readSpeedData(wSocket, "01 0D");
                 String rpmData = readRPMData(wSocket,"01 0C");
 
-                if (true){//counter % 10 == 0) {    //sıklık belirleme için
-                    //Aralıklı ekilecek veriler
 
-                    String voltageData = readVoltData(wSocket, "atrv");
+                switch (counter % 10) {
+                    case 0:
+                        String voltageData = readVoltData(wSocket, "atrv");
+                        publishProgress("0", speedData, rpmData, voltageData);
+                        break;
 
-                    String fuelLevelData = readFuelData(wSocket, "01 2F");
+                    case 2:
+                        String fuelLevelData = readFuelData(wSocket, "01 2F");
+                        publishProgress("2", speedData, rpmData, fuelLevelData);
+                        break;
 
-                    String coolantTempData = readCoolantTempData(wSocket, "01 05");
-
-
-
-
-
-
-
-
-
-                    publishProgress(speedData, rpmData, voltageData,fuelLevelData,coolantTempData);
-                } else {
-                    publishProgress(speedData, rpmData);
+                    case 4:
+                        String coolantTempData = readCoolantTempData(wSocket, "01 05");
+                        publishProgress("4", speedData, rpmData, coolantTempData);
+                        break;
                 }
-
                 counter++;
             }
             //}
