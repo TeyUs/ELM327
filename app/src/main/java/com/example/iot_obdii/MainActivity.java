@@ -20,7 +20,14 @@ public class MainActivity extends Activity {
     Double curVolt = 0.0;
     private ProgressBar progressBarRPM;
     private ProgressBar progressBarSpeed;
-
+    Double T_f = 0.2;
+    Double T_s = 0.02;
+    Double fuel_Integral = 0.0;
+    Double speed_Integral = 0.0;
+    Double cur_z1_f = 0.0;
+    Double int_z1_f = 0.0;
+    Double cur_z1_s = 0.0;
+    Double int_z1_s = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +44,7 @@ public class MainActivity extends Activity {
         setDate();
 
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -49,6 +57,24 @@ public class MainActivity extends Activity {
                         |View.SYSTEM_UI_FLAG_FULLSCREEN
                         |View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         );
+    }
+
+    public Double usedfuel(Double current)
+    {
+        fuel_Integral = (T_f*(current + cur_z1_f) + 2 * int_z1_f) / 2;
+        cur_z1_f = current;
+        int_z1_f = fuel_Integral;
+
+        return fuel_Integral;
+    }
+
+    public Double int_speed(Double speed)
+    {
+        speed_Integral = (T_s*(speed + cur_z1_s) + 2 * int_z1_s) / 2;
+        cur_z1_s = speed;
+        int_z1_s = speed_Integral;
+
+        return fuel_Integral;
     }
 
     public  void setSpeed(String mspeed){
@@ -80,29 +106,37 @@ public class MainActivity extends Activity {
 
     public  void setVolt(String mvolt){
         voltText.setText(mvolt);
-        mvolt.replace("V","").trim();
-        //curVolt = Double.parseDouble(mvolt);
-        Toast.makeText(this, curVolt.toString(), Toast.LENGTH_SHORT).show();
+        mvolt=mvolt.replace("V"," ").trim();
+        try {
+            curVolt = Double.parseDouble(mvolt);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+
+        }
+        // Toast.makeText(this, curVolt.toString(), Toast.LENGTH_SHORT).show();
     }
     public  void setFuelStatus(String m){
-        fuelStatusText.setText(m);
+        Integer x = Integer.parseInt(m);
+        x = x  * 5 / 6;
+        fuelStatusText.setText(x.toString()+" L");
+
         try {
-            curFuel = Integer.parseInt(m);
+            curFuel = x;
         }catch (Exception e){
             Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
         }
     }
     public  void setcoolantTemp(String m){
         coolantTempText.setText(m);
+
         try {
             curCoolant = Integer.parseInt(m);
         }catch (Exception e){
             Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
         }
 
-
-
-            //dataBaseRare();
+            dataBaseRare();
     }
 
     public void init(View view){

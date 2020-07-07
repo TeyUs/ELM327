@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Ytask extends AsyncTask<Void, String, Void> {
     MainActivity main;
-    Integer threadSleepTime = 20;
+    Integer threadSleepTime = 16;
     Integer miktar = 3;
 
     public Ytask(MainActivity main) {
@@ -73,7 +73,13 @@ public class Ytask extends AsyncTask<Void, String, Void> {
                         String coolantTempData = readCoolantTempData(wSocket, "01 05");
                         publishProgress("3", speedData, rpmData, coolantTempData);
                         break;
+
+                    default:
+                        publishProgress("4", speedData, rpmData);
+                        break;
                 }
+
+
                 counter++;
             }
             //}

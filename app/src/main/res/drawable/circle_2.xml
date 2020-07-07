@@ -5,7 +5,7 @@
             android:fromDegrees="140"
             android:toDegrees="140"
             android:pivotX="50%"
-            android:pivotY="50%" >
+            android:pivotY="50%">
             <shape
                 android:shape="ring"
                 android:innerRadius="70dp"
