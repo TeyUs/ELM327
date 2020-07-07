@@ -15,19 +15,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-    TextView speedText,voltText, fuelStatusText, coolantTempText, dateTXT;
-    Integer curFuel = 0, curCoolant = 0 ,curSpeed = 0, curRPM = 0;
-    Double curVolt = 0.0;
+    TextView speedText,voltText, fuelStatusText, coolantTempText, dateTXT, rangeTXT,fuelRatetXT;
+    Integer curCoolant = 0 ,curSpeed = 0, curRPM = 0;
+    Double curVolt = 0.0, curFuel = 0.0;
     private ProgressBar progressBarRPM;
     private ProgressBar progressBarSpeed;
-    Double T_f = 0.2;
     Double T_s = 0.02;
-    Double fuel_Integral = 0.0;
     Double speed_Integral = 0.0;
-    Double cur_z1_f = 0.0;
-    Double int_z1_f = 0.0;
     Double cur_z1_s = 0.0;
     Double int_z1_s = 0.0;
+    Double fuelInit = 0.0, fuelFinal = 0.0;
+    Double avFuel = 0.0, avKM = 0.0;
+    Double initFuel = 0.0;
+    Integer avCounter = 0;
+    Double harcanan = 0.0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +43,9 @@ public class MainActivity extends Activity {
         fuelStatusText =findViewById(R.id.gas_tank);
         coolantTempText =findViewById(R.id.engine_temperature);
         dateTXT = findViewById(R.id.dateText);
+        rangeTXT = findViewById(R.id.range);
+        fuelRatetXT = findViewById(R.id.burn_rate);
         setDate();
-
     }
 
     @Override
@@ -59,26 +62,19 @@ public class MainActivity extends Activity {
         );
     }
 
-    public Double usedfuel(Double current)
-    {
-        fuel_Integral = (T_f*(current + cur_z1_f) + 2 * int_z1_f) / 2;
-        cur_z1_f = current;
-        int_z1_f = fuel_Integral;
 
-        return fuel_Integral;
-    }
 
-    public Double int_speed(Double speed)
-    {
+    public Double avarageKM(int speedInt){
+        Double speed = (double)speedInt ;
         speed_Integral = (T_s*(speed + cur_z1_s) + 2 * int_z1_s) / 2;
         cur_z1_s = speed;
         int_z1_s = speed_Integral;
-
-        return fuel_Integral;
+        return speed_Integral;
     }
 
     public  void setSpeed(String mspeed){
         curSpeed = Integer.parseInt(mspeed);
+        rangeTXT.setText(avarageKM(curSpeed).toString());
         speedText.setText(mspeed);
         int speed = Integer.parseInt(mspeed);
         int kayma = 0;
@@ -116,11 +112,12 @@ public class MainActivity extends Activity {
         }
         // Toast.makeText(this, curVolt.toString(), Toast.LENGTH_SHORT).show();
     }
-    public  void setFuelStatus(String m){
-        Integer x = Integer.parseInt(m);
-        x = x  * 5 / 6;
-        fuelStatusText.setText(x.toString()+" L");
 
+    public  void setFuelStatus(String m){
+        Double x = Double.parseDouble(m);
+        harcanan =+  initFuel - x ;
+
+        fuelStatusText.setText(x.toString()+" L");
         try {
             curFuel = x;
         }catch (Exception e){

@@ -14,7 +14,7 @@ import java.util.List;
 public class Ytask extends AsyncTask<Void, String, Void> {
     MainActivity main;
     Integer threadSleepTime = 16;
-    Integer miktar = 3;
+    Integer miktar = 4;
 
     public Ytask(MainActivity main) {
 
@@ -201,7 +201,6 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         return rawData;
 
     }
-
     private String readFuelData(Socket wSocket, String cmd) throws Exception {
         sendCmd(wSocket,cmd);
         List buffer = new ArrayList<Integer>();
@@ -235,10 +234,11 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         Log.i("com.example.app", "datawew: " + Integer.decode("0x" + data[0]));
         Log.i("com.example.app", "datawew: " + String.valueOf(Integer.decode("0x" + data[0])));
 
-        Integer x = (Integer) (Integer.decode("0x" + data[0]) / 4);
-        return x.toString();
+        Integer x = (Integer) (Integer.decode("0x" + data[0]));
+        Double ort = (double) x;
+        ort = ort * 50 / 240 ;
+        return ort.toString();
     }
-
     private String readCoolantTempData(Socket wSocket, String cmd) throws Exception {
         sendCmd(wSocket,cmd);
         List buffer = new ArrayList<Integer>();
