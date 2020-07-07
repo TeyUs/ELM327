@@ -28,7 +28,8 @@ public class MainActivity extends Activity {
     Double avFuel = 0.0, avKM = 0.0;
     Double initFuel = 0.0;
     Integer avCounter = 0;
-    Double harcanan = 0.0;
+    Double harcanan = 0.0, totalKM = 0.0;
+    Boolean isMove = false;
 
 
     @Override
@@ -74,7 +75,13 @@ public class MainActivity extends Activity {
 
     public  void setSpeed(String mspeed){
         curSpeed = Integer.parseInt(mspeed);
-        rangeTXT.setText(avarageKM(curSpeed).toString());
+        if(mspeed.matches("0")) {
+            totalKM = avarageKM(curSpeed);
+            rangeTXT.setText(totalKM.toString());
+            isMove = false;
+        }else{
+            isMove = true;
+        }
         speedText.setText(mspeed);
         int speed = Integer.parseInt(mspeed);
         int kayma = 0;
@@ -116,8 +123,11 @@ public class MainActivity extends Activity {
     public  void setFuelStatus(String m){
         Double x = Double.parseDouble(m);
         harcanan =+  initFuel - x ;
-
         fuelStatusText.setText(x.toString()+" L");
+        if(isMove) {
+            Double fuelRate = (harcanan / totalKM);
+            fuelRatetXT.setText(fuelRate.toString());
+        }
         try {
             curFuel = x;
         }catch (Exception e){
