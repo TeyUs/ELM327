@@ -8,7 +8,7 @@
             android:pivotY="50%" >
             <shape
                 android:shape="ring"
-                android:innerRadius="55dp"
+                android:innerRadius="70dp"
                 android:thicknessRatio="5.2"
                 android:useLevel="true">
                 <gradient
