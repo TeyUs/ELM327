@@ -13,8 +13,8 @@ import java.util.List;
 
 public class Ytask extends AsyncTask<Void, String, Void> {
     MainActivity main;
-    Integer threadSleepTime = 10;
-    Integer miktar = 1;
+    Integer threadSleepTime = 20;
+    Integer miktar = 3;
 
     public Ytask(MainActivity main) {
 

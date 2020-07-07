@@ -81,17 +81,28 @@ public class MainActivity extends Activity {
     public  void setVolt(String mvolt){
         voltText.setText(mvolt);
         mvolt.replace("V","").trim();
-        curVolt = Double.parseDouble(mvolt);
+        //curVolt = Double.parseDouble(mvolt);
         Toast.makeText(this, curVolt.toString(), Toast.LENGTH_SHORT).show();
     }
     public  void setFuelStatus(String m){
         fuelStatusText.setText(m);
-        curFuel = Integer.parseInt(m);
+        try {
+            curFuel = Integer.parseInt(m);
+        }catch (Exception e){
+            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+        }
     }
     public  void setcoolantTemp(String m){
         coolantTempText.setText(m);
-        curCoolant = Integer.parseInt(m);
-        dataBaseRare();
+        try {
+            curCoolant = Integer.parseInt(m);
+        }catch (Exception e){
+            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+        }
+
+
+
+            //dataBaseRare();
     }
 
     public void init(View view){
