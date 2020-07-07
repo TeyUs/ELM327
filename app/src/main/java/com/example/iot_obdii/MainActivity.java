@@ -20,7 +20,7 @@ public class MainActivity extends Activity {
     Double curVolt = 0.0, curFuel = 0.0;
     private ProgressBar progressBarRPM;
     private ProgressBar progressBarSpeed;
-    Double T_s = 0.02;
+    Double T_s = 0.06;
     Double speed_Integral = 0.0;
     Double cur_z1_s = 0.0;
     Double int_z1_s = 0.0;
@@ -30,6 +30,7 @@ public class MainActivity extends Activity {
     Integer avCounter = 0;
     Double harcanan = 0.0, totalKM = 0.0;
     Boolean isMove = false;
+    Boolean isfuel = true;
 
 
     @Override
@@ -70,14 +71,15 @@ public class MainActivity extends Activity {
         speed_Integral = (T_s*(speed + cur_z1_s) + 2 * int_z1_s) / 2;
         cur_z1_s = speed;
         int_z1_s = speed_Integral;
-        return speed_Integral;
+        return speed_Integral/475.0;
     }
 
     public  void setSpeed(String mspeed){
         curSpeed = Integer.parseInt(mspeed);
+        totalKM = avarageKM(curSpeed);
+        String m = String.format("%.2f",totalKM);
+        rangeTXT.setText(m);
         if(mspeed.matches("0")) {
-            totalKM = avarageKM(curSpeed);
-            rangeTXT.setText(totalKM.toString());
             isMove = false;
         }else{
             isMove = true;
@@ -122,8 +124,16 @@ public class MainActivity extends Activity {
 
     public  void setFuelStatus(String m){
         Double x = Double.parseDouble(m);
+
+        if(isfuel)
+        {
+            initFuel = x;
+            isfuel = false;
+        }
+
         harcanan =+  initFuel - x ;
-        fuelStatusText.setText(x.toString()+" L");
+        String y = String.format("%.2f",x);
+        fuelStatusText.setText(y +" L");
         if(isMove) {
             Double fuelRate = (harcanan / totalKM);
             fuelRatetXT.setText(fuelRate.toString());

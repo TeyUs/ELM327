@@ -9,16 +9,16 @@
 
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="250dp"
-        android:layout_height="187dp"
+        android:layout_width="350dp"
+        android:layout_height="261dp"
         app:layout_constraintStart_toStartOf="@id/progressBarRPM"
         app:layout_constraintTop_toTopOf="@id/progressBarRPM"
         android:src="@drawable/rpm_back" />
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="250dp"
-        android:layout_height="205dp"
+        android:layout_width="350dp"
+        android:layout_height="287dp"
         app:layout_constraintEnd_toEndOf="@id/progressBarSpeed"
         app:layout_constraintTop_toTopOf="@id/progressBarSpeed"
         android:src="@drawable/speed_back" />
@@ -26,8 +26,8 @@
     <ProgressBar
         android:id="@+id/progressBarRPM"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="48dp"
         android:max="360"
@@ -39,8 +39,8 @@
     <ProgressBar
         android:id="@+id/progressBarSpeed"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="10dp"
         android:max="360"
@@ -51,16 +51,16 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="250dp"
-        android:layout_height="187dp"
+        android:layout_width="350dp"
+        android:layout_height="261dp"
         app:layout_constraintStart_toStartOf="@id/progressBarRPM"
         app:layout_constraintTop_toTopOf="@id/progressBarRPM"
         android:src="@drawable/rpm_text" />
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="250dp"
-        android:layout_height="205dp"
+        android:layout_width="350dp"
+        android:layout_height="287dp"
         app:layout_constraintEnd_toEndOf="@id/progressBarSpeed"
         app:layout_constraintTop_toTopOf="@id/progressBarSpeed"
         android:src="@drawable/speed_text" />
