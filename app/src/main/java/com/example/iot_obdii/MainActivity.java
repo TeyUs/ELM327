@@ -136,7 +136,8 @@ public class MainActivity extends Activity {
         fuelStatusText.setText(y +" L");
         if(isMove) {
             Double fuelRate = (harcanan / totalKM);
-            fuelRatetXT.setText(fuelRate.toString());
+            String fuelR = String.format("%.2f",fuelRate);
+            fuelRatetXT.setText(fuelR);
         }
         try {
             curFuel = x;
