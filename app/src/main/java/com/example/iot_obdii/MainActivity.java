@@ -78,6 +78,7 @@ public class MainActivity extends Activity {
         curSpeed = Integer.parseInt(mspeed);
         totalKM = avarageKM(curSpeed);
         String m = String.format("%.2f",totalKM);
+        m = m+"KM";
         rangeTXT.setText(m);
         if(mspeed.matches("0")) {
             isMove = false;
@@ -146,6 +147,7 @@ public class MainActivity extends Activity {
         }
     }
     public  void setcoolantTemp(String m){
+        m = m+" C";
         coolantTempText.setText(m);
 
         try {
