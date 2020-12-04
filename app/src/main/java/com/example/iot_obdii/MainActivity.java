@@ -1,17 +1,24 @@
 package com.example.iot_obdii;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -19,7 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-    FileOutputStream textFile;
+    File file;
     Calendar calendar;
     TextView speedText,voltText, fuelStatusText, coolantTempText, dateTXT, rangeTXT,fuelRatetXT;
     Integer curCoolant = 0 ,curSpeed = 0, curRPM = 0;
@@ -44,12 +51,14 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        try {
-            textFile = openFileOutput("indoText.txt", Context.MODE_APPEND);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        checkExternalMedia();
 
+        File root = android.os.Environment.getExternalStorageDirectory();
+        File dir = new File (root.getAbsolutePath() + "/download");
+        dir.mkdirs();
+        file = new File(dir, "xxxxxxxxxxxxxxxxxxxxxxxx.txt");
+
+        writeToSDFile("sa");
 
         progressBarRPM = (ProgressBar) findViewById(R.id.progressBarRPM);
         progressBarSpeed = (ProgressBar) findViewById(R.id.progressBarSpeed);
@@ -75,16 +84,6 @@ public class MainActivity extends Activity {
                         |View.SYSTEM_UI_FLAG_FULLSCREEN
                         |View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         );
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        try {
-            textFile.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public Double avarageKM(int speedInt){
@@ -195,9 +194,8 @@ public class MainActivity extends Activity {
             database.execSQL("CREATE TABLE IF NOT EXISTS data (speed INTEGER, rpm INTEGER)");
             database.execSQL("INSERT INTO data (speed, rpm) VALUES ("+curSpeed+", "+curRPM+")");
 
-            String s = "time : " + calendar.getTimeInMillis() + "speed : " + curSpeed + "RPM : " + curRPM + "\n";
-            textFile.write(s.getBytes());
-
+            String s = "time : " + calendar.getTimeInMillis() + "speed : " + curSpeed + "RPM : " + curRPM;
+            writeToSDFile(s);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -228,4 +226,44 @@ public class MainActivity extends Activity {
         System.out.println(date);
         this.dateTXT.setText(date);
     }
+
+    private void writeToSDFile(String s){
+        try {
+            FileWriter fileWriter;
+            fileWriter = new FileWriter(file);
+            BufferedWriter bufferedWriter=new BufferedWriter(fileWriter);
+
+            bufferedWriter.write(s);
+            bufferedWriter.close();
+            /*
+            FileOutputStream f = new FileOutputStream(file);
+            PrintWriter pw = new PrintWriter(f);
+            pw.println(s);
+            pw.flush();
+            pw.close();
+            f.close();*/
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void checkExternalMedia(){
+        boolean mExternalStorageAvailable = false;
+        boolean mExternalStorageWriteable = false;
+        String state = Environment.getExternalStorageState();
+
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            // Can read and write the media
+            mExternalStorageAvailable = mExternalStorageWriteable = true;
+        } else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            // Can only read the media
+            mExternalStorageAvailable = true;
+            mExternalStorageWriteable = false;
+        } else {
+            // Can't read or write
+            mExternalStorageAvailable = mExternalStorageWriteable = false;
+        }
+    }
+
 }
