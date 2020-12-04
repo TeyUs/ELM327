@@ -1,9 +1,13 @@
 package com.example.iot_obdii;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -15,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
+    FileOutputStream textFile;
+    Calendar calendar;
     TextView speedText,voltText, fuelStatusText, coolantTempText, dateTXT, rangeTXT,fuelRatetXT;
     Integer curCoolant = 0 ,curSpeed = 0, curRPM = 0;
     Double curVolt = 0.0, curFuel = 0.0;
@@ -37,6 +43,13 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        try {
+            textFile = openFileOutput("indoText.txt", Context.MODE_APPEND);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
 
         progressBarRPM = (ProgressBar) findViewById(R.id.progressBarRPM);
         progressBarSpeed = (ProgressBar) findViewById(R.id.progressBarSpeed);
@@ -64,7 +77,15 @@ public class MainActivity extends Activity {
         );
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            textFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public Double avarageKM(int speedInt){
         Double speed = (double)speedInt ;
@@ -173,6 +194,10 @@ public class MainActivity extends Activity {
             SQLiteDatabase database = openOrCreateDatabase("Data", MODE_PRIVATE,null);
             database.execSQL("CREATE TABLE IF NOT EXISTS data (speed INTEGER, rpm INTEGER)");
             database.execSQL("INSERT INTO data (speed, rpm) VALUES ("+curSpeed+", "+curRPM+")");
+
+            String s = "time : " + calendar.getTimeInMillis() + "speed : " + curSpeed + "RPM : " + curRPM + "\n";
+            textFile.write(s.getBytes());
+
         }catch (Exception e){
             e.printStackTrace();
         }
