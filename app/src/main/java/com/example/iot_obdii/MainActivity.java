@@ -131,11 +131,11 @@ public class MainActivity extends Activity {
             Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
 
         }
-        // Toast.makeText(this, curVolt.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, curVolt.toString(), Toast.LENGTH_SHORT).show();
     }
 
     public void setFuelStatus(String m) {
-        Double x = Double.parseDouble(m);
+        double x = Double.parseDouble(m);
 
         if (isfuel) {
             initFuel = x;
@@ -151,7 +151,7 @@ public class MainActivity extends Activity {
             fuelRatetXT.setText(fuelR);
         }
         try {
-            curFuel = x;
+           // curFuel = x;
         } catch (Exception e) {
             Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
         }
@@ -164,7 +164,7 @@ public class MainActivity extends Activity {
         try {
             curCoolant = Integer.parseInt(m);
         } catch (Exception e) {
-            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "coolant " +e.toString(), Toast.LENGTH_SHORT).show();
         }
 
         dataBaseRare();
