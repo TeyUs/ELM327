@@ -203,7 +203,7 @@ public class MainActivity extends Activity {
     }
 
     public void graphIntent(View view) {
-        writeToFile("graph'a basıldı. Dosya açıldı mı denemek için\n");
+        //writeToFile("graph'a basıldı. Dosya açıldı mı denemek için\n");
         Intent intent = new Intent(MainActivity.this, GraphScreen.class);
         intent.putExtra("type", "speed");
         startActivity(intent);
@@ -221,25 +221,21 @@ public class MainActivity extends Activity {
         this.dateTXT.setText(date);
     }
 
-    private void writeToFile(String note) {
+    private void writeToFile(String line) {
         File dosyaYolu = Environment.getExternalStorageDirectory();
         File dataFile = new File(dosyaYolu, "Data_File_OBD_ELM327.txt");
         try {
             if (!dataFile.exists()) {
                 dataFile.createNewFile();
             }
-            FileWriter fw = new FileWriter(dataFile);
-            BufferedWriter writer = new BufferedWriter(fw);
-            writer.write(note);
-            writer.flush();
-            writer.close();
-
-
+            FileWriter fw = new FileWriter(dataFile,true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter printWriter = new PrintWriter(bw);
+            printWriter.println(line);
+            printWriter.flush();
+            printWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
-
 }
