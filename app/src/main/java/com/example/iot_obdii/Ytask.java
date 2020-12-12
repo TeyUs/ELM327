@@ -59,7 +59,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
                 String rpmData = readRPMData(wSocket,"01 0C");
 
 
-                switch (4) {//counter % miktar
+                switch (counter % miktar) {//counter % miktar
                     case 0:
                         String voltageData = readVoltData(wSocket, "atrv");
                         publishProgress("1", speedData, rpmData, voltageData);

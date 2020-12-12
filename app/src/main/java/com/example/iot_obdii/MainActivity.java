@@ -43,6 +43,7 @@ public class MainActivity extends Activity {
     Double harcanan = 0.0, totalKM = 0.0;
     Boolean isMove = false;
     Boolean isfuel = true;
+    Double fuelRate;
 
 
     @Override
@@ -158,21 +159,20 @@ public class MainActivity extends Activity {
         String y = String.format("%.2f", x);
         fuelStatusText.setText(y + " L");
         if (isMove) {
-            Double fuelRate = (harcanan / totalKM);
+            fuelRate = (harcanan / totalKM);
             String fuelR = String.format("%.2f", fuelRate);
             fuelRatetXT.setText(fuelR);
         }
         try {
-           // curFuel = x;
+            curFuel = x;
         } catch (Exception e) {
-            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "fuel " + e.toString(), Toast.LENGTH_SHORT).show();
         }
     }
 
     public void setcoolantTemp(String m) {
-        m = m + " C";
-        coolantTempText.setText(m);
-
+        String n = m + " C";
+        coolantTempText.setText(n);
         try {
             curCoolant = Integer.parseInt(m);
         } catch (Exception e) {
@@ -206,6 +206,9 @@ public class MainActivity extends Activity {
             SQLiteDatabase database = openOrCreateDatabase("Data", MODE_PRIVATE, null);
             database.execSQL("CREATE TABLE IF NOT EXISTS rare (volt FLOAT, fuel INTEGER, coolant INTEGER)");
             database.execSQL("INSERT INTO rare (volt, fuel, coolant) VALUES (" + curVolt + ", " + curFuel + ", " + curCoolant + ")");
+
+            String s = "time : " + calendar.getTimeInMillis() + "Volt : " + curVolt + "Fuel " + curFuel + "Coolant " + curCoolant + "Fuel_Rare" + fuelRate ;
+            writeToFile(s);
         } catch (Exception e) {
             e.printStackTrace();
         }
