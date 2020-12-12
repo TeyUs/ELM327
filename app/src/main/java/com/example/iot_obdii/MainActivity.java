@@ -61,8 +61,17 @@ public class MainActivity extends Activity {
         fuelRatetXT = findViewById(R.id.burn_rate);
         setDate();
 
-        Ytask task = new Ytask(this);
-        task.execute();
+        Ytask task = null;
+        try {
+            task = new Ytask(this);
+            task.execute();
+        }catch (Exception e){
+            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+            System.out.println(e.toString());
+            task.cancel(true);
+        }
+
+
     }
 
     @Override

@@ -37,7 +37,6 @@ public class GraphScreen extends AppCompatActivity {
         else{
             drawGraphRare(intent);
         }
-
     }
 
     public void drawGraph(Intent intent){

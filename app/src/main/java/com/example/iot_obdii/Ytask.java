@@ -1,5 +1,6 @@
 package com.example.iot_obdii;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -80,20 +81,23 @@ public class Ytask extends AsyncTask<Void, String, Void> {
                 }
                 counter++;
             }
-            //}
         } catch (Exception e) {
             Log.i("com.example.app", e.getMessage());
-            Toast.makeText(main, e.toString(), Toast.LENGTH_SHORT).show();
+            this.cancel(true);
+            Intent intent = new Intent(main, StartScreen.class);
+            intent.putExtra("problemType", e.getMessage());
+            intent.putExtra("problem",true);
+            main.startActivity(intent);
         }
         return null;
     }
 
     private void sendCmd(Socket wSocket, String cmd) throws IOException {
         OutputStream out = wSocket.getOutputStream();
-
         out.write((cmd + "\r").getBytes());
         out.flush();
     }
+
     private String readRPMData(Socket wSocket, String cmd) throws Exception {
         sendCmd(wSocket,cmd);
         List buffer = new ArrayList<Integer>();
@@ -131,6 +135,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         Log.i("com.example.app", "values RPM: " + values);
         return String.valueOf(values);
     }
+
     private String readSpeedData(Socket wSocket, String cmd) throws Exception {
         sendCmd(wSocket,cmd);
         List buffer = new ArrayList<Integer>();
@@ -161,6 +166,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
 
         return Integer.decode("0x" + data[0]).toString();
     }
+
     private String readVoltData(Socket wSocket, String cmd) throws Exception {
         sendCmd(wSocket,cmd);
         List buffer = new ArrayList<Integer>();
@@ -187,6 +193,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         return rawData;
 
     }
+
     private String readFuelData(Socket wSocket, String cmd) throws Exception {
         sendCmd(wSocket,cmd);
         List buffer = new ArrayList<Integer>();
@@ -222,12 +229,11 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         ort = ort * 50 / 240 ;
         return ort.toString();
     }
+
     private String readCoolantTempData(Socket wSocket, String cmd) throws Exception {
         sendCmd(wSocket,cmd);
-        List buffer = new ArrayList<Integer>();
         Thread.sleep(threadSleepTime);
         String rawData = null;
-        String value = "";
         InputStream in = wSocket.getInputStream();
         byte b = 0;
         StringBuilder res = new StringBuilder();
