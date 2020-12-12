@@ -60,6 +60,9 @@ public class MainActivity extends Activity {
         rangeTXT = findViewById(R.id.range);
         fuelRatetXT = findViewById(R.id.burn_rate);
         setDate();
+
+        Ytask task = new Ytask(this);
+        task.execute();
     }
 
     @Override
@@ -172,9 +175,6 @@ public class MainActivity extends Activity {
 
     public void init(View view) {
         //Context context = this.getApplicationContext();
-
-        Log.i(DISPLAY_SERVICE, "Button clicked : " + view.getId());
-
         Ytask task = new Ytask(this);
         task.execute();
     }
@@ -203,7 +203,6 @@ public class MainActivity extends Activity {
     }
 
     public void graphIntent(View view) {
-        //writeToFile("graph'a basıldı. Dosya açıldı mı denemek için\n");
         Intent intent = new Intent(MainActivity.this, GraphScreen.class);
         intent.putExtra("type", "speed");
         startActivity(intent);

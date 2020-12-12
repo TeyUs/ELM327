@@ -78,8 +78,6 @@ public class Ytask extends AsyncTask<Void, String, Void> {
                         publishProgress("4", speedData, rpmData);
                         break;
                 }
-
-
                 counter++;
             }
             //}
@@ -124,18 +122,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         rawData = rawData.replaceAll("41 0C", " ").trim();
         String[] data = rawData.split(" ");
 
-        Log.i("com.example.app", "rawData: " + rawData);
-        Log.i("com.example.app", "data: " + data[0]);
-        Log.i("com.example.app", "datawew: " + Integer.decode("0x" + data[0]));
-        Log.i("com.example.app", "datawew: " + String.valueOf(Integer.decode("0x" + data[0])));
-
         int a = Integer.decode("0x" + data[0]).intValue();
-
-        Log.i("com.example.app", "rawData1: " + rawData);
-        Log.i("com.example.app", "data1: " + data[1]);
-        Log.i("com.example.app", "datawew1: " + Integer.decode("0x" + data[1]));
-        Log.i("com.example.app", "datawew1: " + String.valueOf(Integer.decode("0x" + data[1])));
-
         int b1 = Integer.decode("0x" + data[1]).intValue();
 
 
@@ -170,10 +157,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         rawData = rawData.replaceAll("41 0D", " ").trim();
         String[] data = rawData.split(" ");
 
-        Log.i("com.example.app", "rawData: " + rawData);
-        Log.i("com.example.app", "data: " + data[0]);
-        Log.i("com.example.app", "datawew: " + Integer.decode("0x" + data[0]));
-        Log.i("com.example.app", "datawew: " + String.valueOf(Integer.decode("0x" + data[0])));
+        Log.i("com.example.app", "Speed Data: " + Integer.decode("0x" + data[0]));
 
         return Integer.decode("0x" + data[0]).toString();
     }
@@ -198,6 +182,8 @@ public class Ytask extends AsyncTask<Void, String, Void> {
             return rawData;
         }
         rawData = rawData.replace("atrv", "");
+
+        Log.i("com.example.app", "Volt Data: " + rawData);
         return rawData;
 
     }
@@ -229,10 +215,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         rawData = rawData.replaceAll("41 2F", " ").trim();
         String[] data = rawData.split(" ");
 
-        Log.i("com.example.app", "rawData: " + rawData);
-        Log.i("com.example.app", "data: " + data[0]);
-        Log.i("com.example.app", "datawew: " + Integer.decode("0x" + data[0]));
-        Log.i("com.example.app", "datawew: " + String.valueOf(Integer.decode("0x" + data[0])));
+        Log.i("com.example.app", "Fuel Data: " + Integer.decode("0x" + data[0]));
 
         Integer x = (Integer) (Integer.decode("0x" + data[0]));
         Double ort = (double) x;
@@ -265,10 +248,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         rawData = rawData.replaceAll("41 05", " ").trim();
         String[] data = rawData.split(" ");
 
-        Log.i("com.example.app", "rawData: " + rawData);
-        Log.i("com.example.app", "data: " + data[0]);
-        Log.i("com.example.app", "datawew: " + Integer.decode("0x" + data[0]));
-        Log.i("com.example.app", "datawew: " + String.valueOf(Integer.decode("0x" + data[0])));
+        Log.i("com.example.app", "Coolant Data: " + Integer.decode("0x" + data[0]));
 
         return Integer.decode("0x" + data[0]).toString();
     }
