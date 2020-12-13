@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
+    long time;
     Calendar calendar;
     TextView speedText, voltText, fuelStatusText, coolantTempText, dateTXT, rangeTXT, fuelRatetXT;
     Integer curCoolant = 0, curSpeed = 0, curRPM = 0;
@@ -61,6 +62,7 @@ public class MainActivity extends Activity {
         rangeTXT = findViewById(R.id.range);
         fuelRatetXT = findViewById(R.id.burn_rate);
         setDate();
+
 
         Ytask task = null;
         try {
@@ -136,7 +138,7 @@ public class MainActivity extends Activity {
 
     public void setVolt(String mvolt) {
         voltText.setText(mvolt);
-        mvolt = mvolt.replace("V", " ").trim();
+        mvolt = mvolt.replace("V", "").trim();
         try {
             curVolt = Double.parseDouble(mvolt);
         } catch (Exception e) {
@@ -144,7 +146,6 @@ public class MainActivity extends Activity {
             Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
 
         }
-        Toast.makeText(this, curVolt.toString(), Toast.LENGTH_SHORT).show();
     }
 
     public void setFuelStatus(String m) {
@@ -194,7 +195,11 @@ public class MainActivity extends Activity {
             database.execSQL("CREATE TABLE IF NOT EXISTS data (speed INTEGER, rpm INTEGER)");
             database.execSQL("INSERT INTO data (speed, rpm) VALUES (" + curSpeed + ", " + curRPM + ")");
 
-            String s = "time : " + calendar.getTimeInMillis() + "speed : " + curSpeed + "RPM : " + curRPM;
+
+            //Toast.makeText(this, "dataBase", Toast.LENGTH_SHORT).show();//+ calendar.getTimeInMillis()
+
+            String s =  "  speed : " + curSpeed + "  RPM : " + curRPM;
+
             writeToFile(s);
         } catch (Exception e) {
             e.printStackTrace();
@@ -207,7 +212,10 @@ public class MainActivity extends Activity {
             database.execSQL("CREATE TABLE IF NOT EXISTS rare (volt FLOAT, fuel INTEGER, coolant INTEGER)");
             database.execSQL("INSERT INTO rare (volt, fuel, coolant) VALUES (" + curVolt + ", " + curFuel + ", " + curCoolant + ")");
 
-            String s = "time : " + calendar.getTimeInMillis() + "Volt : " + curVolt + "Fuel " + curFuel + "Coolant " + curCoolant + "Fuel_Rare" + fuelRate ;
+            calendar = Calendar.getInstance();
+            String time = "time : " + calendar.get(Calendar.HOUR_OF_DAY) +":"+ calendar.get(Calendar.MINUTE) +":"+ calendar.get(Calendar.SECOND);
+
+            String s =  time + "  Volt : " + curVolt + "  Fuel " + curFuel + "  Coolant " + curCoolant + "  Fuel_Rare" + fuelRate ;
             writeToFile(s);
         } catch (Exception e) {
             e.printStackTrace();
@@ -232,9 +240,9 @@ public class MainActivity extends Activity {
         this.dateTXT.setText(date);
     }
 
-    private void writeToFile(String line) {
+    public void writeToFile(String line) {
         File dosyaYolu = Environment.getExternalStorageDirectory();
-        File dataFile = new File(dosyaYolu, "Data_File_OBD_ELM327.txt");
+        File dataFile = new File(dosyaYolu, "aaaaaaaaazazazazazazazazazzazazazaData_File_OBD_ELM327.txt");
         try {
             if (!dataFile.exists()) {
                 dataFile.createNewFile();
