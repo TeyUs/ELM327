@@ -195,11 +195,7 @@ public class MainActivity extends Activity {
             database.execSQL("CREATE TABLE IF NOT EXISTS data (speed INTEGER, rpm INTEGER)");
             database.execSQL("INSERT INTO data (speed, rpm) VALUES (" + curSpeed + ", " + curRPM + ")");
 
-
-            //Toast.makeText(this, "dataBase", Toast.LENGTH_SHORT).show();//+ calendar.getTimeInMillis()
-
             String s =  "  speed : " + curSpeed + "  RPM : " + curRPM;
-
             writeToFile(s);
         } catch (Exception e) {
             e.printStackTrace();
