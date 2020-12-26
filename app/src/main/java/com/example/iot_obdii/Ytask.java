@@ -226,7 +226,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
 
         Integer x = (Integer) (Integer.decode("0x" + data[0]));
         Double ort = (double) x;
-        ort = ort * 50 / 240 ;
+        ort = ort * 100.0 / 255.0;
         return ort.toString();
     }
 
