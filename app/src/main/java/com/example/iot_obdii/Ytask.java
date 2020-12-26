@@ -3,7 +3,6 @@ package com.example.iot_obdii;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,19 +17,24 @@ public class Ytask extends AsyncTask<Void, String, Void> {
     Integer miktar = 3;
 
     public Ytask(MainActivity main) {
-
         this.main = main;
     }
 
     @Override
     protected void onProgressUpdate(String... params) {
+        if(params[0] ==  "1"){
+        this.main.writeToFile(params[1] + "==>>" + params[2]);
+        }else{
+            this.main.writeToFile(params[1]);
+        }
 
+        /*
         this.main.setSpeed(params[1]);
         System.out.println("Params speed : " + params[1]);
         this.main.setRPM(params[2]);
         System.out.println("Params rpm : " + params[2]);
 
-        switch (params[0]) {
+        switch (params[0]) {//params[0]
             case "1":
                 this.main.setVolt(params[3]);
                 System.out.println("Params volt : " + params[3]);
@@ -44,22 +48,49 @@ public class Ytask extends AsyncTask<Void, String, Void> {
                 System.out.println("Params coolent : " + params[3]);
                 break;
         }
-
+        */
     }
 
     @Override
     protected Void doInBackground(Void... params) {
         try {
             Socket wSocket = new Socket("192.168.0.10", 35000);
+            while(true) {
+                for (int j = 0; j < 10; j++) {
+                    for (int i = 0; i < 197; i++) {
+                        String code = "";
+                        String retrive = "";
+                        try {
+                            code = Integer.toHexString(j) + " " + Integer.toHexString(i);
+                            retrive = readPIDData(wSocket, code);
+                            publishProgress("1", code, retrive);
+
+                            Log.i("com.example.app", code+ "==>>" +retrive);
+                        } catch (Exception e) {
+                            publishProgress("0", "Error : " + code);
+                            if (false) {
+                                main.writeToFile("");
+                                main.writeToFile("Error : " + code);
+
+                                Log.i("com.example.app",  "Errorxxxx : " + e.getMessage());
+                            }
+                        }
+                    }
+                }
+            }
+
+            /*
             Integer counter = 0;
-            while (true) {
+            while (false) {
                 //Sürekli çekilecek veriler
 
                 String speedData = readSpeedData(wSocket, "01 0D");
                 String rpmData = readRPMData(wSocket,"01 0C");
 
 
-                switch (counter % miktar) {//counter % miktar
+
+
+                switch (1) {//counter % miktar
                     case 0:
                         String voltageData = readVoltData(wSocket, "atrv");
                         publishProgress("1", speedData, rpmData, voltageData);
@@ -80,16 +111,35 @@ public class Ytask extends AsyncTask<Void, String, Void> {
                         break;
                 }
                 counter++;
-            }
+            }*/
+
         } catch (Exception e) {
             Log.i("com.example.app", e.getMessage());
             this.cancel(true);
             Intent intent = new Intent(main, StartScreen.class);
             intent.putExtra("problemType", e.getMessage());
-            intent.putExtra("problem",true);
+            intent.putExtra("problem", true);
             main.startActivity(intent);
         }
         return null;
+    }
+
+    private String readPIDData(Socket wSocket, String cmd) throws Exception {
+        sendCmd(wSocket, cmd);
+        Thread.sleep(threadSleepTime);
+        String rawData = null;
+        InputStream in = wSocket.getInputStream();
+        byte b = 0;
+        StringBuilder res = new StringBuilder();
+
+        // read until '>' arrives
+        while ((char) (b = (byte) in.read()) != '>')
+            res.append((char) b);
+
+        rawData = res.toString().trim();
+
+        Log.i("com.example.app", "All Data: " + rawData);
+        return rawData;
     }
 
     private void sendCmd(Socket wSocket, String cmd) throws IOException {
@@ -99,7 +149,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
     }
 
     private String readRPMData(Socket wSocket, String cmd) throws Exception {
-        sendCmd(wSocket,cmd);
+        sendCmd(wSocket, cmd);
         List buffer = new ArrayList<Integer>();
         Thread.sleep(threadSleepTime);
         String rawData = null;
@@ -137,7 +187,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
     }
 
     private String readSpeedData(Socket wSocket, String cmd) throws Exception {
-        sendCmd(wSocket,cmd);
+        sendCmd(wSocket, cmd);
         List buffer = new ArrayList<Integer>();
         Thread.sleep(threadSleepTime);
         String rawData = null;
@@ -168,7 +218,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
     }
 
     private String readVoltData(Socket wSocket, String cmd) throws Exception {
-        sendCmd(wSocket,cmd);
+        sendCmd(wSocket, cmd);
         List buffer = new ArrayList<Integer>();
         Thread.sleep(threadSleepTime);
         String rawData = null;
@@ -195,43 +245,47 @@ public class Ytask extends AsyncTask<Void, String, Void> {
     }
 
     private String readFuelData(Socket wSocket, String cmd) throws Exception {
-        sendCmd(wSocket,cmd);
-        List buffer = new ArrayList<Integer>();
+        sendCmd(wSocket, cmd);
         Thread.sleep(threadSleepTime);
         String rawData = null;
-        String value = "";
         InputStream in = wSocket.getInputStream();
         byte b = 0;
         StringBuilder res = new StringBuilder();
-
+        System.out.println("1");
         // read until '>' arrives
         while ((char) (b = (byte) in.read()) != '>')
             res.append((char) b);
 
+        System.out.println("2");
 
         rawData = res.toString().trim();
 
+        System.out.println("11" + rawData);
+        System.out.println("3");
         if (!rawData.contains("01 2F")) {
-
+            System.out.println("22" + rawData);
             return rawData;
-
         }
+        System.out.println("4");
+        System.out.println("33" + rawData);
 
         rawData = rawData.replaceAll("\r", " ");
         rawData = rawData.replaceAll("01 2F", "");
         rawData = rawData.replaceAll("41 2F", " ").trim();
         String[] data = rawData.split(" ");
 
+        System.out.println("5");
         Log.i("com.example.app", "Fuel Data: " + Integer.decode("0x" + data[0]));
 
         Integer x = (Integer) (Integer.decode("0x" + data[0]));
         Double ort = (double) x;
-        ort = ort * 50 / 240 ;
+        ort = ort * 50 / 240;
+        System.out.println("6");
         return ort.toString();
     }
 
     private String readCoolantTempData(Socket wSocket, String cmd) throws Exception {
-        sendCmd(wSocket,cmd);
+        sendCmd(wSocket, cmd);
         Thread.sleep(threadSleepTime);
         String rawData = null;
         InputStream in = wSocket.getInputStream();
