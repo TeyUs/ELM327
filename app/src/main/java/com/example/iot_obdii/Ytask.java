@@ -73,6 +73,10 @@ public class Ytask extends AsyncTask<Void, String, Void> {
                             retrive = readPIDData(wSocket, code);
                             publishProgress("1", code, retrive);
 
+
+                            //istersen bulunan her şeyi Logcat ekranında yazdırabilirsin.(Info seçilecek)
+                            //alttaki Log'u comment'ten çıkarman lazım. Extra bekletir ama.
+
                             //Log.i("com.example.app", code+ "==>>" +retrive);
                         } catch (Exception e) {
                             publishProgress("0", "Error : " + code);
