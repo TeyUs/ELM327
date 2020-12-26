@@ -22,9 +22,9 @@ public class Ytask extends AsyncTask<Void, String, Void> {
 
     @Override
     protected void onProgressUpdate(String... params) {
-        if(params[0] ==  "1"){
-        this.main.writeToFile(params[1] + "==>>" + params[2]);
-        }else{
+        if (params[0] == "1") {
+            this.main.writeToFile(params[1] + "==>>" + params[2]);
+        } else {
             this.main.writeToFile(params[1]);
         }
 
@@ -55,40 +55,192 @@ public class Ytask extends AsyncTask<Void, String, Void> {
     protected Void doInBackground(Void... params) {
         try {
             Socket wSocket = new Socket("192.168.0.10", 35000);
-            while(true) {
-                main.writeToFile(readPIDData(wSocket, "01 00"));
+            while (true) {
+                String code = "";
+                String retrive = "";
+                try {
+                    code = "01" + " 06";
+                    retrive = readPIDData(wSocket, code);
+                    publishProgress("1", code, retrive);
+                    //Log.i("com.example.app", code+ "==>>" +retrive);
+                } catch (Exception e) {
+                    publishProgress("0", "Error : " + code);
+                    if (false) {
+                        main.writeToFile("");
+                        main.writeToFile("Error : " + code);
+                        Log.i("com.example.app", "Errorxxxx : " + e.getMessage());
+                    }
+                }
 
-                for (int j = 1; j < 10; j++) {
+                try {
+                    code = "01" + " 07";
+                    retrive = readPIDData(wSocket, code);
+                    publishProgress("1", code, retrive);
+                    //Log.i("com.example.app", code+ "==>>" +retrive);
+                } catch (Exception e) {
+                    publishProgress("0", "Error : " + code);
+                    if (false) {
+                        main.writeToFile("");
+                        main.writeToFile("Error : " + code);
+                        Log.i("com.example.app", "Errorxxxx : " + e.getMessage());
+                    }
+                }
 
-                    Log.i("com.example.app", "j: " +j);
-                    for (int i = 0; i < 197; i++) {
-                        String code = "";
-                        String retrive = "";
-                        try {
-                            if(i/16 == 0){
-                                code = "0" + Integer.toHexString(j) + " 0" + Integer.toHexString(i);
-                            }else{
-                                code = "0" + Integer.toHexString(j) + " " + Integer.toHexString(i);
-                            }
-                            retrive = readPIDData(wSocket, code);
-                            publishProgress("1", code, retrive);
+                try {
+                    code = "01" + " 0A";
+                    retrive = readPIDData(wSocket, code);
+                    publishProgress("1", code, retrive);
+                    //Log.i("com.example.app", code+ "==>>" +retrive);
+                } catch (Exception e) {
+                    publishProgress("0", "Error : " + code);
+                    if (false) {
+                        main.writeToFile("");
+                        main.writeToFile("Error : " + code);
+                        Log.i("com.example.app", "Errorxxxx : " + e.getMessage());
+                    }
+                }
+
+                try {
+                    code = "01" + " 2F";
+                    retrive = readPIDData(wSocket, code);
+                    publishProgress("1", code, retrive);
+                    //Log.i("com.example.app", code+ "==>>" +retrive);
+                } catch (Exception e) {
+                    publishProgress("0", "Error : " + code);
+                    if (false) {
+                        main.writeToFile("");
+                        main.writeToFile("Error : " + code);
+                        Log.i("com.example.app", "Errorxxxx : " + e.getMessage());
+                    }
+                }
+
+                try {
+                    code = "01" + " 51";
+                    retrive = readPIDData(wSocket, code);
+                    publishProgress("1", code, retrive);
+                    //Log.i("com.example.app", code+ "==>>" +retrive);
+                } catch (Exception e) {
+                    publishProgress("0", "Error : " + code);
+                    if (false) {
+                        main.writeToFile("");
+                        main.writeToFile("Error : " + code);
+                        Log.i("com.example.app", "Errorxxxx : " + e.getMessage());
+                    }
+                }
+
+                try {
+                    code = "01" + " 5E";
+                    retrive = readPIDData(wSocket, code);
+                    publishProgress("1", code, retrive);
+                    //Log.i("com.example.app", code+ "==>>" +retrive);
+                } catch (Exception e) {
+                    publishProgress("0", "Error : " + code);
+                    if (false) {
+                        main.writeToFile("");
+                        main.writeToFile("Error : " + code);
+                        Log.i("com.example.app", "Errorxxxx : " + e.getMessage());
+                    }
+                }
+
+                try {
+                    code = "01" + " 6D";
+                    retrive = readPIDData(wSocket, code);
+                    publishProgress("1", code, retrive);
+                    //Log.i("com.example.app", code+ "==>>" +retrive);
+                } catch (Exception e) {
+                    publishProgress("0", "Error : " + code);
+                    if (false) {
+                        main.writeToFile("");
+                        main.writeToFile("Error : " + code);
+                        Log.i("com.example.app", "Errorxxxx : " + e.getMessage());
+                    }
+                }
+
+                try {
+                    code = "01" + " 9D";
+                    retrive = readPIDData(wSocket, code);
+                    publishProgress("1", code, retrive);
+                    //Log.i("com.example.app", code+ "==>>" +retrive);
+                } catch (Exception e) {
+                    publishProgress("0", "Error : " + code);
+                    if (false) {
+                        main.writeToFile("");
+                        main.writeToFile("Error : " + code);
+                        Log.i("com.example.app", "Errorxxxx : " + e.getMessage());
+                    }
+                }
+
+                try {
+                    code = "01" + " 9F";
+                    retrive = readPIDData(wSocket, code);
+                    publishProgress("1", code, retrive);
+                    //Log.i("com.example.app", code+ "==>>" +retrive);
+                } catch (Exception e) {
+                    publishProgress("0", "Error : " + code);
+                    if (false) {
+                        main.writeToFile("");
+                        main.writeToFile("Error : " + code);
+                        Log.i("com.example.app", "Errorxxxx : " + e.getMessage());
+                    }
+                }
+
+                try {
+                    code = "01" + " A2";
+                    retrive = readPIDData(wSocket, code);
+                    publishProgress("1", code, retrive);
+                    //Log.i("com.example.app", code+ "==>>" +retrive);
+                } catch (Exception e) {
+                    publishProgress("0", "Error : " + code);
+                    if (false) {
+                        main.writeToFile("");
+                        main.writeToFile("Error : " + code);
+                        Log.i("com.example.app", "Errorxxxx : " + e.getMessage());
+                    }
+                }
+
+                try {
+                    code = "01" + " A6";
+                    retrive = readPIDData(wSocket, code);
+                    publishProgress("1", code, retrive);
+                    //Log.i("com.example.app", code+ "==>>" +retrive);
+                } catch (Exception e) {
+                    publishProgress("0", "Error : " + code);
+                    if (false) {
+                        main.writeToFile("");
+                        main.writeToFile("Error : " + code);
+                        Log.i("com.example.app", "Errorxxxx : " + e.getMessage());
+                    }
+                }
+            }
+
+/*
+            while (false) {
+                for (int i = 0; i < 197; i++) {
+                    String code = "";
+                    String retrive = "";
+                    try {
+                        if (i / 16 == 0) {
+                            code = "01" + " 0" + Integer.toHexString(i);
+                        } else {
+                            code = "01 " + Integer.toHexString(i);
+                        }
+                        retrive = readPIDData(wSocket, code);
+                        publishProgress("1", code, retrive);
 
 
-                            //istersen bulunan her şeyi Logcat ekranında yazdırabilirsin.(Info seçilecek)
-                            //alttaki Log'u comment'ten çıkarman lazım. Extra bekletir ama.
+                        //istersen bulunan her şeyi Logcat ekranında yazdırabilirsin.(Info seçilecek)
+                        //alttaki Log'u comment'ten çıkarman lazım. Extra bekletir ama.
 
-                            //Log.i("com.example.app", code+ "==>>" +retrive);
-                        } catch (Exception e) {
-                            publishProgress("0", "Error : " + code);
-                            if (false) {
-                                main.writeToFile("");
-                                main.writeToFile("Error : " + code);
+                        //Log.i("com.example.app", code+ "==>>" +retrive);
+                    } catch (Exception e) {
+                        publishProgress("0", "Error : " + code);
+                        if (false) {
+                            main.writeToFile("");
+                            main.writeToFile("Error : " + code);
 
-                                Log.i("com.example.app",  "Errorxxxx : " + e.getMessage());
-                            }
+                            Log.i("com.example.app", "Errorxxxx : " + e.getMessage());
                         }
                     }
-                    Log.i("com.example.app", "j: " +j);
                 }
             }
 
@@ -144,7 +296,6 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         InputStream in = wSocket.getInputStream();
         byte b = 0;
         StringBuilder res = new StringBuilder();
-
 
 
         // read until '>' arrives
