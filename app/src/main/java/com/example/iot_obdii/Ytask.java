@@ -56,16 +56,24 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         try {
             Socket wSocket = new Socket("192.168.0.10", 35000);
             while(true) {
-                for (int j = 0; j < 10; j++) {
+                main.writeToFile(readPIDData(wSocket, "01 00"));
+
+                for (int j = 1; j < 10; j++) {
+
+                    Log.i("com.example.app", "j: " +j);
                     for (int i = 0; i < 197; i++) {
                         String code = "";
                         String retrive = "";
                         try {
-                            code = Integer.toHexString(j) + " " + Integer.toHexString(i);
+                            if(i/16 == 0){
+                                code = "0" + Integer.toHexString(j) + " 0" + Integer.toHexString(i);
+                            }else{
+                                code = "0" + Integer.toHexString(j) + " " + Integer.toHexString(i);
+                            }
                             retrive = readPIDData(wSocket, code);
                             publishProgress("1", code, retrive);
 
-                            Log.i("com.example.app", code+ "==>>" +retrive);
+                            //Log.i("com.example.app", code+ "==>>" +retrive);
                         } catch (Exception e) {
                             publishProgress("0", "Error : " + code);
                             if (false) {
@@ -76,6 +84,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
                             }
                         }
                     }
+                    Log.i("com.example.app", "j: " +j);
                 }
             }
 
@@ -132,13 +141,15 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         byte b = 0;
         StringBuilder res = new StringBuilder();
 
+
+
         // read until '>' arrives
         while ((char) (b = (byte) in.read()) != '>')
             res.append((char) b);
 
         rawData = res.toString().trim();
 
-        Log.i("com.example.app", "All Data: " + rawData);
+        //Log.i("com.example.app", "All Data: " + rawData);
         return rawData;
     }
 
