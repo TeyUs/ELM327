@@ -16,6 +16,7 @@ public class StartScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_screen);
+
         Intent intent = getIntent();
         if (intent.getBooleanExtra("problem",false)){
             Toast.makeText(this, intent.getStringExtra("problemType"), Toast.LENGTH_LONG).show();

@@ -11,9 +11,11 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Ytask extends AsyncTask<Void, String, Void> {
     MainActivity main;
+    Socket wSocket;
     public Integer threadSleepTime = 20;
     Integer miktar = 3;
 
@@ -50,28 +52,34 @@ public class Ytask extends AsyncTask<Void, String, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         try {
-            Socket wSocket = new Socket("192.168.0.10", 35000);
+            wSocket = new Socket("192.168.0.10", 35000);
             Integer counter = 0;
             while (true) {
                 //Sürekli çekilecek veriler
 
-                String speedData = readSpeedData(wSocket, "01 0D");
-                String rpmData = readRPMData(wSocket,"01 0C");
+                String speedData = readSpeedData("01 0D");
+                parseData(readData("01 0D"));
+
+                String rpmData = readRPMData("01 0C");
+                parseData(readData("01 0C"));
 
 
                 switch (counter % miktar) {//counter % miktar
                     case 0:
-                        String voltageData = readVoltData(wSocket, "atrv");
+                        String voltageData = readVoltData("atrv");
+                        parseData(readData("atrv"));
                         publishProgress("1", speedData, rpmData, voltageData);
                         break;
 
                     case 1:
-                        String fuelLevelData = readFuelData(wSocket, "01 2F");
+                        String fuelLevelData = readFuelData("01 2F");
+                        parseData(readData("01 2F"));
                         publishProgress("2", speedData, rpmData, fuelLevelData);
                         break;
 
                     case 2:
-                        String coolantTempData = readCoolantTempData(wSocket, "01 05");
+                        String coolantTempData = readCoolantTempData("01 05");
+                        parseData(readData("01 05"));
                         publishProgress("3", speedData, rpmData, coolantTempData);
                         break;
 
@@ -82,7 +90,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
                 counter++;
             }
         } catch (Exception e) {
-            Log.i("com.example.app", e.getMessage());
+            Log.i("com.example.app", Objects.requireNonNull(e.getMessage()));
             this.cancel(true);
             Intent intent = new Intent(main, StartScreen.class);
             intent.putExtra("problemType", e.getMessage());
@@ -92,15 +100,63 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         return null;
     }
 
-    private void sendCmd(Socket wSocket, String cmd) throws IOException {
+    private void sendCmd(String cmd) throws IOException {
         OutputStream out = wSocket.getOutputStream();
         out.write((cmd + "\r").getBytes());
         out.flush();
     }
 
-    private String readRPMData(Socket wSocket, String cmd) throws Exception {
-        sendCmd(wSocket,cmd);
-        List buffer = new ArrayList<Integer>();
+    private String readData(String cmd) throws Exception {
+        sendCmd(cmd);
+        Thread.sleep(threadSleepTime);
+        String rawData = "";
+        InputStream in = wSocket.getInputStream();
+        byte b = 0;
+        StringBuilder res = new StringBuilder();
+
+        // read until '>' arrives
+        while ((char) (b = (byte) in.read()) != '>')
+            res.append((char) b);
+
+        rawData = res.toString().trim();
+
+        if (!rawData.contains(cmd)) {
+            return rawData;
+        }
+
+        rawData = rawData.replaceAll("\r", " ");
+        rawData = rawData.replaceAll(cmd, "");
+        cmd = '4' + cmd.substring(1);
+        rawData = rawData.replaceAll(cmd, " ").trim();
+
+        Log.i("com.example.app", cmd + " Data => " + rawData);
+
+        System.out.println(rawData);
+        main.writeToFile(cmd + " Data => " + rawData);
+        return rawData;
+    }
+
+    private int parseData(String rawData) throws Exception {
+        byte b = 0;
+        int value = 0;
+
+        String[] dataList = rawData.split(" ");
+
+        for (String dataPart: dataList) {
+            value *= 256 ;
+            value += Integer.decode("0x" + dataPart);  //.intValue()
+        }
+
+        Log.i("com.example.app", "DATA: " + value);
+        System.out.println(value);
+        return value;
+    }
+
+
+
+
+    private String readRPMData(String cmd) throws Exception {
+        sendCmd(cmd);
         Thread.sleep(threadSleepTime);
         String rawData = null;
         String value = "";
@@ -136,8 +192,8 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         return String.valueOf(values);
     }
 
-    private String readSpeedData(Socket wSocket, String cmd) throws Exception {
-        sendCmd(wSocket,cmd);
+    private String readSpeedData(String cmd) throws Exception {
+        sendCmd(cmd);
         List buffer = new ArrayList<Integer>();
         Thread.sleep(threadSleepTime);
         String rawData = null;
@@ -167,8 +223,8 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         return Integer.decode("0x" + data[0]).toString();
     }
 
-    private String readVoltData(Socket wSocket, String cmd) throws Exception {
-        sendCmd(wSocket,cmd);
+    private String readVoltData(String cmd) throws Exception {
+        sendCmd(cmd);
         List buffer = new ArrayList<Integer>();
         Thread.sleep(threadSleepTime);
         String rawData = null;
@@ -194,8 +250,8 @@ public class Ytask extends AsyncTask<Void, String, Void> {
 
     }
 
-    private String readFuelData(Socket wSocket, String cmd) throws Exception {
-        sendCmd(wSocket,cmd);
+    private String readFuelData(String cmd) throws Exception {
+        sendCmd(cmd);
         List buffer = new ArrayList<Integer>();
         Thread.sleep(threadSleepTime);
         String rawData = null;
@@ -230,8 +286,8 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         return ort.toString();
     }
 
-    private String readCoolantTempData(Socket wSocket, String cmd) throws Exception {
-        sendCmd(wSocket,cmd);
+    private String readCoolantTempData(String cmd) throws Exception {
+        sendCmd(cmd);
         Thread.sleep(threadSleepTime);
         String rawData = null;
         InputStream in = wSocket.getInputStream();
