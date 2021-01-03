@@ -45,6 +45,8 @@ public class MainActivity extends Activity {
     Boolean isMove = false;
     Boolean isfuel = true;
     Double fuelRate;
+    TextView fuelDetails;
+    String fuelDetStr = "";
 
 
     @Override
@@ -53,7 +55,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         progressBarRPM = (ProgressBar) findViewById(R.id.progressBarRPM);
-        progressBarSpeed = (ProgressBar) findViewById(R.id.progressBarSpeed);
+        //progressBarSpeed = (ProgressBar) findViewById(R.id.progressBarSpeed);
         speedText = findViewById(R.id.textView_speed);
         voltText = findViewById(R.id.textVolt);
         fuelStatusText = findViewById(R.id.gas_tank);
@@ -61,6 +63,7 @@ public class MainActivity extends Activity {
         dateTXT = findViewById(R.id.dateText);
         rangeTXT = findViewById(R.id.range);
         fuelRatetXT = findViewById(R.id.burn_rate);
+        fuelDetails = findViewById(R.id.fuelDetails);
         setDate();
 
 
@@ -175,7 +178,7 @@ public class MainActivity extends Activity {
         String n = m + " C";
         coolantTempText.setText(n);
         try {
-            curCoolant = Integer.parseInt(m);
+            curCoolant = Integer.parseInt(m) - 40;
         } catch (Exception e) {
             Toast.makeText(this, "coolant " +e.toString(), Toast.LENGTH_SHORT).show();
         }
@@ -236,7 +239,7 @@ public class MainActivity extends Activity {
         this.dateTXT.setText(date);
     }
 
-    public void writeToFile(String line) {
+    public static void writeToFile(String line) {
         File dosyaYolu = Environment.getExternalStorageDirectory();
         File dataFile = new File(dosyaYolu, "aaaaaaaaazazazazazazazazazzazazazaData_File_OBD_ELM327.txt");
         try {

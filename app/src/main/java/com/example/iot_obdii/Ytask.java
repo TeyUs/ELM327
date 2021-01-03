@@ -1,5 +1,6 @@
 package com.example.iot_obdii;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -13,9 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Ytask extends AsyncTask<Void, String, Void> {
+public class Ytask extends AsyncTask<String, String, Void> {
     MainActivity main;
     Socket wSocket;
+    Integer maf =1, speed;
     public Integer threadSleepTime = 20;
     Integer miktar = 3;
 
@@ -26,6 +28,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
 
     @Override
     protected void onProgressUpdate(String... params) {
+
 
         this.main.setSpeed(params[1]);
         System.out.println("Params speed : " + params[1]);
@@ -46,11 +49,10 @@ public class Ytask extends AsyncTask<Void, String, Void> {
                 System.out.println("Params coolent : " + params[3]);
                 break;
         }
-
     }
 
     @Override
-    protected Void doInBackground(Void... params) {
+    protected Void doInBackground(String... params) {
         try {
             wSocket = new Socket("192.168.0.10", 35000);
             Integer counter = 0;
@@ -58,28 +60,44 @@ public class Ytask extends AsyncTask<Void, String, Void> {
                 //Sürekli çekilecek veriler
 
                 String speedData = readSpeedData("01 0D");
-                parseData(readData("01 0D"));
 
                 String rpmData = readRPMData("01 0C");
-                parseData(readData("01 0C"));
+
+                if (!readData("rpm","01 0C").contains("NO DATA")){
+
+                    parseData(readData("rpm","01 0C"));
+                }
+
+                if (!readData("maf","01 10").contains("NO DATA")){
+                    maf = parseData(readData("maf","01 10"));
+                    Double value = (2.7 * speed) / maf;
+
+                    main.fuelDetails.setText(maf + value.toString());
+                }else {
+                    System.out.println("sıçtı bekiiiiiiir");
+                }
+
+
+
+
 
 
                 switch (counter % miktar) {//counter % miktar
                     case 0:
                         String voltageData = readVoltData("atrv");
-                        parseData(readData("atrv"));
+                        //parseData(readData("volt","atrv"));
                         publishProgress("1", speedData, rpmData, voltageData);
                         break;
 
                     case 1:
                         String fuelLevelData = readFuelData("01 2F");
-                        parseData(readData("01 2F"));
+                        //parseData(readData("fuelratio","01 2F"));
                         publishProgress("2", speedData, rpmData, fuelLevelData);
                         break;
 
                     case 2:
                         String coolantTempData = readCoolantTempData("01 05");
-                        parseData(readData("01 05"));
+                        //parseData(readData("coolant", "01 05"));
                         publishProgress("3", speedData, rpmData, coolantTempData);
                         break;
 
@@ -90,7 +108,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
                 counter++;
             }
         } catch (Exception e) {
-            Log.i("com.example.app", Objects.requireNonNull(e.getMessage()));
+            Log.i("com.example.app", "büyük hata " + Objects.requireNonNull(e.getMessage()));
             this.cancel(true);
             Intent intent = new Intent(main, StartScreen.class);
             intent.putExtra("problemType", e.getMessage());
@@ -106,7 +124,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         out.flush();
     }
 
-    private String readData(String cmd) throws Exception {
+    private String readData(String process, String cmd) throws Exception {
         sendCmd(cmd);
         Thread.sleep(threadSleepTime);
         String rawData = "";
@@ -119,6 +137,12 @@ public class Ytask extends AsyncTask<Void, String, Void> {
             res.append((char) b);
 
         rawData = res.toString().trim();
+        System.out.println("readDatactrl       " + rawData+"son");
+
+        if (rawData.contains("N")){
+            System.out.println("çıkıyoz abi");
+            return "NO DATA";
+        }
 
         if (!rawData.contains(cmd)) {
             return rawData;
@@ -126,29 +150,38 @@ public class Ytask extends AsyncTask<Void, String, Void> {
 
         rawData = rawData.replaceAll("\r", " ");
         rawData = rawData.replaceAll(cmd, "");
+
         cmd = '4' + cmd.substring(1);
         rawData = rawData.replaceAll(cmd, " ").trim();
 
-        Log.i("com.example.app", cmd + " Data => " + rawData);
+        Log.i("com.example.app", process +"  => "+ cmd + " Data => " + rawData);
+        rawData = rawData.substring(0,rawData.indexOf('\n'));
 
-        System.out.println(rawData);
-        main.writeToFile(cmd + " Data => " + rawData);
+        Log.i("com.example.app", process +"  => "+ cmd + " Data => " + rawData);
+
+        System.out.println(process +"  => "+ cmd + " Data => " + rawData);
+        MainActivity.writeToFile(process +"  => "+ cmd + " Data => " + rawData);
         return rawData;
     }
 
-    private int parseData(String rawData) throws Exception {
+    private Integer parseData(String rawData) throws Exception {
         byte b = 0;
         int value = 0;
 
         String[] dataList = rawData.split(" ");
 
+        for (String dataPart: dataList)
+            System.out.println(dataPart);
+
+
         for (String dataPart: dataList) {
+            System.out.println("xx" +value);
             value *= 256 ;
-            value += Integer.decode("0x" + dataPart);  //.intValue()
+            value += Integer.decode("0x" + dataPart).intValue();  //.intValue()
         }
 
         Log.i("com.example.app", "DATA: " + value);
-        System.out.println(value);
+        System.out.println("DATA: " + value);
         return value;
     }
 
@@ -264,8 +297,11 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         while ((char) (b = (byte) in.read()) != '>')
             res.append((char) b);
 
-
         rawData = res.toString().trim();
+
+        if (rawData.contains("NO DATA")){
+            throw new IOException("read Fuel Data   =>    No data");
+        }
 
         if (!rawData.contains("01 2F")) {
 

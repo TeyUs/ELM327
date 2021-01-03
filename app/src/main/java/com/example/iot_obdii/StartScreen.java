@@ -40,4 +40,10 @@ public class StartScreen extends AppCompatActivity {
         Wifi wifi = new Wifi(wifiManager);
         wifi.connectWifi();
     }
+
+    public void fuelTest(View view){
+        Intent intent = new Intent(StartScreen.this, FuelTest.class);
+        startActivity(intent);
+    }
+
 }
