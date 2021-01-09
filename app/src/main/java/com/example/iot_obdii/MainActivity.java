@@ -151,7 +151,10 @@ public class MainActivity extends Activity {
     public void setFuelStatus(String m) {
         double x = Double.parseDouble(m);
 
-        if (isfuel) {
+        String y = String.format("%.4f", x);
+        fuelStatusText.setText(y);
+
+        /*if (isfuel) {
             initFuel = x;
             isfuel = false;
         }
@@ -168,7 +171,7 @@ public class MainActivity extends Activity {
             curFuel = x;
         } catch (Exception e) {
             Toast.makeText(this, "fuel " + e.toString(), Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
     public void setcoolantTemp(String m) {

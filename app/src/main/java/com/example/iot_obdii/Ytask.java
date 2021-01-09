@@ -3,7 +3,6 @@ package com.example.iot_obdii;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -66,8 +65,10 @@ public class Ytask extends AsyncTask<Void, String, Void> {
                         break;
 
                     case 1:
-                        String fuelLevelData = readFuelData(wSocket, "01 2F");
-                        publishProgress("2", speedData, rpmData, fuelLevelData);
+                        /*String fuelLevelData = readFuelData(wSocket, "01 2F");
+                        publishProgress("2", speedData, rpmData, fuelLevelData);*/
+                        String fuelRate = readFuelRate(wSocket);
+                        publishProgress("2", speedData, rpmData, fuelRate);
                         break;
 
                     case 2:
@@ -96,6 +97,86 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         OutputStream out = wSocket.getOutputStream();
         out.write((cmd + "\r").getBytes());
         out.flush();
+    }
+
+    private String readFuelRate(Socket wSocket) throws Exception {
+        int rpm = main.curRPM;
+        String raw_MapData = readMAPData(wSocket, "01 0B");
+        int map = Integer.parseInt(raw_MapData);
+        String raw_IATData = readIATData(wSocket, "01 0F");
+        int iat = Integer.parseInt(raw_IATData);
+
+        double volEff = 1.0;            // araştır
+
+        double imap = rpm * map / (double) iat / 2.0;
+
+        double goa = (imap / 60) * (volEff) * 1.4 * 28.97 / 8.314;
+
+        double cons = goa / 14.7 / 740 * 3600 * (0.7 /5.2 );
+
+        return Double.toString(cons);
+    }
+
+    private String readIATData(Socket wSocket, String cmd) throws Exception {
+        sendCmd(wSocket,cmd);
+        List buffer = new ArrayList<Integer>();
+        Thread.sleep(threadSleepTime);
+        String rawData = null;
+        String value = "";
+        InputStream in = wSocket.getInputStream();
+        byte b = 0;
+        StringBuilder res = new StringBuilder();
+
+        // read until '>' arrives
+        while ((char) (b = (byte) in.read()) != '>')
+            res.append((char) b);
+
+
+        rawData = res.toString().trim();
+
+        if (!rawData.contains("01 0F")) {
+            return rawData;
+        }
+
+        rawData = rawData.replaceAll("\r", " ");
+        rawData = rawData.replaceAll("01 0F", "");
+        rawData = rawData.replaceAll("41 0F", " ").trim();
+        String[] data = rawData.split(" ");
+
+        Log.i("com.example.app", "Speed Data: " + Integer.decode("0x" + data[0]));
+
+        return Integer.decode("0x" + data[0]).toString();
+    }
+
+    private String readMAPData(Socket wSocket, String cmd) throws Exception {
+        sendCmd(wSocket,cmd);
+        List buffer = new ArrayList<Integer>();
+        Thread.sleep(threadSleepTime);
+        String rawData = null;
+        String value = "";
+        InputStream in = wSocket.getInputStream();
+        byte b = 0;
+        StringBuilder res = new StringBuilder();
+
+        // read until '>' arrives
+        while ((char) (b = (byte) in.read()) != '>')
+            res.append((char) b);
+
+
+        rawData = res.toString().trim();
+
+        if (!rawData.contains("01 0B")) {
+            return rawData;
+        }
+
+        rawData = rawData.replaceAll("\r", " ");
+        rawData = rawData.replaceAll("01 0B", "");
+        rawData = rawData.replaceAll("41 0B", " ").trim();
+        String[] data = rawData.split(" ");
+
+        Log.i("com.example.app", "Speed Data: " + Integer.decode("0x" + data[0]));
+
+        return Integer.decode("0x" + data[0]).toString();
     }
 
     private String readRPMData(Socket wSocket, String cmd) throws Exception {
