@@ -1,6 +1,7 @@
 package com.example.iot_obdii;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -15,9 +16,9 @@ public class Ytask extends AsyncTask<Void, String, Void> {
     MainActivity main;
     public Integer threadSleepTime = 20;
     Integer miktar = 3;
+    String ErrorStr = "Error";
 
     public Ytask(MainActivity main) {
-
         this.main = main;
     }
 
@@ -28,6 +29,13 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         System.out.println("Params speed : " + params[1]);
         this.main.setRPM(params[2]);
         System.out.println("Params rpm : " + params[2]);
+
+
+        if (params[3].matches( "")){
+            System.out.println("params[0] : " + params[0]);
+            System.out.println("params[3] : " + params[3]);
+            params[0] = "4";
+        }
 
         switch (params[0]) {
             case "1":
@@ -42,6 +50,8 @@ public class Ytask extends AsyncTask<Void, String, Void> {
                 this.main.setcoolantTemp(params[3]);
                 System.out.println("Params coolent : " + params[3]);
                 break;
+            default:
+                break;
         }
 
     }
@@ -53,26 +63,26 @@ public class Ytask extends AsyncTask<Void, String, Void> {
             Integer counter = 0;
             while (true) {
                 //Sürekli çekilecek veriler
-
                 String speedData = readSpeedData(wSocket, "01 0D");
+                if(speedData.matches(ErrorStr)) speedData = "";
                 String rpmData = readRPMData(wSocket,"01 0C");
+                if(rpmData.matches(ErrorStr)) rpmData = "";
 
-
-                switch (counter % miktar) {//counter % miktar
+                switch (counter % miktar) {
                     case 0:
                         String voltageData = readVoltData(wSocket, "atrv");
+                        if(voltageData.matches(ErrorStr)) voltageData = "";
                         publishProgress("1", speedData, rpmData, voltageData);
                         break;
 
                     case 1:
-                        /*String fuelLevelData = readFuelData(wSocket, "01 2F");
-                        publishProgress("2", speedData, rpmData, fuelLevelData);*/
                         String fuelRate = readFuelRate(wSocket);
                         publishProgress("2", speedData, rpmData, fuelRate);
                         break;
 
                     case 2:
                         String coolantTempData = readCoolantTempData(wSocket, "01 05");
+                        if(coolantTempData.matches(ErrorStr)) coolantTempData = "";
                         publishProgress("3", speedData, rpmData, coolantTempData);
                         break;
 
@@ -101,16 +111,20 @@ public class Ytask extends AsyncTask<Void, String, Void> {
 
     private String readFuelRate(Socket wSocket) throws Exception {
         int rpm = main.curRPM;
+
         String raw_MapData = readMAPData(wSocket, "01 0B");
+        if(raw_MapData.matches(ErrorStr)) raw_MapData = "";
         int map = Integer.parseInt(raw_MapData);
+
         String raw_IATData = readIATData(wSocket, "01 0F");
+        if(raw_IATData.matches(ErrorStr)) raw_IATData = "";
         int iat = Integer.parseInt(raw_IATData);
 
         double volEff = 1.0;            // araştır
 
         double imap = rpm * map / (double) iat / 2.0;
 
-        double goa = (imap / 60) * (volEff) * 1.4 * 28.97 / 8.314;
+        double goa = (imap / 60) * (volEff) * main.engCap * 28.97 / 8.314;
 
         double cons = goa / 14.7 / 740 * 3600 * (0.7 /5.2 );
 
@@ -130,10 +144,11 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         // read until '>' arrives
         while ((char) (b = (byte) in.read()) != '>')
             res.append((char) b);
-
-
         rawData = res.toString().trim();
 
+        if (rawData.contains("NO DATA")){
+            return ErrorStr;
+        }
         if (!rawData.contains("01 0F")) {
             return rawData;
         }
@@ -165,6 +180,9 @@ public class Ytask extends AsyncTask<Void, String, Void> {
 
         rawData = res.toString().trim();
 
+        if (rawData.contains("NO DATA")){
+            return ErrorStr;
+        }
         if (!rawData.contains("01 0B")) {
             return rawData;
         }
@@ -193,8 +211,11 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         while ((char) (b = (byte) in.read()) != '>')
             res.append((char) b);
 
-
         rawData = res.toString().trim();
+
+        if ( rawData.contains("NO DATA")){
+            return ErrorStr;
+        }
 
         if (!rawData.contains("01 0C")) {
 
@@ -234,6 +255,9 @@ public class Ytask extends AsyncTask<Void, String, Void> {
 
         rawData = res.toString().trim();
 
+        if (rawData.contains("NO DATA")){
+            return ErrorStr;
+        }
         if (!rawData.contains("01 0D")) {
             return rawData;
         }
@@ -264,6 +288,10 @@ public class Ytask extends AsyncTask<Void, String, Void> {
 
         rawData = res.toString().trim();
 
+        if (rawData.contains("NO DATA")){
+            return ErrorStr;
+        }
+
         if (!rawData.contains("atrv")) {
 
             return rawData;
@@ -288,10 +316,11 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         // read until '>' arrives
         while ((char) (b = (byte) in.read()) != '>')
             res.append((char) b);
-
-
         rawData = res.toString().trim();
 
+        if (rawData.contains("NO DATA")){
+            return ErrorStr;
+        }
         if (!rawData.contains("01 2F")) {
 
             return rawData;
@@ -322,10 +351,11 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         // read until '>' arrives
         while ((char) (b = (byte) in.read()) != '>')
             res.append((char) b);
-
-
         rawData = res.toString().trim();
 
+        if (rawData.contains("NO DATA")){
+            return ErrorStr;
+        }
         if (!rawData.contains("01 05")) {
             return rawData;
         }
@@ -335,7 +365,9 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         rawData = rawData.replaceAll("41 05", " ").trim();
         String[] data = rawData.split(" ");
 
-        Log.i("com.example.app", "Coolant Data: " + Integer.decode("0x" + data[0]));
+        data[0] = "" +(Integer.decode("0x" + data[0]) - 40);
+        Log.i("com.example.app", "Coolant Data: " + data[0]);
+
 
         return Integer.decode("0x" + data[0]).toString();
     }

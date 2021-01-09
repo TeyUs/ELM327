@@ -2,32 +2,24 @@ package com.example.iot_obdii;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-    long time;
-    Calendar calendar;
     TextView speedText, voltText, fuelStatusText, coolantTempText, dateTXT, rangeTXT, fuelRatetXT;
     Integer curCoolant = 0, curSpeed = 0, curRPM = 0;
     Double curVolt = 0.0, curFuel = 0.0;
@@ -37,14 +29,10 @@ public class MainActivity extends Activity {
     Double speed_Integral = 0.0;
     Double cur_z1_s = 0.0;
     Double int_z1_s = 0.0;
-    Double fuelInit = 0.0, fuelFinal = 0.0;
-    Double avFuel = 0.0, avKM = 0.0;
-    Double initFuel = 0.0;
-    Integer avCounter = 0;
-    Double harcanan = 0.0, totalKM = 0.0;
+    Double  totalKM = 0.0;
     Boolean isMove = false;
-    Boolean isfuel = true;
     Double fuelRate;
+    Float engCap = 0.0f;
 
 
     @Override
@@ -52,44 +40,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        progressBarRPM = (ProgressBar) findViewById(R.id.progressBarRPM);
-        progressBarSpeed = (ProgressBar) findViewById(R.id.progressBarSpeed);
-        speedText = findViewById(R.id.textView_speed);
-        voltText = findViewById(R.id.textVolt);
-        fuelStatusText = findViewById(R.id.gas_tank);
-        coolantTempText = findViewById(R.id.engine_temperature);
-        dateTXT = findViewById(R.id.dateText);
-        rangeTXT = findViewById(R.id.range);
-        fuelRatetXT = findViewById(R.id.burn_rate);
-        setDate();
-
-
-        Ytask task = null;
-        try {
-            task = new Ytask(this);
-            task.execute();
-        }catch (Exception e){
-            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
-            System.out.println(e.toString());
-            task.cancel(true);
-        }
-
-
+        initLayout();
+        startYtask();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_VISIBLE
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        );
-    }
 
     public Double avarageKM(int speedInt) {
         Double speed = (double) speedInt;
@@ -150,28 +104,18 @@ public class MainActivity extends Activity {
 
     public void setFuelStatus(String m) {
         double x = Double.parseDouble(m);
-
-        String y = String.format("%.4f", x);
+        String y = String.format("%.2f", x);
+        y = y + "l/h";
         fuelStatusText.setText(y);
 
-        /*if (isfuel) {
-            initFuel = x;
-            isfuel = false;
+        if(curSpeed != 0){
+            double ration = x / curSpeed * 100;
+            String z = String.format("%.2f", ration);
+            z = z + "l/100km";
+            fuelRatetXT.setText(z);
+        }else {
+            fuelRatetXT.setText(Character.toString('\u221E') );
         }
-
-        harcanan = +initFuel - x;
-        String y = String.format("%.2f", x);
-        fuelStatusText.setText(y + " L");
-        if (isMove) {
-            fuelRate = (harcanan / totalKM);
-            String fuelR = String.format("%.2f", fuelRate);
-            fuelRatetXT.setText(fuelR);
-        }
-        try {
-            curFuel = x;
-        } catch (Exception e) {
-            Toast.makeText(this, "fuel " + e.toString(), Toast.LENGTH_SHORT).show();
-        }*/
     }
 
     public void setcoolantTemp(String m) {
@@ -211,7 +155,7 @@ public class MainActivity extends Activity {
             database.execSQL("CREATE TABLE IF NOT EXISTS rare (volt FLOAT, fuel INTEGER, coolant INTEGER)");
             database.execSQL("INSERT INTO rare (volt, fuel, coolant) VALUES (" + curVolt + ", " + curFuel + ", " + curCoolant + ")");
 
-            calendar = Calendar.getInstance();
+            Calendar calendar = Calendar.getInstance();
             String time = "time : " + calendar.get(Calendar.HOUR_OF_DAY) +":"+ calendar.get(Calendar.MINUTE) +":"+ calendar.get(Calendar.SECOND);
 
             String s =  time + "  Volt : " + curVolt + "  Fuel " + curFuel + "  Coolant " + curCoolant + "  Fuel_Rare" + fuelRate ;
@@ -241,7 +185,7 @@ public class MainActivity extends Activity {
 
     public void writeToFile(String line) {
         File dosyaYolu = Environment.getExternalStorageDirectory();
-        File dataFile = new File(dosyaYolu, "aaaaaaaaazazazazazazazazazzazazazaData_File_OBD_ELM327.txt");
+        File dataFile = new File(dosyaYolu, "Data_File_OBD_ELM327.txt");
         try {
             if (!dataFile.exists()) {
                 dataFile.createNewFile();
@@ -254,6 +198,53 @@ public class MainActivity extends Activity {
             printWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    private void initLayout(){
+        progressBarRPM = findViewById(R.id.progressBarRPM);
+        progressBarSpeed = findViewById(R.id.progressBarSpeed);
+        speedText = findViewById(R.id.textView_speed);
+        voltText = findViewById(R.id.textVolt);
+        fuelStatusText = findViewById(R.id.burn_rateTXT);
+        coolantTempText = findViewById(R.id.engine_temperature);
+        dateTXT = findViewById(R.id.dateText);
+        rangeTXT = findViewById(R.id.range);
+        fuelRatetXT = findViewById(R.id.burn_rate);
+        setDate();
+        SharedPreferences sharedPreferences = getSharedPreferences("EngineCapacity", MODE_PRIVATE);
+        engCap = sharedPreferences.getFloat("engCap",0.0f);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_VISIBLE
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        );
+    }
+
+
+    private void startYtask() {
+        Ytask task = null;
+        try {
+            task = new Ytask(this);
+            task.execute();
+        } catch (Exception e) {
+            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+            System.out.println(e.toString());
+            task.cancel(true);
+            Intent intent = new Intent(MainActivity.this, StartScreen.class);
+            intent.putExtra("problem", false);
+            intent.putExtra("problemType", e.toString());
+            startActivity(intent);
         }
     }
 }
