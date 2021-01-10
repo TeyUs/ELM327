@@ -62,9 +62,9 @@
         android:id="@+id/imageView4"
         android:layout_width="350dp"
         android:layout_height="287dp"
+        android:src="@drawable/speed_text"
         app:layout_constraintEnd_toEndOf="@id/progressBarSpeed"
-        app:layout_constraintTop_toTopOf="@id/progressBarSpeed"
-        android:src="@drawable/speed_text" />
+        app:layout_constraintTop_toTopOf="@id/progressBarSpeed" />
 
     <Button
         android:id="@+id/connectBTN"
@@ -120,13 +120,15 @@
         android:id="@+id/textVolt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="182dp"
         android:gravity="center"
         android:text="12.1 V"
         android:textColor="#FFFFFF"
         android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/burn_rate"
-        app:layout_constraintTop_toBottomOf="@+id/burn_rate" />
+        app:layout_constraintBottom_toBottomOf="@+id/progressBarSpeed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.009"
+        app:layout_constraintStart_toStartOf="@+id/imageView4" />
 
     <TextView
         android:id="@+id/burn_rate"
@@ -218,12 +220,14 @@
         android:id="@+id/imageView5"
         android:layout_width="31dp"
         android:layout_height="19dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="100dp"
         android:src="@drawable/battery_grey"
         app:layout_constraintBottom_toBottomOf="@+id/textVolt"
         app:layout_constraintEnd_toStartOf="@+id/textVolt"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="@+id/progressBarSpeed"
         app:layout_constraintTop_toTopOf="@+id/textVolt"
-        app:layout_constraintVertical_bias="0.6" />
+        app:layout_constraintVertical_bias="0.533" />
 
     <ImageView
         android:id="@+id/imageView6"
