@@ -15,8 +15,8 @@
                     android:type="sweep"
                     android:useLevel="true"
                     android:gradientRadius="100dp"
-                    android:startColor="@color/colorSpeed"
-                    android:endColor="@color/colorRPM"/>
+                    android:startColor="@color/dark_black"
+                    android:endColor="@color/nice_blue"/>
             </shape>
         </rotate>
     </item>

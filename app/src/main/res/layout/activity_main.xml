@@ -11,9 +11,10 @@
         android:id="@+id/imageView1"
         android:layout_width="350dp"
         android:layout_height="261dp"
+        android:layout_marginTop="2dp"
+        android:src="@drawable/rpm_back"
         app:layout_constraintStart_toStartOf="@id/progressBarRPM"
-        app:layout_constraintTop_toTopOf="@id/progressBarRPM"
-        android:src="@drawable/rpm_back" />
+        app:layout_constraintTop_toTopOf="@id/progressBarRPM" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -53,9 +54,9 @@
         android:id="@+id/imageView3"
         android:layout_width="350dp"
         android:layout_height="261dp"
+        android:src="@drawable/rpm_text"
         app:layout_constraintStart_toStartOf="@id/progressBarRPM"
-        app:layout_constraintTop_toTopOf="@id/progressBarRPM"
-        android:src="@drawable/rpm_text" />
+        app:layout_constraintTop_toTopOf="@id/progressBarRPM" />
 
     <ImageView
         android:id="@+id/imageView4"
@@ -72,6 +73,7 @@
         android:background="@drawable/button_shape"
         android:onClick="init"
         android:text="Connect"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -82,9 +84,22 @@
         android:background="@drawable/button_shape"
         android:onClick="graphIntent"
         android:text="Graph"
-        android:textColor="#000000"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_rpm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="200"
+        android:textColor="#FFFFFF"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBarRPM"
+        app:layout_constraintEnd_toEndOf="@+id/imageView1"
+        app:layout_constraintStart_toStartOf="@+id/imageView1"
+        app:layout_constraintTop_toTopOf="@+id/imageView1" />
 
     <TextView
         android:id="@+id/textView_speed"
@@ -181,7 +196,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="200dp"
         android:gravity="center"
-        android:text="30.06.2020"
+        android:text="10.01.2021"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"

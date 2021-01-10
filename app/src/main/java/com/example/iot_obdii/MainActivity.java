@@ -20,7 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-    TextView speedText, voltText, fuelStatusText, coolantTempText, dateTXT, rangeTXT, fuelRatetXT;
+    TextView speedText, rpmText, voltText, fuelStatusText, coolantTempText, dateTXT, rangeTXT, fuelRatetXT;
     private ProgressBar progressBarRPM;
     private ProgressBar progressBarSpeed;
 
@@ -60,7 +60,7 @@ public class MainActivity extends Activity {
         timeNew = calendar.getTimeInMillis();
 
         if(tempMilliSec == 0) return 0.0;
-
+        System.out.println((timeNew - tempMilliSec)/1000.0);
         return (timeNew - tempMilliSec)/1000.0;
     }
 
@@ -99,6 +99,7 @@ public class MainActivity extends Activity {
         } else {
             progressBarRPM.setProgress(rpmInt);
         }
+        rpmText.setText(rpmInt);
     }
 
     public void setVolt(String mvolt) {
@@ -221,6 +222,7 @@ public class MainActivity extends Activity {
         progressBarRPM = findViewById(R.id.progressBarRPM);
         progressBarSpeed = findViewById(R.id.progressBarSpeed);
         speedText = findViewById(R.id.textView_speed);
+        rpmText = findViewById(R.id.textView_rpm);
         voltText = findViewById(R.id.textVolt);
         fuelStatusText = findViewById(R.id.burn_rateTXT);
         coolantTempText = findViewById(R.id.engine_temperature);
