@@ -120,18 +120,13 @@
         android:id="@+id/textVolt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="450dp"
-        android:layout_marginTop="270dp"
         android:gravity="center"
         android:text="12.1 V"
         android:textColor="#FFFFFF"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.661"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.74" />
+        app:layout_constraintEnd_toEndOf="@+id/burn_rate"
+        app:layout_constraintTop_toBottomOf="@+id/burn_rate" />
 
     <TextView
         android:id="@+id/burn_rate"
@@ -142,11 +137,11 @@
         android:textColor="#FFFFFF"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="@+id/progressBarSpeed"
-        app:layout_constraintEnd_toStartOf="@+id/textVolt"
-        app:layout_constraintHorizontal_bias="0.553"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="@+id/progressBarSpeed"
         app:layout_constraintTop_toTopOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.946" />
+        app:layout_constraintVertical_bias="0.817" />
 
     <TextView
         android:id="@+id/engine_temperature"
@@ -158,9 +153,25 @@
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.132" />
+        app:layout_constraintVertical_bias="0.07999998" />
+
+    <TextView
+        android:id="@+id/oil_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="100 C"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.17000002" />
 
     <TextView
         android:id="@+id/dateText"
@@ -173,10 +184,9 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.086" />
+        app:layout_constraintVertical_bias="0.00999999" />
 
     <ProgressBar
         android:id="@+id/progressBarFuelRate"
@@ -191,7 +201,7 @@
         app:layout_constraintHorizontal_bias="0.57"
         app:layout_constraintStart_toStartOf="@+id/progressBarRPM"
         app:layout_constraintTop_toTopOf="@+id/imageView1"
-        app:layout_constraintVertical_bias="0.879" />
+        app:layout_constraintVertical_bias="0.849" />
 
     <TextView
         android:id="@+id/burn_rateTXT"
@@ -203,7 +213,54 @@
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="@+id/progressBarRPM"
         app:layout_constraintEnd_toEndOf="@+id/progressBarFuelRate"
+        app:layout_constraintHorizontal_bias="0.587"
         app:layout_constraintStart_toStartOf="@+id/progressBarFuelRate"
         app:layout_constraintTop_toBottomOf="@+id/progressBarFuelRate" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="23dp"
+        android:layout_height="24dp"
+        android:src="@drawable/fire_grey"
+        app:layout_constraintBottom_toBottomOf="@+id/burn_rateTXT"
+        app:layout_constraintEnd_toStartOf="@+id/burn_rateTXT"
+        app:layout_constraintHorizontal_bias="0.94"
+        app:layout_constraintStart_toStartOf="@+id/progressBarRPM"
+        app:layout_constraintTop_toTopOf="@+id/burn_rateTXT"
+        app:layout_constraintVertical_bias="0.333" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="31dp"
+        android:layout_height="19dp"
+        android:src="@drawable/battery_grey"
+        app:layout_constraintBottom_toBottomOf="@+id/textVolt"
+        app:layout_constraintEnd_toStartOf="@+id/textVolt"
+        app:layout_constraintStart_toStartOf="@+id/burn_rate"
+        app:layout_constraintTop_toTopOf="@+id/textVolt"
+        app:layout_constraintVertical_bias="0.642" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="11dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="2dp"
+        android:src="@drawable/temperature_grey"
+        app:layout_constraintBottom_toBottomOf="@+id/engine_temperature"
+        app:layout_constraintEnd_toStartOf="@+id/engine_temperature"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/engine_temperature" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="20dp"
+        android:layout_height="26dp"
+        android:src="@drawable/oil_temperature"
+        app:layout_constraintBottom_toBottomOf="@+id/oil_temperature"
+        app:layout_constraintEnd_toStartOf="@+id/oil_temperature"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/engine_temperature" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
