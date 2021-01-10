@@ -133,9 +133,9 @@ public class GraphScreen extends AppCompatActivity {
             intent.putExtra("type", "fuel_l_km");
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-        }else if (item.getItemId() == R.id.fuel_km_h){
+        }else if (item.getItemId() == R.id.fuel_l_h){
             Intent intent = new Intent(GraphScreen.this,GraphScreen.class);
-            intent.putExtra("type", "fuel_km_h");
+            intent.putExtra("type", "fuel_l_h");
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }else if (item.getItemId() == R.id.totalKM){

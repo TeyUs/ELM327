@@ -12,7 +12,8 @@
                 android:thicknessRatio="4"
                 android:useLevel="true">
                 <gradient
-                    android:type="radial"
+                    android:type="sweep"
+                    android:useLevel="true"
                     android:gradientRadius="100dp"
                     android:startColor="@color/colorSpeed"
                     android:endColor="@color/colorRPM"/>

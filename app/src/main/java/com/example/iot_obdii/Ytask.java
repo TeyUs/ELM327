@@ -126,7 +126,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
 
         double goa = (imap / 60) * (volEff) * main.engCap * 28.97 / 8.314;
 
-        double cons = goa / 14.7 / 740 * 3600 * (0.7 /5.2 );
+        double cons = goa / 14.7 / 740 * 3600 * (0.7 /5.5 );
 
         return Double.toString(cons);
     }
@@ -365,11 +365,14 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         rawData = rawData.replaceAll("41 05", " ").trim();
         String[] data = rawData.split(" ");
 
-        data[0] = "" +(Integer.decode("0x" + data[0]) - 40);
-        Log.i("com.example.app", "Coolant Data: " + data[0]);
+        int var = Integer.decode("0x" + data[0]);
+        var -=  40;
+
+        String xx = "" +var;
+        Log.i("com.example.app", "Coolant Data: " + xx);
 
 
-        return Integer.decode("0x" + data[0]).toString();
+        return xx;
     }
 
 }

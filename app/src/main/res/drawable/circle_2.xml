@@ -12,10 +12,11 @@
                 android:thicknessRatio="5.2"
                 android:useLevel="true">
                 <gradient
-                    android:type="radial"
+                    android:type="sweep"
+                    android:useLevel="true"
                     android:gradientRadius="100dp"
-                    android:startColor="@color/colorRPM"
-                    android:endColor="@color/colorSpeed"/>
+                    android:startColor="@color/colorSpeed"
+                    android:endColor="@color/colorRPM"/>
             </shape>
         </rotate>
     </item>

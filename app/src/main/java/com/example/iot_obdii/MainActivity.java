@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
     private ProgressBar progressBarSpeed;
 
     Integer curCoolant = 0, curSpeed = 0, curRPM = 0;
-    Double curVolt = 0.0, curFuel_l_km = 0.0, curFuel_l_h = 0.0, curTotalKM = 0.0;
+    Float curVolt = 0.0f, curFuel_l_km = 0.0f, curFuel_l_h = 0.1f, curTotalKM = 0.0f;
 
     Long timeNew = 0L;
     Double speed_Integral = 0.0;
@@ -46,12 +46,12 @@ public class MainActivity extends Activity {
     }
 
 
-    public Double avarageKM(int speedInt) {
+    public Float avarageKM(int speedInt) {
         Double speed = (double) speedInt;
         speed_Integral = (timeDiff() * (speed + cur_z1_s) + 2 * int_z1_s) / 2;
         cur_z1_s = speed;
         int_z1_s = speed_Integral;
-        return speed_Integral / 475.0;
+        return (float) (speed_Integral / 475.0);
     }
 
     public double timeDiff(){
@@ -105,7 +105,7 @@ public class MainActivity extends Activity {
         voltText.setText(mvolt);
         mvolt = mvolt.replace("V", "").trim();
         try {
-            curVolt = Double.parseDouble(mvolt);
+            curVolt = Float.parseFloat(mvolt);
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
@@ -114,18 +114,22 @@ public class MainActivity extends Activity {
     }
 
     public void setFuelStatus(String m) {
-        double x = Double.parseDouble(m);
+        float x = Float.parseFloat(m);
+        curFuel_l_h = x;
+        System.out.println(" fuelxxxxxx " +x);
         String y = String.format("%.2f", x);
         y = y + "l/h";
         fuelStatusText.setText(y);
 
         if(curSpeed != 0){
-            double ration = x / curSpeed * 100;
+            float ration = x / curSpeed * 100;
             String z = String.format("%.2f", ration);
             z = z + "l/100km";
             fuelRatetXT.setText(z);
+            curFuel_l_km = ration;
         }else {
             fuelRatetXT.setText(Character.toString('\u221E') );
+            curFuel_l_km = 0.0f;
         }
     }
 
@@ -169,7 +173,7 @@ public class MainActivity extends Activity {
             Calendar calendar = Calendar.getInstance();
             String time = "time : " + calendar.get(Calendar.HOUR_OF_DAY) +":"+ calendar.get(Calendar.MINUTE) +":"+ calendar.get(Calendar.SECOND);
 
-            String s =  time + "  Volt : " + curVolt + "  Fuel l/km : " + curFuel_l_km + " Fuel km/h " + curFuel_l_h + " TotalKM " + curTotalKM  + "  Coolant " + curCoolant;
+            String s =  time + "  Volt : " + curVolt + "  Fuel l/100km : " + curFuel_l_km + " Fuel l/h " + curFuel_l_h + " TotalKM " + curTotalKM  + "  Coolant " + curCoolant;
             writeToFile(s);
         } catch (Exception e) {
             e.printStackTrace();

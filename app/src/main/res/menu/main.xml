@@ -20,7 +20,7 @@
         android:title="Yakıt Tüketimi l/100km"/>
 
     <item
-        android:id="@+id/fuel_km_h"
+        android:id="@+id/fuel_l_h"
         android:title="Yakıt Tüketimi l/h"/>
 
     <item
