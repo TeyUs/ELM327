@@ -23,8 +23,9 @@ public class MainActivity extends Activity {
     TextView speedText, rpmText, voltText, fuelStatusText, coolantTempText, dateTXT, rangeTXT, fuelRatetXT;
     private ProgressBar progressBarRPM;
     private ProgressBar progressBarSpeed;
+    private ProgressBar progressBarFuel;
 
-    Integer curCoolant = 0, curSpeed = 0, curRPM = 0;
+    Integer curCoolant = 0, curSpeed = 0, curRPM = 0, cur_fuel=0;
     Float curVolt = 0.0f, curFuel_l_km = 0.0f, curFuel_l_h = 0.1f, curTotalKM = 0.0f;
 
     Long timeNew = 0L;
@@ -66,7 +67,7 @@ public class MainActivity extends Activity {
 
     public void setSpeed(String mspeed) {
         curSpeed = Integer.parseInt(mspeed);
-        curTotalKM = avarageKM(curSpeed);
+        //curTotalKM = avarageKM(curSpeed);
         String m = String.format("%.2f", curTotalKM);
         m = m + "KM";
         rangeTXT.setText(m);
@@ -131,6 +132,13 @@ public class MainActivity extends Activity {
         }else {
             fuelRatetXT.setText(Character.toString('\u221E') );
             curFuel_l_km = 0.0f;
+        }
+
+        cur_fuel = Math.round(curFuel_l_h*10);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            progressBarRPM.setProgress(cur_fuel, true);
+        } else {
+            progressBarRPM.setProgress(cur_fuel);
         }
     }
 
@@ -221,13 +229,13 @@ public class MainActivity extends Activity {
     private void initLayout(){
         progressBarRPM = findViewById(R.id.progressBarRPM);
         progressBarSpeed = findViewById(R.id.progressBarSpeed);
+        progressBarFuel = findViewById(R.id.progressBarFuelRate);
         speedText = findViewById(R.id.textView_speed);
         rpmText = findViewById(R.id.textView_rpm);
         voltText = findViewById(R.id.textVolt);
         fuelStatusText = findViewById(R.id.burn_rateTXT);
         coolantTempText = findViewById(R.id.engine_temperature);
         dateTXT = findViewById(R.id.dateText);
-        rangeTXT = findViewById(R.id.range);
         fuelRatetXT = findViewById(R.id.burn_rate);
         setDate();
         SharedPreferences sharedPreferences = getSharedPreferences("EngineCapacity", MODE_PRIVATE);

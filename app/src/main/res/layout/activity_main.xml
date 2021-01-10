@@ -120,61 +120,33 @@
         android:id="@+id/textVolt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="270dp"
         android:layout_marginStart="450dp"
+        android:layout_marginTop="270dp"
         android:gravity="center"
         android:text="12.1 V"
         android:textColor="#FFFFFF"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.661"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/range"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="270dp"
-        android:layout_marginStart="150dp"
-        android:gravity="center"
-        android:text="813 km"
-        android:textColor="#FFFFFF"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/burn_rateTXT"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="270dp"
-        android:layout_marginEnd="150dp"
-        android:gravity="center"
-        android:text="30.5 l/h"
-        android:textColor="#FFFFFF"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.74" />
 
     <TextView
         android:id="@+id/burn_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="270dp"
-        android:layout_marginEnd="450dp"
         android:gravity="center"
         android:text="0 L/100KM"
         android:textColor="#FFFFFF"
         android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/progressBarSpeed"
+        app:layout_constraintEnd_toStartOf="@+id/textVolt"
+        app:layout_constraintHorizontal_bias="0.553"
+        app:layout_constraintStart_toStartOf="@+id/progressBarSpeed"
+        app:layout_constraintTop_toTopOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.946" />
 
     <TextView
         android:id="@+id/engine_temperature"
@@ -205,5 +177,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.086" />
+
+    <ProgressBar
+        android:id="@+id/progressBarFuelRate"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="250dp"
+        android:layout_height="10dp"
+        android:max="100"
+        android:progress="50"
+        android:progressTint="#720080FF"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBarRPM"
+        app:layout_constraintEnd_toEndOf="@+id/progressBarRPM"
+        app:layout_constraintHorizontal_bias="0.57"
+        app:layout_constraintStart_toStartOf="@+id/progressBarRPM"
+        app:layout_constraintTop_toTopOf="@+id/imageView1"
+        app:layout_constraintVertical_bias="0.879" />
+
+    <TextView
+        android:id="@+id/burn_rateTXT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="30.5 l/h"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBarRPM"
+        app:layout_constraintEnd_toEndOf="@+id/progressBarFuelRate"
+        app:layout_constraintStart_toStartOf="@+id/progressBarFuelRate"
+        app:layout_constraintTop_toBottomOf="@+id/progressBarFuelRate" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
