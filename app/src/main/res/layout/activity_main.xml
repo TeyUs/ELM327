@@ -99,7 +99,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/progressBarRPM"
         app:layout_constraintEnd_toEndOf="@+id/imageView1"
         app:layout_constraintStart_toStartOf="@+id/imageView1"
-        app:layout_constraintTop_toTopOf="@+id/imageView1" />
+        app:layout_constraintTop_toTopOf="@+id/imageView1"
+        app:layout_constraintVertical_bias="0.45" />
 
     <TextView
         android:id="@+id/textView_speed"
