@@ -20,12 +20,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-    TextView speedText, rpmText, voltText, fuelStatusText, coolantTempText, OilTempText, dateTXT, rangeTXT, fuelRatetXT;
+    TextView speedText, rpmText, voltText, fuelStatusText, coolantTempText, dateTXT, rangeTXT, fuelRatetXT;
     private ProgressBar progressBarRPM;
     private ProgressBar progressBarSpeed;
     private ProgressBar progressBarFuel;
 
-    Integer curCoolant = 0, curSpeed = 0, curRPM = 0, cur_fuel=0, curOil=0;
+    Integer curCoolant = 0, curSpeed = 0, curRPM = 0, cur_fuel=0;
     Float curVolt = 0.0f, curFuel_l_km = 0.0f, curFuel_l_h = 0.1f, curTotalKM = 0.0f;
 
     Long timeNew = 0L;
@@ -67,9 +67,9 @@ public class MainActivity extends Activity {
     public void setSpeed(String mspeed) {
         curSpeed = Integer.parseInt(mspeed);
         //curTotalKM = avarageKM(curSpeed);
-        String m = String.format("%.2f", curTotalKM);
-        m = m + "KM";
-        rangeTXT.setText(m);
+        //String m = String.format("%.2f", curTotalKM);
+        //m = m + "KM";
+        //rangeTXT.setText(m);
         if (mspeed.matches("0")) {
             isMove = false;
         } else {
@@ -85,6 +85,7 @@ public class MainActivity extends Activity {
             progressBarSpeed.setProgress(speed);
         }
         speedText.setText(mspeed);
+
     }
 
     public void setRPM(String rpm) {
@@ -99,7 +100,7 @@ public class MainActivity extends Activity {
         } else {
             progressBarRPM.setProgress(rpmInt);
         }
-        rpmText.setText(rpmInt);
+        rpmText.setText(rpm);
     }
 
     public void setVolt(String mvolt) {
@@ -139,6 +140,8 @@ public class MainActivity extends Activity {
         } else {
             progressBarFuel.setProgress(cur_fuel);
         }
+
+
     }
 
     public void setcoolantTemp(String m) {
@@ -236,7 +239,6 @@ public class MainActivity extends Activity {
         coolantTempText = findViewById(R.id.engine_temperature);
         dateTXT = findViewById(R.id.dateText);
         fuelRatetXT = findViewById(R.id.burn_rate);
-        OilTempText = findViewById(R.id.oil_temperature);
         setDate();
         SharedPreferences sharedPreferences = getSharedPreferences("EngineCapacity", MODE_PRIVATE);
         engCap = sharedPreferences.getFloat("engCap",0.0f);

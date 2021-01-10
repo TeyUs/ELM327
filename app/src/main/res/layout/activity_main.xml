@@ -157,22 +157,7 @@
         app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.07999998" />
-
-    <TextView
-        android:id="@+id/oil_temperature"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="100 C"
-        android:textColor="#FFFFFF"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.51"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.17000002" />
+        app:layout_constraintVertical_bias="0.13" />
 
     <TextView
         android:id="@+id/dateText"
@@ -196,7 +181,7 @@
         android:layout_height="10dp"
         android:max="100"
         android:progress="50"
-        android:progressTint="#720080FF"
+        android:progressTint="#B40080FF"
         app:layout_constraintBottom_toBottomOf="@+id/progressBarRPM"
         app:layout_constraintEnd_toEndOf="@+id/progressBarRPM"
         app:layout_constraintHorizontal_bias="0.57"
@@ -252,16 +237,5 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/engine_temperature" />
-
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="20dp"
-        android:layout_height="26dp"
-        android:src="@drawable/oil_temperature"
-        app:layout_constraintBottom_toBottomOf="@+id/oil_temperature"
-        app:layout_constraintEnd_toStartOf="@+id/oil_temperature"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/engine_temperature" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
