@@ -5,6 +5,7 @@
     android:id="@+id/startScreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_back"
     tools:context=".StartScreen">
 
     <TextView
@@ -16,7 +17,7 @@
         android:layout_marginBottom="4dp"
         android:gravity="center"
         android:hint="Theme Color :"
-        android:textColorHint="#230559"
+        android:textColorHint="#FAFAFA"
         android:textSize="18sp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/engineCaptxt"
@@ -27,8 +28,10 @@
         android:id="@+id/button"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_shape"
         android:onClick="goGraphFromStart"
         android:text="Graph"
+        android:textColor="#FDFDFD"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button2"
         app:layout_constraintTop_toTopOf="@+id/button2" />
@@ -39,8 +42,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
         android:layout_marginBottom="75dp"
+        android:background="@drawable/button_shape"
         android:onClick="goConsoleFromStart"
         android:text="Console"
+        android:textColor="#FDFDFD"
         app:layout_constraintBottom_toTopOf="@+id/engineCaptxt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.499"
@@ -51,8 +56,10 @@
         android:id="@+id/wifi_button"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_shape"
         android:onClick="connectWifi"
         android:text="Wifi Connect"
+        android:textColor="#FDFDFD"
         app:layout_constraintEnd_toStartOf="@+id/button2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/button2" />
@@ -64,7 +71,7 @@
         android:layout_marginStart="85dp"
         android:gravity="center"
         android:hint=" Engine Capacity :"
-        android:textColorHint="#230559"
+        android:textColorHint="#FAFAFA"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/engineCaptxt"
@@ -81,7 +88,9 @@
         android:gravity="center"
         android:hint="Engine Capacity"
         android:inputType="textPersonName"
+        android:shadowColor="#F8F8F8"
         android:text="1.4"
+        android:textColor="#FAF6F6"
         android:textColorHint="#EBC1F3"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
@@ -90,15 +99,15 @@
         app:layout_constraintTop_toTopOf="@+id/textView" />
 
     <LinearLayout
-        android:layout_width="252dp"
-        android:layout_height="164dp"
-        android:layout_marginStart="114dp"
+        android:id="@+id/linearLayout"
+        android:layout_width="251dp"
+        android:layout_height="74dp"
         android:background="#FFFFFF"
         android:orientation="horizontal"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/textView3"
-        app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toTopOf="@+id/textView3">
+        app:layout_constraintEnd_toEndOf="@+id/colorPlate"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/colorPlate">
 
         <Button
             android:id="@+id/color1"
@@ -125,5 +134,14 @@
             android:onClick="color3" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/colorPlate"
+        android:layout_width="250dp"
+        android:layout_height="41dp"
+        android:clickable="false"
+        app:layout_constraintBottom_toBottomOf="@+id/textView3"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintTop_toTopOf="@+id/textView3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

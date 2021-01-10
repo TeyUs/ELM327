@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ public class MainActivity extends Activity {
     private ProgressBar progressBarRPM;
     private ProgressBar progressBarSpeed;
     private ProgressBar progressBarFuel;
+    Button b1,b2;
 
     Integer curCoolant = 0, curSpeed = 0, curRPM = 0, cur_fuel=0;
     Double curVolt = 0.0, curFuel_l_km = 0.0, curFuel_l_h = 0.1;
@@ -247,9 +249,42 @@ public class MainActivity extends Activity {
         coolantTempText = findViewById(R.id.engine_temperature);
         dateTXT = findViewById(R.id.dateText);
         fuelRatetXT = findViewById(R.id.burn_rate);
+        b1 = findViewById(R.id.graphBTN);
+        b2 = findViewById(R.id.connectBTN);
         setDate();
         SharedPreferences sharedPreferences = getSharedPreferences("EngineCapacity", MODE_PRIVATE);
         engCap = sharedPreferences.getFloat("engCap",0.0f);
+        sharedPreferences.getInt("colour",0);
+
+        progressBarRPM.setProgressDrawable(getDrawable(R.drawable.circle_col1));
+        progressBarRPM.setProgressDrawable(getDrawable(R.drawable.circle_col1));
+        //progressBarRPM.set(getDrawable(R.drawable.circle_col1));
+        //progressBarSpeed.setBackgroundResource(R.drawable.circle_2_col1);
+        b1.setBackgroundResource(R.drawable.button_shape_col2);
+        b2.setBackgroundResource(R.drawable.button_shape_col2);
+
+        switch (sharedPreferences.getInt("colour",0)){
+            case R.color.colorAccent:
+                progressBarRPM.setBackgroundResource(R.drawable.circle_2);
+                progressBarSpeed.setBackgroundResource(R.drawable.circle_2_col2);
+                b1.setBackgroundResource(R.drawable.button_shape_col2);
+                b2.setBackgroundResource(R.drawable.button_shape_col2);
+                break;
+            case R.color.nice_blue:
+                progressBarRPM.setBackgroundResource(R.drawable.circle);
+                progressBarSpeed.setBackgroundResource(R.drawable.circle_2);
+                b1.setBackgroundResource(R.drawable.button_shape);
+                b2.setBackgroundResource(R.drawable.button_shape);
+                break;
+            case R.color.nice_red:
+                progressBarRPM.setBackgroundResource(R.drawable.circle_col1);
+                progressBarSpeed.setBackgroundResource(R.drawable.circle_2_col1);
+                b1.setBackgroundResource(R.drawable.button_shape_col1);
+                b2.setBackgroundResource(R.drawable.button_shape_col1);
+                break;
+            default:
+                Toast.makeText(this, "EBENİN", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

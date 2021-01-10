@@ -218,12 +218,12 @@
         android:id="@+id/imageView5"
         android:layout_width="31dp"
         android:layout_height="19dp"
+        android:layout_marginEnd="32dp"
         android:src="@drawable/battery_grey"
         app:layout_constraintBottom_toBottomOf="@+id/textVolt"
         app:layout_constraintEnd_toStartOf="@+id/textVolt"
-        app:layout_constraintStart_toStartOf="@+id/burn_rate"
         app:layout_constraintTop_toTopOf="@+id/textVolt"
-        app:layout_constraintVertical_bias="0.642" />
+        app:layout_constraintVertical_bias="0.6" />
 
     <ImageView
         android:id="@+id/imageView6"

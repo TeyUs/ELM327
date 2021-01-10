@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.text.Layout;
@@ -17,17 +18,26 @@ import android.widget.Toast;
 
 public class StartScreen extends AppCompatActivity {
     EditText engineCap;
-    ConstraintLayout xx;
+    //ConstraintLayout xx;
+    Button xx, b1, b2, b3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_screen);
         engineCap = findViewById(R.id.engineCaptxt);
-        xx = findViewById(R.id.startScreen);
+        xx = findViewById(R.id.colorPlate);
+        b1 = findViewById(R.id.wifi_button);
+        b2 = findViewById(R.id.button);
+        b3 = findViewById(R.id.button2);
 
         SharedPreferences sharedPreferences = getSharedPreferences("EngineCapacity", MODE_PRIVATE);
         xx.setBackgroundColor(sharedPreferences.getInt("colour",0));
         //xx.setBackgroundColor(Color.WHITE);
+
+        xx.setBackgroundColor(getColor(R.color.nice_red));
+        b1.setBackgroundResource(R.drawable.button_shape_col1);
+        b2.setBackgroundResource(R.drawable.button_shape_col1);
+        b3.setBackgroundResource(R.drawable.button_shape_col1);
 
         Intent intent = getIntent();
         if (intent.getBooleanExtra("problem",false)){
@@ -67,7 +77,9 @@ public class StartScreen extends AppCompatActivity {
         SharedPreferences.Editor editor = spref.edit();
         editor.putInt("colour", getColor(R.color.nice_blue)).apply();
         xx.setBackgroundColor(getColor(R.color.nice_blue));
-        Toast.makeText(this, ""+getColor(R.color.nice_blue), Toast.LENGTH_SHORT).show();
+        b1.setBackgroundResource(R.drawable.button_shape);
+        b2.setBackgroundResource(R.drawable.button_shape);
+        b3.setBackgroundResource(R.drawable.button_shape);
     }
 
 
@@ -76,7 +88,9 @@ public class StartScreen extends AppCompatActivity {
         SharedPreferences.Editor editor = spref.edit();
         editor.putInt("colour", getColor(R.color.nice_red)).apply();
         xx.setBackgroundColor(getColor(R.color.nice_red));
-        Toast.makeText(this, ""+getColor(R.color.nice_red), Toast.LENGTH_SHORT).show();
+        b1.setBackgroundResource(R.drawable.button_shape_col1);
+        b2.setBackgroundResource(R.drawable.button_shape_col1);
+        b3.setBackgroundResource(R.drawable.button_shape_col1);
     }
 
     public void color3(View view){
@@ -84,7 +98,9 @@ public class StartScreen extends AppCompatActivity {
         SharedPreferences.Editor editor = spref.edit();
         editor.putInt("colour", getColor(R.color.colorAccent)).apply();
         xx.setBackgroundColor(getColor(R.color.colorAccent));
-        Toast.makeText(this, ""+getColor(R.color.colorAccent), Toast.LENGTH_SHORT).show();
+        b1.setBackgroundResource(R.drawable.button_shape_col2);
+        b2.setBackgroundResource(R.drawable.button_shape_col2);
+        b3.setBackgroundResource(R.drawable.button_shape_col2);
     }
 
 
