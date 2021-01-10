@@ -11,9 +11,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ClipDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -26,7 +33,7 @@ public class MainActivity extends Activity {
     private ProgressBar progressBarFuel;
 
     Integer curCoolant = 0, curSpeed = 0, curRPM = 0, cur_fuel=0;
-    Float curVolt = 0.0f, curFuel_l_km = 0.0f, curFuel_l_h = 0.1f, curTotalKM = 0.0f;
+    Double curVolt = 0.0, curFuel_l_km = 0.0, curFuel_l_h = 0.1;
 
     Long timeNew = 0L;
     Double speed_Integral = 0.0;
@@ -107,7 +114,7 @@ public class MainActivity extends Activity {
         voltText.setText(mvolt);
         mvolt = mvolt.replace("V", "").trim();
         try {
-            curVolt = Float.parseFloat(mvolt);
+            curVolt = Double.parseDouble(mvolt);
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
@@ -116,7 +123,7 @@ public class MainActivity extends Activity {
     }
 
     public void setFuelStatus(String m) {
-        float x = Float.parseFloat(m);
+        double x = Double.parseDouble(m);
         curFuel_l_h = x;
         System.out.println(" fuelxxxxxx " +x);
         String y = String.format("%.2f", x);
@@ -124,17 +131,17 @@ public class MainActivity extends Activity {
         fuelStatusText.setText(y);
 
         if(curSpeed != 0){
-            float ration = x / curSpeed * 100;
+            double ration = x / curSpeed * 100;
             String z = String.format("%.2f", ration);
             z = z + "l/100km";
             fuelRatetXT.setText(z);
             curFuel_l_km = ration;
         }else {
             fuelRatetXT.setText(Character.toString('\u221E') );
-            curFuel_l_km = 0.0f;
+            curFuel_l_km = 0.0;
         }
-
-        cur_fuel = Math.round(curFuel_l_h*10);
+        cur_fuel = (int)(curFuel_l_h*10.0);
+        if (cur_fuel > 100) cur_fuel = 100;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             progressBarFuel.setProgress(cur_fuel, true);
         } else {
@@ -152,14 +159,15 @@ public class MainActivity extends Activity {
         } catch (Exception e) {
             Toast.makeText(this, "coolant " +e.toString(), Toast.LENGTH_SHORT).show();
         }
-
         dataBaseRare();
     }
 
     public void init(View view) {
-        //Context context = this.getApplicationContext();
+        Intent intent = new Intent(MainActivity.this, StartScreen.class);
+        startActivity(intent);
+        /*//Context context = this.getApplicationContext();
         Ytask task = new Ytask(this);
-        task.execute();
+        task.execute();*/
     }
 
     public void dataBase() {
@@ -178,13 +186,13 @@ public class MainActivity extends Activity {
     public void dataBaseRare() {
         try {
             SQLiteDatabase database = openOrCreateDatabase("Data", MODE_PRIVATE, null);
-            database.execSQL("CREATE TABLE IF NOT EXISTS rare (volt FLOAT, fuel_l_km FLOAT, fuel_l_h FLOAT, totalKM FLOAT, coolant INTEGER )");
-            database.execSQL("INSERT INTO rare (volt, fuel_l_km, fuel_l_h, totalKM, coolant) VALUES (" + curVolt + ", " + curFuel_l_km + ", " + curFuel_l_h + ", " + curTotalKM + ", " + curCoolant + ")");
+            database.execSQL("CREATE TABLE IF NOT EXISTS rare (volt FLOAT, fuel_l_km FLOAT, fuel_l_h FLOAT, coolant INTEGER )");
+            database.execSQL("INSERT INTO rare (volt, fuel_l_km, fuel_l_h, coolant) VALUES (" + curVolt + ", " + curFuel_l_km + ", " + curFuel_l_h  + ", " + curCoolant + ")");
 
             Calendar calendar = Calendar.getInstance();
             String time = "time : " + calendar.get(Calendar.HOUR_OF_DAY) +":"+ calendar.get(Calendar.MINUTE) +":"+ calendar.get(Calendar.SECOND);
 
-            String s =  time + "  Volt : " + curVolt + "  Fuel l/100km : " + curFuel_l_km + " Fuel l/h " + curFuel_l_h + " TotalKM " + curTotalKM  + "  Coolant " + curCoolant;
+            String s =  time + "  Volt : " + curVolt + "  Fuel l/100km : " + curFuel_l_km + " Fuel l/h " + curFuel_l_h  + "  Coolant " + curCoolant;
             writeToFile(s);
         } catch (Exception e) {
             e.printStackTrace();

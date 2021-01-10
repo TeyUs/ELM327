@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -56,7 +57,8 @@ public class GraphScreen extends AppCompatActivity {
             cursor.close();
             LineDataSet lineDataSet = new LineDataSet(dataList, intent.getStringExtra("type"));
 
-            lineDataSet.setColor(Color.BLUE);
+            SharedPreferences sharedPreferences = getSharedPreferences("EngineCapacity", MODE_PRIVATE);
+            lineDataSet.setColor(sharedPreferences.getInt("colour",0));
             lineDataSet.setLineWidth(3);
             lineDataSet.setDrawCircles(false);
 
@@ -89,7 +91,8 @@ public class GraphScreen extends AppCompatActivity {
             cursor.close();
             LineDataSet lineDataSet = new LineDataSet(dataList, intent.getStringExtra("type"));
 
-            lineDataSet.setColor(Color.BLUE);
+            SharedPreferences sharedPreferences = getSharedPreferences("EngineCapacity", MODE_PRIVATE);
+            lineDataSet.setColor(sharedPreferences.getInt("colour",0));
             lineDataSet.setLineWidth(3);
             lineDataSet.setDrawCircles(false);
 
