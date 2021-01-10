@@ -16,8 +16,16 @@
         android:title="Voltaj"/>
 
     <item
-        android:id="@+id/fuel"
-        android:title="Kalan Yakıt"/>
+        android:id="@+id/fuel_l_km"
+        android:title="Yakıt Tüketimi l/100km"/>
+
+    <item
+        android:id="@+id/fuel_km_h"
+        android:title="Yakıt Tüketimi l/h"/>
+
+    <item
+        android:id="@+id/totalKM"
+        android:title="Gidilen Mesafe"/>
 
     <item
         android:id="@+id/coolant"

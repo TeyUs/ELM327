@@ -21,15 +21,16 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
     TextView speedText, voltText, fuelStatusText, coolantTempText, dateTXT, rangeTXT, fuelRatetXT;
-    Integer curCoolant = 0, curSpeed = 0, curRPM = 0;
-    Double curVolt = 0.0, curFuel = 0.0;
     private ProgressBar progressBarRPM;
     private ProgressBar progressBarSpeed;
-    Double T_s = 0.06;
+
+    Integer curCoolant = 0, curSpeed = 0, curRPM = 0;
+    Double curVolt = 0.0, curFuel_l_km = 0.0, curFuel_l_h = 0.0, curTotalKM = 0.0;
+
+    Long timeNew = 0L;
     Double speed_Integral = 0.0;
     Double cur_z1_s = 0.0;
     Double int_z1_s = 0.0;
-    Double  totalKM = 0.0;
     Boolean isMove = false;
     Double fuelRate;
     Float engCap = 0.0f;
@@ -47,16 +48,26 @@ public class MainActivity extends Activity {
 
     public Double avarageKM(int speedInt) {
         Double speed = (double) speedInt;
-        speed_Integral = (T_s * (speed + cur_z1_s) + 2 * int_z1_s) / 2;
+        speed_Integral = (timeDiff() * (speed + cur_z1_s) + 2 * int_z1_s) / 2;
         cur_z1_s = speed;
         int_z1_s = speed_Integral;
         return speed_Integral / 475.0;
     }
 
+    public double timeDiff(){
+        Long tempMilliSec = timeNew;
+        Calendar calendar = Calendar.getInstance();
+        timeNew = calendar.getTimeInMillis();
+
+        if(tempMilliSec == 0) return 0.0;
+
+        return (timeNew - tempMilliSec)/1000.0;
+    }
+
     public void setSpeed(String mspeed) {
         curSpeed = Integer.parseInt(mspeed);
-        totalKM = avarageKM(curSpeed);
-        String m = String.format("%.2f", totalKM);
+        curTotalKM = avarageKM(curSpeed);
+        String m = String.format("%.2f", curTotalKM);
         m = m + "KM";
         rangeTXT.setText(m);
         if (mspeed.matches("0")) {
@@ -152,13 +163,13 @@ public class MainActivity extends Activity {
     public void dataBaseRare() {
         try {
             SQLiteDatabase database = openOrCreateDatabase("Data", MODE_PRIVATE, null);
-            database.execSQL("CREATE TABLE IF NOT EXISTS rare (volt FLOAT, fuel INTEGER, coolant INTEGER)");
-            database.execSQL("INSERT INTO rare (volt, fuel, coolant) VALUES (" + curVolt + ", " + curFuel + ", " + curCoolant + ")");
+            database.execSQL("CREATE TABLE IF NOT EXISTS rare (volt FLOAT, fuel_l_km FLOAT, fuel_l_h FLOAT, totalKM FLOAT, coolant INTEGER )");
+            database.execSQL("INSERT INTO rare (volt, fuel_l_km, fuel_l_h, totalKM, coolant) VALUES (" + curVolt + ", " + curFuel_l_km + ", " + curFuel_l_h + ", " + curTotalKM + ", " + curCoolant + ")");
 
             Calendar calendar = Calendar.getInstance();
             String time = "time : " + calendar.get(Calendar.HOUR_OF_DAY) +":"+ calendar.get(Calendar.MINUTE) +":"+ calendar.get(Calendar.SECOND);
 
-            String s =  time + "  Volt : " + curVolt + "  Fuel " + curFuel + "  Coolant " + curCoolant + "  Fuel_Rare" + fuelRate ;
+            String s =  time + "  Volt : " + curVolt + "  Fuel l/km : " + curFuel_l_km + " Fuel km/h " + curFuel_l_h + " TotalKM " + curTotalKM  + "  Coolant " + curCoolant;
             writeToFile(s);
         } catch (Exception e) {
             e.printStackTrace();
