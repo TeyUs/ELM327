@@ -43,7 +43,11 @@ public class MainActivity extends Activity {
     Double cur_z1_s = 0.0;
     Double int_z1_s = 0.0;
     Boolean debug = false;
+    Boolean filter_rpm = true;
     Float engCap = 0.0f;
+
+    Integer estimated_rpm = 0, last_rpm=0, error_rpm = 0, error_rpm_1 = 0, estimated_rpm_text=0;
+    Integer estimated_sp = 0, last_sp=0, error_sp = 0, error_sp_1 = 0;
 
     private Handler mHandler = new Handler();
 
@@ -84,33 +88,32 @@ public class MainActivity extends Activity {
         //String m = String.format("%.2f", curTotalKM);
         //m = m + "KM";
         //rangeTXT.setText(m);
+        //Speed Filter
 
-        speedText.setText(mspeed);
-        int speed = Integer.parseInt(mspeed);
-        int kayma = 0;
-        speed += kayma;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            progressBarSpeed.setProgress(speed, true);
+            progressBarSpeed.setProgress(curSpeed, true);
         } else {
-            progressBarSpeed.setProgress(speed);
+            progressBarSpeed.setProgress(curSpeed);
         }
-        speedText.setText(mspeed);
+        speedText.setText(String.valueOf(curSpeed));
 
     }
 
     public void setRPM(String rpm) {
         curRPM = Integer.parseInt(rpm);
         dataBase();
-        int kayma = 0;
-        int rpmInt = Integer.parseInt(rpm);
-        rpmInt = (rpmInt * 3) / 100 + kayma;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            progressBarRPM.setProgress(rpmInt, true);
-        } else {
-            progressBarRPM.setProgress(rpmInt);
+        if(!filter_rpm)
+        {
+            int kayma = 0;
+            curRPM = (curRPM * 3) / 100 + kayma;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                progressBarRPM.setProgress(curRPM, true);
+            } else {
+                progressBarRPM.setProgress(curRPM);
+            }
+            rpmText.setText(rpm);
         }
-        rpmText.setText(rpm);
     }
 
     public void setVolt(String mvolt) {
@@ -331,10 +334,51 @@ public class MainActivity extends Activity {
         mHandler.postDelayed(mUpdateTimeTask, 100);
     }
 
+    public void set_rpm_gauge()
+    {
+        int kayma = 0;
+        int ki = 6;
+        float Ts = 0.005f;
+        float c = ki*(Ts/2);
+
+        //RPM Filter
+        error_rpm = curRPM - last_rpm;
+        estimated_rpm = (int)(last_rpm + c * (error_rpm + error_rpm_1));
+        last_rpm = estimated_rpm;
+        error_rpm_1 = error_rpm;
+        estimated_rpm_text = estimated_rpm;
+        estimated_rpm = (estimated_rpm * 3) / 100 + kayma;
+
+        progressBarRPM.setProgress(estimated_rpm);
+        rpmText.setText(String.valueOf(estimated_rpm_text));
+    }
+
+    void set_sp_gauge()
+    {
+        int kayma = 0;
+        int ki = 6;
+        float Ts = 0.005f;
+        float c = ki*(Ts/2);
+
+        error_sp = curSpeed - last_sp;
+        estimated_sp = (int)(last_sp + c * (error_sp + error_sp_1));
+        last_sp = estimated_sp;
+        error_sp_1 = error_sp;
+
+        progressBarSpeed.setProgress(estimated_sp);
+        speedText.setText(String.valueOf(estimated_sp));
+    }
+
     private Runnable mUpdateTimeTask = new Runnable() {
         public void run() {
 
-            mHandler.postDelayed(this, 10);
+            if(filter_rpm)
+            {
+                set_rpm_gauge();
+                //set_sp_gauge();
+            }
+
+            mHandler.postDelayed(this, 5);
         }
     };
 }
