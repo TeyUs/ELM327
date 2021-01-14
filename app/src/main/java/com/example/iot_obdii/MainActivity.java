@@ -106,11 +106,11 @@ public class MainActivity extends Activity {
         if(!filter_rpm)
         {
             int kayma = 0;
-            curRPM = (curRPM * 3) / 100 + kayma;
+            int curGauge = (curRPM * 3) / 100 + kayma;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                progressBarRPM.setProgress(curRPM, true);
+                progressBarRPM.setProgress(curGauge, true);
             } else {
-                progressBarRPM.setProgress(curRPM);
+                progressBarRPM.setProgress(curGauge);
             }
             rpmText.setText(rpm);
         }
@@ -337,7 +337,7 @@ public class MainActivity extends Activity {
     public void set_rpm_gauge()
     {
         int kayma = 0;
-        int ki = 6;
+        int ki = 10;
         float Ts = 0.005f;
         float c = ki*(Ts/2);
 
@@ -356,7 +356,7 @@ public class MainActivity extends Activity {
     void set_sp_gauge()
     {
         int kayma = 0;
-        int ki = 6;
+        int ki = 10000;
         float Ts = 0.005f;
         float c = ki*(Ts/2);
 

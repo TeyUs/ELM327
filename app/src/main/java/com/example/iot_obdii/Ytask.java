@@ -74,14 +74,15 @@ public class Ytask extends AsyncTask<Void, String, Void> {
                         if(voltageData.matches(ErrorStr)) voltageData = "";
                         publishProgress("1", speedData, rpmData, voltageData);
 
-                        String coolantTempData = readCoolantTempData(wSocket, "01 05");
-                        if(coolantTempData.matches(ErrorStr)) coolantTempData = "";
-                        publishProgress("3", speedData, rpmData, coolantTempData);
-                        break;
-
                     case 1:
                         String fuelRate = readFuelRate(wSocket);
                         publishProgress("2", speedData, rpmData, fuelRate);
+                        break;
+
+                    case 3:
+                        String coolantTempData = readCoolantTempData(wSocket, "01 05");
+                        if(coolantTempData.matches(ErrorStr)) coolantTempData = "";
+                        publishProgress("3", speedData, rpmData, coolantTempData);
                         break;
 
                     default:
@@ -118,13 +119,14 @@ public class Ytask extends AsyncTask<Void, String, Void> {
         if(raw_IATData.matches(ErrorStr)) raw_IATData = "";
         int iat = Integer.parseInt(raw_IATData);
 
+
         double volEff = 1.0;            // araştır
 
         double imap = rpm * map / (double) iat / 2.0;
 
         double goa = (imap / 60) * (volEff) * main.engCap * 28.97 / 8.314;
 
-        double cons = goa / 14.7 / 740 * 3600 * (0.7 /5.2 );
+        double cons = goa / 14.7 / 740 * 3600 *(0.6 /3.4 ) ;
 
         return Double.toString(cons);
     }
@@ -368,8 +370,6 @@ public class Ytask extends AsyncTask<Void, String, Void> {
 
         String xx = "" +var;
         Log.i("com.example.app", "Coolant Data: " + xx);
-
-
         return xx;
     }
 
