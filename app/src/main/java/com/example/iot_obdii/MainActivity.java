@@ -20,6 +20,7 @@ import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -41,9 +42,10 @@ public class MainActivity extends Activity {
     Double speed_Integral = 0.0;
     Double cur_z1_s = 0.0;
     Double int_z1_s = 0.0;
-    Boolean debug = true;
+    Boolean debug = false;
     Float engCap = 0.0f;
 
+    private Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -321,5 +323,18 @@ public class MainActivity extends Activity {
             intent.putExtra("problemType", e.toString());
             startActivity(intent);
         }
+        startTime();
     }
+
+    private void startTime() {
+        mHandler.removeCallbacks(mUpdateTimeTask);
+        mHandler.postDelayed(mUpdateTimeTask, 100);
+    }
+
+    private Runnable mUpdateTimeTask = new Runnable() {
+        public void run() {
+
+            mHandler.postDelayed(this, 10);
+        }
+    };
 }
