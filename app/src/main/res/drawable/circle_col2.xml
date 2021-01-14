@@ -16,7 +16,7 @@
                     android:useLevel="true"
                     android:gradientRadius="100dp"
                     android:startColor="@color/dark_black"
-                    android:endColor="@color/nice_red"/>
+                    android:endColor="@color/colorAccent"/>
             </shape>
         </rotate>
     </item>

@@ -30,18 +30,47 @@ public class StartScreen extends AppCompatActivity {
         b2 = findViewById(R.id.button);
         b3 = findViewById(R.id.button2);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("EngineCapacity", MODE_PRIVATE);
-        xx.setBackgroundColor(sharedPreferences.getInt("colour",0));
-        //xx.setBackgroundColor(Color.WHITE);
+        setColor();
 
-        xx.setBackgroundColor(getColor(R.color.nice_red));
-        b1.setBackgroundResource(R.drawable.button_shape_col1);
-        b2.setBackgroundResource(R.drawable.button_shape_col1);
-        b3.setBackgroundResource(R.drawable.button_shape_col1);
 
         Intent intent = getIntent();
         if (intent.getBooleanExtra("problem",false)){
             Toast.makeText(this, intent.getStringExtra("problemType"), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void setColor(){
+        SharedPreferences sharedPreferences = getSharedPreferences("EngineCapacity", MODE_PRIVATE);
+        int color = sharedPreferences.getInt("colour",0);
+
+        /*
+        xx.setBackgroundColor(getColor(R.color.nice_red));
+        b1.setBackgroundResource(R.drawable.button_shape_col1);
+        b2.setBackgroundResource(R.drawable.button_shape_col1);
+        b3.setBackgroundResource(R.drawable.button_shape_col1);
+        */
+
+        switch (color){
+            case R.color.colorAccent:
+                xx.setBackgroundColor(getColor(R.color.colorAccent));
+                b1.setBackgroundResource(R.drawable.button_shape_col2);
+                b2.setBackgroundResource(R.drawable.button_shape_col2);
+                b3.setBackgroundResource(R.drawable.button_shape_col2);
+                break;
+            case R.color.nice_blue:
+                xx.setBackgroundColor(getColor(R.color.nice_blue));
+                b1.setBackgroundResource(R.drawable.button_shape);
+                b2.setBackgroundResource(R.drawable.button_shape);
+                b3.setBackgroundResource(R.drawable.button_shape);
+                break;
+            case R.color.nice_red:
+                xx.setBackgroundColor(getColor(R.color.nice_red));
+                b1.setBackgroundResource(R.drawable.button_shape_col1);
+                b2.setBackgroundResource(R.drawable.button_shape_col1);
+                b3.setBackgroundResource(R.drawable.button_shape_col1);
+                break;
+            default:
+                Toast.makeText(this, "colorFault", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -75,7 +104,7 @@ public class StartScreen extends AppCompatActivity {
     public void color1(View view){
         SharedPreferences spref = getSharedPreferences("EngineCapacity", MODE_PRIVATE);
         SharedPreferences.Editor editor = spref.edit();
-        editor.putInt("colour", getColor(R.color.nice_blue)).apply();
+        editor.putInt("colour", R.color.nice_blue).apply();
         xx.setBackgroundColor(getColor(R.color.nice_blue));
         b1.setBackgroundResource(R.drawable.button_shape);
         b2.setBackgroundResource(R.drawable.button_shape);
@@ -86,7 +115,7 @@ public class StartScreen extends AppCompatActivity {
     public void color2(View view){
         SharedPreferences spref = getSharedPreferences("EngineCapacity", MODE_PRIVATE);
         SharedPreferences.Editor editor = spref.edit();
-        editor.putInt("colour", getColor(R.color.nice_red)).apply();
+        editor.putInt("colour", R.color.nice_red).apply();
         xx.setBackgroundColor(getColor(R.color.nice_red));
         b1.setBackgroundResource(R.drawable.button_shape_col1);
         b2.setBackgroundResource(R.drawable.button_shape_col1);
@@ -96,7 +125,7 @@ public class StartScreen extends AppCompatActivity {
     public void color3(View view){
         SharedPreferences spref = getSharedPreferences("EngineCapacity", MODE_PRIVATE);
         SharedPreferences.Editor editor = spref.edit();
-        editor.putInt("colour", getColor(R.color.colorAccent)).apply();
+        editor.putInt("colour", R.color.colorAccent).apply();
         xx.setBackgroundColor(getColor(R.color.colorAccent));
         b1.setBackgroundResource(R.drawable.button_shape_col2);
         b2.setBackgroundResource(R.drawable.button_shape_col2);

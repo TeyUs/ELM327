@@ -34,16 +34,16 @@ public class MainActivity extends Activity {
     private ProgressBar progressBarFuel;
     Button b1,b2;
 
-    Integer curCoolant = 0, curSpeed = 0, curRPM = 0, cur_fuel=0;
+    Integer curCoolant = 0, curSpeed = 100, curRPM = 1000, cur_fuel=0;
     Double curVolt = 0.0, curFuel_l_km = 0.0, curFuel_l_h = 0.1;
 
     Long timeNew = 0L;
     Double speed_Integral = 0.0;
     Double cur_z1_s = 0.0;
     Double int_z1_s = 0.0;
-    Boolean isMove = false;
-    Double fuelRate;
+    Boolean debug = true;
     Float engCap = 0.0f;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,10 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         initLayout();
-        startYtask();
+        if(debug)
+            debugMode();
+        else
+            startYtask();
     }
 
 
@@ -79,11 +82,7 @@ public class MainActivity extends Activity {
         //String m = String.format("%.2f", curTotalKM);
         //m = m + "KM";
         //rangeTXT.setText(m);
-        if (mspeed.matches("0")) {
-            isMove = false;
-        } else {
-            isMove = true;
-        }
+
         speedText.setText(mspeed);
         int speed = Integer.parseInt(mspeed);
         int kayma = 0;
@@ -237,6 +236,12 @@ public class MainActivity extends Activity {
         }
     }
 
+    private void debugMode(){
+        setRPM("1000");
+        setSpeed("100");
+        setSpeed("90");
+    }
+
 
     private void initLayout(){
         progressBarRPM = findViewById(R.id.progressBarRPM);
@@ -254,31 +259,31 @@ public class MainActivity extends Activity {
         setDate();
         SharedPreferences sharedPreferences = getSharedPreferences("EngineCapacity", MODE_PRIVATE);
         engCap = sharedPreferences.getFloat("engCap",0.0f);
-        sharedPreferences.getInt("colour",0);
+        int color =  sharedPreferences.getInt("colour",0);
 
+        /*
         progressBarRPM.setProgressDrawable(getDrawable(R.drawable.circle_col1));
-        progressBarRPM.setProgressDrawable(getDrawable(R.drawable.circle_col1));
-        //progressBarRPM.set(getDrawable(R.drawable.circle_col1));
-        //progressBarSpeed.setBackgroundResource(R.drawable.circle_2_col1);
+        progressBarSpeed.setProgressDrawable(getDrawable(R.drawable.circle_2_col1));
         b1.setBackgroundResource(R.drawable.button_shape_col2);
-        b2.setBackgroundResource(R.drawable.button_shape_col2);
+        b2.setBackgroundResource(R.drawable.button_shape_col2);*/
 
-        switch (sharedPreferences.getInt("colour",0)){
+        switch (color){
             case R.color.colorAccent:
-                progressBarRPM.setBackgroundResource(R.drawable.circle_2);
-                progressBarSpeed.setBackgroundResource(R.drawable.circle_2_col2);
+                progressBarRPM.setProgressDrawable(getDrawable(R.drawable.circle_col2));
+                progressBarSpeed.setProgressDrawable(getDrawable(R.drawable.circle_2_col2));
                 b1.setBackgroundResource(R.drawable.button_shape_col2);
                 b2.setBackgroundResource(R.drawable.button_shape_col2);
                 break;
             case R.color.nice_blue:
-                progressBarRPM.setBackgroundResource(R.drawable.circle);
-                progressBarSpeed.setBackgroundResource(R.drawable.circle_2);
+
+                progressBarRPM.setProgressDrawable(getDrawable(R.drawable.circle));
+                progressBarSpeed.setProgressDrawable(getDrawable(R.drawable.circle_2));
                 b1.setBackgroundResource(R.drawable.button_shape);
                 b2.setBackgroundResource(R.drawable.button_shape);
                 break;
             case R.color.nice_red:
-                progressBarRPM.setBackgroundResource(R.drawable.circle_col1);
-                progressBarSpeed.setBackgroundResource(R.drawable.circle_2_col1);
+                progressBarRPM.setProgressDrawable(getDrawable(R.drawable.circle_col1));
+                progressBarSpeed.setProgressDrawable(getDrawable(R.drawable.circle_2_col1));
                 b1.setBackgroundResource(R.drawable.button_shape_col1);
                 b2.setBackgroundResource(R.drawable.button_shape_col1);
                 break;

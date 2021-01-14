@@ -15,7 +15,7 @@ import java.util.List;
 public class Ytask extends AsyncTask<Void, String, Void> {
     MainActivity main;
     public Integer threadSleepTime = 20;
-    Integer miktar = 3;
+    Integer miktar = 2;
     String ErrorStr = "Error";
 
     public Ytask(MainActivity main) {
@@ -73,17 +73,15 @@ public class Ytask extends AsyncTask<Void, String, Void> {
                         String voltageData = readVoltData(wSocket, "atrv");
                         if(voltageData.matches(ErrorStr)) voltageData = "";
                         publishProgress("1", speedData, rpmData, voltageData);
+
+                        String coolantTempData = readCoolantTempData(wSocket, "01 05");
+                        if(coolantTempData.matches(ErrorStr)) coolantTempData = "";
+                        publishProgress("3", speedData, rpmData, coolantTempData);
                         break;
 
                     case 1:
                         String fuelRate = readFuelRate(wSocket);
                         publishProgress("2", speedData, rpmData, fuelRate);
-                        break;
-
-                    case 2:
-                        String coolantTempData = readCoolantTempData(wSocket, "01 05");
-                        if(coolantTempData.matches(ErrorStr)) coolantTempData = "";
-                        publishProgress("3", speedData, rpmData, coolantTempData);
                         break;
 
                     default:
@@ -126,7 +124,7 @@ public class Ytask extends AsyncTask<Void, String, Void> {
 
         double goa = (imap / 60) * (volEff) * main.engCap * 28.97 / 8.314;
 
-        double cons = goa / 14.7 / 740 * 3600 * (0.7 /5.5 );
+        double cons = goa / 14.7 / 740 * 3600 * (0.7 /5.2 );
 
         return Double.toString(cons);
     }

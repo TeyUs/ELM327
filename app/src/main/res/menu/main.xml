@@ -24,10 +24,6 @@
         android:title="Yakıt Tüketimi l/h"/>
 
     <item
-        android:id="@+id/totalKM"
-        android:title="Gidilen Mesafe"/>
-
-    <item
         android:id="@+id/coolant"
         android:title="Soğutma Suyu Sıcaklığı"/>
 

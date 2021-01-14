@@ -58,7 +58,7 @@ public class GraphScreen extends AppCompatActivity {
             LineDataSet lineDataSet = new LineDataSet(dataList, intent.getStringExtra("type"));
 
             SharedPreferences sharedPreferences = getSharedPreferences("EngineCapacity", MODE_PRIVATE);
-            lineDataSet.setColor(sharedPreferences.getInt("colour",0));
+            lineDataSet.setColor(getColor(sharedPreferences.getInt("colour",0)));
             lineDataSet.setLineWidth(3);
             lineDataSet.setDrawCircles(false);
 
@@ -92,7 +92,7 @@ public class GraphScreen extends AppCompatActivity {
             LineDataSet lineDataSet = new LineDataSet(dataList, intent.getStringExtra("type"));
 
             SharedPreferences sharedPreferences = getSharedPreferences("EngineCapacity", MODE_PRIVATE);
-            lineDataSet.setColor(sharedPreferences.getInt("colour",0));
+            lineDataSet.setColor(getColor(sharedPreferences.getInt("colour",0)));
             lineDataSet.setLineWidth(3);
             lineDataSet.setDrawCircles(false);
 
@@ -139,11 +139,6 @@ public class GraphScreen extends AppCompatActivity {
         }else if (item.getItemId() == R.id.fuel_l_h){
             Intent intent = new Intent(GraphScreen.this,GraphScreen.class);
             intent.putExtra("type", "fuel_l_h");
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        }else if (item.getItemId() == R.id.totalKM){
-            Intent intent = new Intent(GraphScreen.this,GraphScreen.class);
-            intent.putExtra("type", "totalKM");
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }else if (item.getItemId() == R.id.coolant){
