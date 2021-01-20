@@ -1,77 +1,244 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".MainActivity">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_back"
+    tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="350dp"
+        android:layout_height="261dp"
+        android:layout_marginTop="2dp"
+        android:src="@drawable/rpm_back"
+        app:layout_constraintStart_toStartOf="@id/progressBarRPM"
+        app:layout_constraintTop_toTopOf="@id/progressBarRPM" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="350dp"
+        android:layout_height="287dp"
+        app:layout_constraintEnd_toEndOf="@id/progressBarSpeed"
+        app:layout_constraintTop_toTopOf="@id/progressBarSpeed"
+        android:src="@drawable/speed_back" />
+
+    <ProgressBar
+        android:id="@+id/progressBarRPM"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="48dp"
+        android:max="360"
+        android:progress="120"
+        android:progressDrawable="@drawable/circle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBarSpeed"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="10dp"
+        android:max="360"
+        android:progress="100"
+        android:progressDrawable="@drawable/circle_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="350dp"
+        android:layout_height="261dp"
+        android:src="@drawable/rpm_text"
+        app:layout_constraintStart_toStartOf="@id/progressBarRPM"
+        app:layout_constraintTop_toTopOf="@id/progressBarRPM" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="350dp"
+        android:layout_height="287dp"
+        android:src="@drawable/speed_text"
+        app:layout_constraintEnd_toEndOf="@id/progressBarSpeed"
+        app:layout_constraintTop_toTopOf="@id/progressBarSpeed" />
 
     <Button
         android:id="@+id/connectBTN"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:onClick="connectBTN"
-        android:text="Start" />
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:background="@drawable/button_shape"
+        android:onClick="init"
+        android:text="Login"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/graphBTN"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:background="@drawable/button_shape"
+        android:onClick="graphIntent"
+        android:text="Graph"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textView_rpm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/connectBTN"
-        android:layout_below="@+id/connectBTN"
-        android:layout_marginLeft="35dp"
-        android:layout_marginTop="91dp"
-        android:text="" />
+        android:gravity="center"
+        android:text="200"
+        android:textColor="#FFFFFF"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_speed"
+        app:layout_constraintEnd_toEndOf="@+id/imageView1"
+        app:layout_constraintStart_toStartOf="@+id/imageView1"
+        app:layout_constraintTop_toTopOf="@+id/textView_speed" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView_speed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/connectBTN"
-        android:layout_alignTop="@+id/textView1"
-        android:text="Speed"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <EditText
-        android:id="@+id/editText1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView2"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_alignParentRight="true"
-        android:ems="10" />
-
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText1"
-        android:layout_centerVertical="true"
-        android:ems="10" >
-
-        <requestFocus />
-    </EditText>
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text="200"
+        android:textColor="#FFFFFF"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBarSpeed"
+        app:layout_constraintEnd_toEndOf="@+id/imageView4"
+        app:layout_constraintStart_toStartOf="@+id/imageView4"
+        app:layout_constraintTop_toTopOf="@+id/imageView4"
+        app:layout_constraintVertical_bias="0.5" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textVolt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_centerVertical="true"
-        android:text="RPM" />
+        android:layout_marginStart="182dp"
+        android:gravity="center"
+        android:text="12.1 V"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBarSpeed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.009"
+        app:layout_constraintStart_toStartOf="@+id/imageView4" />
 
-    <EditText
-        android:id="@+id/voltage"
+    <TextView
+        android:id="@+id/burn_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="76dp"
-        android:layout_marginBottom="60dp"
-        android:ems="10"
-        android:inputType="textPersonName" />
+        android:gravity="center"
+        android:text="0 L/100KM"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBarSpeed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="@+id/progressBarSpeed"
+        app:layout_constraintTop_toTopOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.86" />
 
-</RelativeLayout >
+    <TextView
+        android:id="@+id/engine_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="100 C"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.13" />
+
+    <TextView
+        android:id="@+id/dateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="200dp"
+        android:gravity="center"
+        android:text="10.01.2021"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.00999999" />
+
+    <ProgressBar
+        android:id="@+id/progressBarFuelRate"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="250dp"
+        android:layout_height="10dp"
+        android:max="100"
+        android:progress="50"
+        android:progressTint="#B40080FF"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBarRPM"
+        app:layout_constraintEnd_toEndOf="@+id/progressBarRPM"
+        app:layout_constraintHorizontal_bias="0.57"
+        app:layout_constraintStart_toStartOf="@+id/progressBarRPM"
+        app:layout_constraintTop_toTopOf="@+id/imageView1"
+        app:layout_constraintVertical_bias="0.849" />
+
+    <TextView
+        android:id="@+id/burn_rateTXT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="30.5 l/h"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBarRPM"
+        app:layout_constraintEnd_toEndOf="@+id/progressBarFuelRate"
+        app:layout_constraintHorizontal_bias="0.587"
+        app:layout_constraintStart_toStartOf="@+id/progressBarFuelRate"
+        app:layout_constraintTop_toBottomOf="@+id/progressBarFuelRate" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="23dp"
+        android:layout_height="24dp"
+        android:src="@drawable/fire_grey"
+        app:layout_constraintBottom_toBottomOf="@+id/burn_rateTXT"
+        app:layout_constraintEnd_toStartOf="@+id/burn_rateTXT"
+        app:layout_constraintHorizontal_bias="0.94"
+        app:layout_constraintStart_toStartOf="@+id/progressBarRPM"
+        app:layout_constraintTop_toTopOf="@+id/burn_rateTXT"
+        app:layout_constraintVertical_bias="0.333" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="31dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="100dp"
+        android:src="@drawable/battery_grey"
+        app:layout_constraintBottom_toBottomOf="@+id/textVolt"
+        app:layout_constraintEnd_toStartOf="@+id/textVolt"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="@+id/progressBarSpeed"
+        app:layout_constraintTop_toTopOf="@+id/textVolt"
+        app:layout_constraintVertical_bias="0.533" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="11dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="2dp"
+        android:src="@drawable/temperature_grey"
+        app:layout_constraintBottom_toBottomOf="@+id/engine_temperature"
+        app:layout_constraintEnd_toStartOf="@+id/engine_temperature"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/engine_temperature" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

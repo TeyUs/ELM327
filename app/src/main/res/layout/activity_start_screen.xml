@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/startScreen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_back"
+    tools:context=".StartScreen">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="center"
+        android:hint="Theme Color :"
+        android:textColorHint="#FAFAFA"
+        android:textSize="18sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/engineCaptxt"
+        app:layout_constraintStart_toEndOf="@+id/engineCaptxt"
+        app:layout_constraintTop_toTopOf="@+id/engineCaptxt" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_shape"
+        android:onClick="goGraphFromStart"
+        android:text="Graph"
+        android:textColor="#FDFDFD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button2"
+        app:layout_constraintTop_toTopOf="@+id/button2" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:layout_marginBottom="75dp"
+        android:background="@drawable/button_shape"
+        android:onClick="goConsoleFromStart"
+        android:text="Console"
+        android:textColor="#FDFDFD"
+        app:layout_constraintBottom_toTopOf="@+id/engineCaptxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/wifi_button"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_shape"
+        android:onClick="connectWifi"
+        android:text="Wifi Connect"
+        android:textColor="#FDFDFD"
+        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/button2" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginStart="85dp"
+        android:gravity="center"
+        android:hint=" Engine Capacity :"
+        android:textColorHint="#FAFAFA"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/engineCaptxt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.472" />
+
+    <EditText
+        android:id="@+id/engineCaptxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="418dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Engine Capacity"
+        android:inputType="textPersonName"
+        android:shadowColor="#F8F8F8"
+        android:text="1.4"
+        android:textColor="#FAF6F6"
+        android:textColorHint="#EBC1F3"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/textView" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="251dp"
+        android:layout_height="74dp"
+        android:background="#FFFFFF"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/colorPlate"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/colorPlate">
+
+        <Button
+            android:id="@+id/color1"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:backgroundTint="@color/nice_blue"
+            android:onClick="color1" />
+
+        <Button
+            android:id="@+id/color2"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:backgroundTint="@color/nice_red"
+            android:onClick="color2" />
+
+        <Button
+            android:id="@+id/color3"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorAccent"
+            android:onClick="color3" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/colorPlate"
+        android:layout_width="250dp"
+        android:layout_height="41dp"
+        android:clickable="false"
+        app:layout_constraintBottom_toBottomOf="@+id/textView3"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintTop_toTopOf="@+id/textView3" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
