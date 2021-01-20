@@ -18,8 +18,8 @@ Her şey tamam, uygulama kulllanımdadır.
 
 
 
-
-Proje gereği; uygulama, araba içinde ve ELM327 cihazıyla birlikte kullanılmalıdır.
+#Proje gereği;
+uygulama, araba içinde ve ELM327 cihazıyla birlikte kullanılmalıdır.
 
 Yüklediğiniz Android Studio'nun sürümü ile projenin sürümü farklıysa projeyi derlerken uyumsuzluktan dolayı sorun çıkarabilir. 
 Uygulama 4.0 versiyonunda oluşturulmuştur.
