@@ -24,4 +24,4 @@ Uygulama, araba içinde ve ELM327 cihazıyla birlikte kullanılmalıdır.
 Yüklediğiniz Android Studio'nun sürümü ile projenin sürümü farklıysa projeyi derlerken uyumsuzluktan dolayı sorun çıkarabilir. 
 Uygulama 4.0 versiyonunda oluşturulmuştur.
 
-# Proje sunumu için hazırladığım video : https://youtu.be/yudhgxcFdes
+Proje sunumu için hazırladığım video : https://youtu.be/yudhgxcFdes
