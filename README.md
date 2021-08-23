@@ -1,6 +1,7 @@
 
-## ELM327
-#OBD2 aracılığıyla araç kadranı. 
+# ELM327
+
+## OBD2 aracılığıyla araç kadranı. 
 
 [Örnek görsel.](https://user-images.githubusercontent.com/53153396/116777248-40812380-aa76-11eb-9db0-910917be1be1.png)
 
@@ -21,7 +22,7 @@ Her şey tamam, uygulama kulllanımdadır.
 
 
 
-# Proje gereği;
+## Proje gereği;
 Uygulama, araba içinde ve ELM327 cihazıyla birlikte kullanılmalıdır.
 
 Yüklediğiniz Android Studio'nun sürümü ile projenin sürümü farklıysa projeyi derlerken uyumsuzluktan dolayı sorun çıkarabilir. 
