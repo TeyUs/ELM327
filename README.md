@@ -2,7 +2,7 @@
 # ELM327
 OBD2 aracılığıyla araç kadranı. 
 
-Örnek(https://user-images.githubusercontent.com/53153396/116777248-40812380-aa76-11eb-9db0-910917be1be1.png)
+[Örnek](https://user-images.githubusercontent.com/53153396/116777248-40812380-aa76-11eb-9db0-910917be1be1.png)
 
 Android Studio yüklenmelidir.
 Gönderilen klasör tüm kaynak kodudur, Android Studio ile aç denilmeli. 
@@ -29,4 +29,4 @@ Uygulama 4.0 versiyonunda oluşturulmuştur.
 
 
 
-Proje sunumu için hazırladığım video : https://youtu.be/yudhgxcFdes
+Proje sunumu için hazırladığım video için [tıklayınız](https://youtu.be/yudhgxcFdes).
